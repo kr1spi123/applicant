@@ -1,0 +1,444 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+/* Общие стили */
+body {
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+/* Основной контейнер */
+main {
+    background-image: url('../assets/img/фон.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    min-height: 900px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 20px;
+}
+
+/* Затемнение фона */
+main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+}
+
+/* Стили для обеих форм */
+.login-form,
+.register-form {
+    display: none;
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Показываем активную форму */
+.login-form.active,
+.register-form.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(-10px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+/* Заголовок форм */
+.login-form label,
+.register-form label {
+    display: block;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+}
+
+.login-form label span,
+.register-form label span {
+    font-size: 32px;
+}
+
+/* Цвет первой части заголовка */
+.login-form label span:first-child,
+.register-form label span:first-child {
+    color: #FF5A30;
+}
+
+/* Поля ввода */
+.login-form input[type="text"],
+.login-form input[type="email"],
+.login-form input[type="password"],
+.register-form input[type="text"],
+.register-form input[type="email"],
+.register-form input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    background-color: #F6F6F6;
+    border: 1px solid #ddd;
+    outline: none;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border 0.3s;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+/* Фокус на полях ввода */
+.login-form input[type="text"]:focus,
+.login-form input[type="email"]:focus,
+.login-form input[type="password"]:focus,
+.register-form input[type="text"]:focus,
+.register-form input[type="email"]:focus,
+.register-form input[type="password"]:focus {
+    border-color: #FF5A30;
+    background-color: #fff;
+}
+
+/* Плейсхолдеры */
+.login-form input::placeholder,
+.register-form input::placeholder {
+    color: #9A9CA5;
+    opacity: 0.8;
+}
+
+/* Кнопки отправки */
+.login-form button[type="submit"],
+.register-form button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background-color: #FF5A30;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+/* Ховер кнопок */
+.login-form button[type="submit"]:hover,
+.register-form button[type="submit"]:hover {
+    background-color: #e64a19;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 90, 48, 0.3);
+}
+
+/* Блок переключения между формами */
+.login-form .form-switch,
+.register-form .form-switch {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    font-size: 14px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+/* Ссылки переключения */
+.login-form .form-switch a,
+.register-form .form-switch a {
+    color: #FF5A30;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 5px;
+    transition: color 0.3s;
+}
+
+.login-form .form-switch a:hover,
+.register-form .form-switch a:hover {
+    text-decoration: underline;
+    color: #e64a19;
+}
+
+/* Текст соглашения */
+.register-form p {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.register-form p a {
+    color: #FF5A30;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-form p a:hover {
+    text-decoration: underline;
+}
+
+/* Стили для ошибок */
+.error-message {
+    color: #FF5A30;
+    font-size: 0.8em;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background-color: rgba(255, 90, 48, 0.1);
+    border-radius: 4px;
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.error-message.active {
+    display: block;
+}
+
+.input-error {
+    border: 1px solid #FF5A30 !important;
+    background-color: rgba(255, 90, 48, 0.05) !important;
+}
+
+#login-general-error {
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Сообщения об успехе */
+.success-message {
+    color: #4CAF50;
+    font-size: 0.9em;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: rgba(76, 175, 80, 0.1);
+    border-radius: 4px;
+    display: none;
+    text-align: center;
+}
+
+.success-message.active {
+    display: block;
+}
+
+/* Стили для авторизованного пользователя */
+.welcome-section {
+    text-align: center;
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-title {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.welcome-text {
+    font-size: 1.2em;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Кнопки действий для авторизованного пользователя */
+.action-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.action-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: #FF5A30;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 180px;
+}
+
+.action-button:hover {
+    background-color: #E64A20;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.action-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+.action-button:nth-child(3) {
+    background-color: #787A80;
+}
+
+.action-button:nth-child(3):hover {
+    background-color: #666;
+}
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+    main {
+        min-height: 800px;
+    }
+}
+
+@media (max-width: 991px) {
+    main {
+        min-height: 700px;
+        padding: 30px 20px;
+    }
+    
+    .login-form,
+    .register-form {
+        padding: 30px;
+        max-width: 350px;
+    }
+    
+    .welcome-section {
+        padding: 30px 15px;
+    }
+    
+    .welcome-title {
+        font-size: 2em;
+    }
+    
+    .welcome-text {
+        font-size: 1.1em;
+    }
+}
+
+@media (max-width: 767px) {
+    main {
+        min-height: 600px;
+        padding: 20px 15px;
+        margin-top: 0;
+    }
+    
+    .login-form,
+    .register-form {
+        padding: 25px;
+        max-width: 320px;
+        margin: 10px;
+    }
+    
+    .login-form label,
+    .register-form label {
+        font-size: 28px;
+        margin-bottom: 25px;
+    }
+    
+    .login-form label span,
+    .register-form label span {
+        font-size: 28px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .action-button {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        min-height: 500px;
+        padding: 15px 10px;
+    }
+    
+    .login-form,
+    .register-form {
+        padding: 20px;
+        max-width: 100%;
+        margin: 5px;
+    }
+    
+    .login-form label,
+    .register-form label {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    
+    .login-form label span,
+    .register-form label span {
+        font-size: 24px;
+    }
+    
+    .login-form input[type="text"],
+    .login-form input[type="email"],
+    .login-form input[type="password"],
+    .register-form input[type="text"],
+    .register-form input[type="email"],
+    .register-form input[type="password"] {
+        padding: 10px 12px;
+        font-size: 15px;
+    }
+    
+    .login-form button[type="submit"],
+    .register-form button[type="submit"] {
+        padding: 13px;
+        font-size: 15px;
+    }
+    
+    .welcome-section {
+        padding: 20px 10px;
+    }
+    
+    .welcome-title {
+        font-size: 1.8em;
+    }
+    
+    .welcome-text {
+        font-size: 1em;
+    }
+}   

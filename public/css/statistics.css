@@ -1,0 +1,97 @@
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f5f6f8;
+}
+.admin-main {
+    flex: 1;
+    padding: 30px;
+}
+.admin-header {
+    margin-bottom: 30px;
+    background: #fff;
+    padding: 25px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.admin-header h1 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    font-weight: 500;
+    color: #1e212c;
+    position: relative;
+    padding-left: 15px;
+}
+.admin-header h1::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 24px;
+    background: #ff5a30;
+    border-radius: 2px;
+}
+.admin-subheader {
+    margin: 0;
+    color: #787a80;
+    font-size: 14px;
+    padding-left: 15px;
+}
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.admin-table th, .admin-table td {
+    padding: 20px;
+    text-align: left;
+    border-bottom: 1px solid #e5e8ed;
+}
+.admin-table th {
+    font-weight: 700;
+    color: #424551;
+    background-color: #fff;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.admin-table td {
+    font-size: 14px;
+    color: #424551;
+    line-height: 1.5;
+}
+.admin-table tr:hover {
+    background-color: #fff3ef;
+}
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+.total-count {
+    font-weight: 700;
+    color: #1e212c;
+    font-size: 16px;
+}
+.today-count {
+    color: #ff5a30;
+    font-weight: 500;
+    margin-left: 8px;
+}
+.no-data {
+    text-align: center;
+    color: #787a80;
+    padding: 40px;
+    font-size: 16px;
+}
+.admin-content {
+    background: transparent;
+    padding: 0;
+}
+.admin-table thead {
+    position: relative;
+}
