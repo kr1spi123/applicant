@@ -549,7 +549,20 @@
 
                         <!-- Третья строка -->
                         <div class="form-block specialties" data-step="specialties">
-                            <h3>Специальности</h3>
+                            <div class="specialties-header">
+                                <h3>Специальности</h3>
+                                @if(isset($existingCount) && $existingCount > 0)
+                                    <div class="limit-info {{ $existingCount >= 3 ? 'limit-reached' : '' }}">
+                                        <i class="fas fa-info-circle"></i>
+                                        @if($existingCount >= 3)
+                                            Вы уже подали максимально допустимое количество заявок (3). Подача новых заявок временно недоступна.
+                                        @else
+                                            У вас уже подано <strong>{{ $existingCount }}</strong> заявки(ок). 
+                                            Вы можете выбрать еще не более <strong>{{ 3 - $existingCount }}</strong>.
+                                        @endif
+                                    </div>
+                                @endif
+                            </div>
                             <div class="specialties-filters">
                                 <div class="specialties-filter">
                                     <span>Уровень образования:</span>
@@ -593,13 +606,23 @@
                                                     @endif
                                                 </div>
                                                 <div class="specialty-study-row">
+                                                    @php
+                                                        $availableForms = array_keys($specialty->available_study_forms);
+                                                        $allForms = ['очная', 'заочная', 'очно-заочная'];
+                                                        $firstAvailable = $availableForms[0] ?? 'очная';
+                                                    @endphp
                                                     <div class="study-form-toggle" data-specialty="{{ $specialty->id }}">
-                                                        <button type="button" class="study-form-option active"
-                                                            data-value="Очная">Очная</button>
-                                                        <button type="button" class="study-form-option"
-                                                            data-value="Заочная">Заочная</button>
-                                                        <button type="button" class="study-form-option"
-                                                            data-value="Очно-заочная">Очно-заочная</button>
+                                                        @foreach($allForms as $form)
+                                                            @php
+                                                                $isAvailable = in_array($form, $availableForms);
+                                                            @endphp
+                                                            <button type="button" 
+                                                                class="study-form-option {{ $form === $firstAvailable ? 'active' : '' }} {{ !$isAvailable ? 'disabled' : '' }}"
+                                                                data-value="{{ $form }}"
+                                                                {{ !$isAvailable ? 'disabled' : '' }}>
+                                                                {{ mb_convert_case($form, MB_CASE_TITLE, "UTF-8") }}
+                                                            </button>
+                                                        @endforeach
                                                     </div>
                                                     <div class="specialty-places">
                                                         <span class="places-badge">Бюджет:
@@ -613,7 +636,7 @@
                                                     </div>
                                                 @endif
                                             </div>
-                                            <input type="hidden" name="study_form[{{ $specialty->id }}]" value="Очная">
+                                            <input type="hidden" name="study_form[{{ $specialty->id }}]" value="{{ $firstAvailable }}">
                                             <input type="checkbox" name="specialty[]" value="{{ $specialty->id }}"
                                                 class="specialty-checkbox" {{ is_array(old('specialty')) && in_array($specialty->id, old('specialty')) ? 'checked' : '' }}>
                                             <span class="custom-checkbox"></span>
@@ -632,7 +655,13 @@
                     </div>
 
                     <div class="form-actions-row">
-                        <button type="submit" class="submit-button">ПОДАТЬ ЗАЯВКУ</button>
+                        @if(isset($existingCount) && $existingCount < 3)
+                            <button type="submit" class="submit-button">ПОДАТЬ ЗАЯВКУ</button>
+                        @else
+                            <div class="limit-reached-badge">
+                                <i class="fas fa-lock"></i> Лимит заявок исчерпан
+                            </div>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -643,12 +672,24 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const MAX_SELECTIONS = 3;
+            const EXISTING_COUNT = {{ $existingCount ?? 0 }};
+            const MAX_TOTAL = 3;
+            const MAX_SELECTIONS = MAX_TOTAL - EXISTING_COUNT;
+            
             const specialtiesContainer = document.querySelector('.specialties-list');
             const specialtyItems = document.querySelectorAll('.specialty-item');
             const descriptionBox = document.querySelector('.specialty-description p');
             let selectedCount = 0;
             let draggedItem = null;
+
+            // Initialize limit state
+            if (MAX_SELECTIONS <= 0) {
+                specialtyItems.forEach(item => {
+                    item.classList.add('disabled');
+                    const cb = item.querySelector('.specialty-checkbox');
+                    if (cb) cb.disabled = true;
+                });
+            }
 
             document.querySelectorAll('.specialty-checkbox').forEach(checkbox => {
                 checkbox.addEventListener('change', function (e) {
@@ -658,6 +699,7 @@
                     if (currentSelected > MAX_SELECTIONS) {
                         e.preventDefault();
                         this.checked = false;
+                        alert('Вы не можете выбрать более ' + MAX_SELECTIONS + ' специальности(ей), так как у вас уже есть поданные заявки.');
                         return;
                     }
 
@@ -1257,6 +1299,8 @@
                 const buttons = toggle.querySelectorAll('.study-form-option');
                 buttons.forEach(function (btn) {
                     btn.addEventListener('click', function () {
+                        if (btn.classList.contains('disabled')) return;
+                        
                         buttons.forEach(function (b) {
                             b.classList.remove('active');
                         });
@@ -1284,66 +1328,8 @@
             }
 
             const form = document.querySelector('.application-form');
-            const STORAGE_KEY = 'application_form_draft';
 
-            function saveDraft() {
-                if (!form) return;
-                const formData = new FormData(form);
-                const plain = {};
-                formData.forEach(function (value, key) {
-                    if (value instanceof File) {
-                        return;
-                    }
-                    if (plain[key]) {
-                        if (!Array.isArray(plain[key])) {
-                            plain[key] = [plain[key]];
-                        }
-                        plain[key].push(value);
-                    } else {
-                        plain[key] = value;
-                    }
-                });
-                try {
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(plain));
-                } catch (e) {
-                }
-            }
-
-            function restoreDraft() {
-                if (!form) return;
-                const stored = localStorage.getItem(STORAGE_KEY);
-                if (!stored) return;
-                let data;
-                try {
-                    data = JSON.parse(stored);
-                } catch (e) {
-                    return;
-                }
-                Object.keys(data).forEach(function (key) {
-                    const field = form.querySelector('[name="' + key + '"]');
-                    if (!field) return;
-                    const value = data[key];
-                    if (Array.isArray(value)) {
-                        if (field.type === 'checkbox' || field.type === 'radio') {
-                            const fields = form.querySelectorAll('[name="' + key + '"]');
-                            fields.forEach(function (f) {
-                                f.checked = value.indexOf(f.value) !== -1;
-                            });
-                        }
-                    } else {
-                        if (field.type === 'checkbox' || field.type === 'radio') {
-                            field.checked = true;
-                        } else {
-                            field.value = value;
-                        }
-                    }
-                });
-            }
-
-            restoreDraft();
-            saveDraft();
             if (form) {
-                setInterval(saveDraft, 30000);
                 const statusBox = document.querySelector('.form-status-message');
                 const errorBox = document.querySelector('.form-error-message');
                 const submitButton = form.querySelector('.submit-button');
@@ -1352,7 +1338,10 @@
                     if (!submitButton || submitButton.disabled) {
                         return;
                     }
+                    
                     let allValid = true;
+                    
+                    // Валидация текстовых полей
                     const textInputs = form.querySelectorAll('.text-input');
                     textInputs.forEach(function (input) {
                         validateInput(input);
@@ -1360,6 +1349,31 @@
                             allValid = false;
                         }
                     });
+
+                    // Проверка выбора хотя бы одной специальности
+                    const selectedSpecialties = form.querySelectorAll('.specialty-checkbox:checked');
+                    if (selectedSpecialties.length === 0) {
+                        allValid = false;
+                        if (errorBox) {
+                            errorBox.textContent = 'Пожалуйста, выберите хотя бы одну специальность.';
+                            errorBox.style.display = 'block';
+                        }
+                        setActiveStep('specialties', { scroll: true });
+                        return;
+                    }
+
+                    // Проверка загрузки аттестата
+                    const certificateFile = document.getElementById('certificate');
+                    if (certificateFile && certificateFile.required && !certificateFile.files.length) {
+                        allValid = false;
+                        if (errorBox) {
+                            errorBox.textContent = 'Пожалуйста, загрузите скан аттестата.';
+                            errorBox.style.display = 'block';
+                        }
+                        setActiveStep('documents', { scroll: true });
+                        return;
+                    }
+
                     if (!allValid) {
                         const firstInvalid = form.querySelector('.text-input.invalid');
                         if (firstInvalid) {
@@ -1374,6 +1388,7 @@
                         }
                         return;
                     }
+
                     if (statusBox) {
                         statusBox.textContent = '';
                         statusBox.classList.remove('visible');
@@ -1382,8 +1397,10 @@
                         errorBox.innerHTML = '';
                         errorBox.style.display = 'none';
                     }
+                    
                     submitButton.disabled = true;
                     submitButton.classList.add('loading');
+                    
                     const formData = new FormData(form);
                     const csrfInput = form.querySelector('input[name="_token"]');
                     let csrfToken = '';
@@ -1421,10 +1438,6 @@
                         }
                         return response.json();
                     }).then(function (data) {
-                        try {
-                            localStorage.removeItem(STORAGE_KEY);
-                        } catch (e) {
-                        }
                         form.reset();
                         const allInputs = form.querySelectorAll('.text-input');
                         allInputs.forEach(function (input) {
@@ -1463,8 +1476,9 @@
                                 });
                             });
                             if (list.length) {
-                                errorBox.innerHTML = '<ul><li>' + list.join('</li><li>') + '</li></ul>';
+                                errorBox.innerHTML = '<strong>Пожалуйста, исправьте следующие ошибки:</strong><ul style="margin-top:10px; padding-left:20px;"><li>' + list.join('</li><li>') + '</li></ul>';
                                 errorBox.style.display = 'block';
+                                errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
                             }
                         } else {
                             if (error && error.nonJson && form) {
@@ -1473,15 +1487,7 @@
                             }
                             var message = 'Произошла ошибка при отправке. Попробуйте ещё раз позже.';
                             if (error && error.data) {
-                                if (error.data.errors) {
-                                    try {
-                                        var firstKey = Object.keys(error.data.errors)[0];
-                                        if (firstKey && error.data.errors[firstKey] && error.data.errors[firstKey][0]) {
-                                            message = error.data.errors[firstKey][0];
-                                        }
-                                    } catch (e) {
-                                    }
-                                } else if (typeof error.data.message === 'string' && error.data.message) {
+                                if (typeof error.data.message === 'string' && error.data.message) {
                                     message = error.data.message;
                                 } else if (typeof error.data.error === 'string' && error.data.error) {
                                     message = error.data.error;
@@ -1495,6 +1501,7 @@
                             if (errorBox) {
                                 errorBox.textContent = message;
                                 errorBox.style.display = 'block';
+                                errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
                             } else {
                                 alert(message);
                             }

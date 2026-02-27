@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
     
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <!-- Styles -->
     @stack('styles')
     
@@ -312,8 +315,8 @@
                         <span>8 (405) 555-0128</span>
                     </li>
                     <li>
-                        <strong>Email:</strong>
-                        <span>applicant@slt.com</span>
+                        <strong>Почта:</strong>
+                        <span>applicant@gmail.com</span>
                     </li>
                 </ul>
             </div>
@@ -371,5 +374,7 @@
             }
         });
     </script>
+    
+    @stack('scripts')
 </body>
 </html>

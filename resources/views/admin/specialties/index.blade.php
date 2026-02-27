@@ -8,6 +8,22 @@
     <button class="btn btn-primary" onclick="openModal('addModal')">Добавить специальность</button>
 </div>
 
+@if(session('success'))
+    <div class="alert alert-success" style="margin-bottom: 20px; padding: 10px; background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; border-radius: 4px;">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if($errors->any())
+    <div class="alert alert-danger" style="margin-bottom: 20px; padding: 10px; background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; border-radius: 4px;">
+        <ul style="margin: 0; padding-left: 20px;">
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
 <table>
     <thead>
         <tr>
@@ -84,8 +100,28 @@
                 <input type="number" name="cost_distance" min="0" step="0.01">
             </div>
             <div class="form-group">
-                <label>Навыки (через запятую)</label>
-                <textarea name="skills" rows="3"></textarea>
+                <label>Формы обучения (через запятую: очная, заочная, дистанционная)</label>
+                <input type="text" name="study_forms" placeholder="например: очная, заочная">
+            </div>
+            <div class="form-group">
+                <label>Где работать (через запятую)</label>
+                <input type="text" name="where_to_work" placeholder="например: ИТ-компании, Банки">
+            </div>
+            <div class="form-group">
+                <label>Кем работать (через запятую)</label>
+                <input type="text" name="job_roles" placeholder="например: Программист, Аналитик">
+            </div>
+            <div class="form-group">
+                <label>Формы обучения (через запятую)</label>
+                <input type="text" name="study_forms" id="edit_study_forms">
+            </div>
+            <div class="form-group">
+                <label>Где работать (через запятую)</label>
+                <input type="text" name="where_to_work" id="edit_where_to_work">
+            </div>
+            <div class="form-group">
+                <label>Кем работать (через запятую)</label>
+                <input type="text" name="job_roles" id="edit_job_roles">
             </div>
             <div class="form-group">
                 <label>Фото</label>
@@ -141,10 +177,6 @@
                 <input type="number" name="cost_distance" id="edit_cost_distance" min="0" step="0.01">
             </div>
             <div class="form-group">
-                <label>Навыки (через запятую)</label>
-                <textarea name="skills" id="edit_skills" rows="3"></textarea>
-            </div>
-            <div class="form-group">
                 <label>Фото</label>
                 <input type="file" name="photo">
             </div>
@@ -167,13 +199,21 @@
         document.getElementById('edit_name').value = specialty.name;
         document.getElementById('edit_duration').value = specialty.duration;
         document.getElementById('edit_qualification').value = specialty.qualification || '';
+        document.getElementById('edit_study_forms').value = specialty.study_forms || '';
         document.getElementById('edit_description').value = specialty.description;
-        document.getElementById('edit_skills').value = specialty.skills || '';
         document.getElementById('edit_budget_places').value = specialty.budget_places ?? 0;
         document.getElementById('edit_total_places').value = specialty.total_places ?? specialty.budget_places ?? 0;
         document.getElementById('edit_cost_full_time').value = specialty.cost_full_time ?? '';
         document.getElementById('edit_cost_part_time').value = specialty.cost_part_time ?? '';
         document.getElementById('edit_cost_distance').value = specialty.cost_distance ?? '';
+        
+        // Handle array fields for edit modal
+        document.getElementById('edit_where_to_work').value = Array.isArray(specialty.where_to_work) 
+            ? specialty.where_to_work.join(', ') 
+            : (specialty.where_to_work || '');
+        document.getElementById('edit_job_roles').value = Array.isArray(specialty.job_roles) 
+            ? specialty.job_roles.join(', ') 
+            : (specialty.job_roles || '');
         
         const form = document.getElementById('editForm');
         form.action = `/admin/specialties/${specialty.id}`;

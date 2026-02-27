@@ -41,20 +41,41 @@ class ApplicationController extends Controller
 
     public function create()
     {
+        $user = Auth::user();
+        $existingCount = $user->applications()->count();
+        
         $specialties = Specialty::all();
-        return view('applications.create', compact('specialties'));
+        return view('applications.create', compact('specialties', 'existingCount'));
     }
 
     public function store(Request $request)
     {
         $user = Auth::user();
+        
+        // Total limit check (existing + new)
+        $existingCount = $user->applications()->count();
+        $newCount = is_array($request->input('specialty')) ? count($request->input('specialty')) : 0;
+        
+        if (($existingCount + $newCount) > 3) {
+            $message = $existingCount > 0 
+                ? "У вас уже есть $existingCount заявки(ок). Вы можете добавить еще не более " . (3 - $existingCount) . "."
+                : "Вы не можете подать более 3 заявок суммарно.";
+                
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => $message,
+                    'errors' => ['specialty' => [$message]]
+                ], 422);
+            }
+            return redirect()->back()->withErrors(['specialty' => $message]);
+        }
 
         try {
             $validated = $request->validate([
                 'specialty' => 'required|array|min:1|max:3',
                 'specialty.*' => 'exists:specialties,id',
                 'study_form' => 'nullable|array',
-                'study_form.*' => 'string|in:Очная,Заочная,Очно-заочная',
+                'study_form.*' => 'string',
                 'name' => 'required|string|min:2|max:50',
                 'surname' => 'required|string|min:2|max:50',
                 'citizenship' => 'required|string|min:2|max:50',

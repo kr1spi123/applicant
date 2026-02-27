@@ -12,15 +12,15 @@
     <div class="call">
         <img src="{{ asset('assets/img/iPhone.svg') }}" alt="Phone">
         <div>
-            <p style="font-size: 14px; font-weight: bold;">Call us</p>
+            <p style="font-size: 14px; font-weight: bold;">Позвоните нам</p>
             <p>8 (405) 555-0128</p>
         </div>
     </div>
     <div class="talk">
         <img src="{{ asset('assets/img/Chat.svg') }}" alt="Chat">
         <div>
-            <p style="font-size: 14px; font-weight: bold;">Talk to us</p>
-            <p>Applicant@slt.com</p>
+            <p style="font-size: 14px; font-weight: bold;">Напишите нам</p>
+            <p>Applicant@gmail.com</p>
         </div>
     </div>
 </nav>

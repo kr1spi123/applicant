@@ -2254,6 +2254,14 @@ select.text-input option:checked,
     box-shadow: 0 0 0 1px rgba(255, 90, 48, 0.15);
 }
 
+.study-form-option.disabled {
+     cursor: not-allowed;
+     color: #9CA3AF;
+     opacity: 0.5;
+     background-color: #F3F4F6 !important;
+     box-shadow: none !important;
+ }
+
 .specialty-places {
     display: flex;
     align-items: center;
@@ -2425,4 +2433,62 @@ select.text-input option:checked,
     .form-preview-body {
         grid-template-columns: 1fr;
     }
+}
+
+/* Limit Info Styles */
+.specialties-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.limit-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #FFF3E0;
+    border-left: 4px solid #FF5A30;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #856404;
+}
+
+.limit-info i {
+    color: #FF5A30;
+    font-size: 16px;
+}
+
+.limit-info strong {
+    color: #FF5A30;
+}
+
+.limit-info.limit-reached {
+    background: #FEF2F2;
+    border-left-color: #EF4444;
+    color: #991B1B;
+}
+
+.limit-info.limit-reached i {
+    color: #EF4444;
+}
+
+.limit-reached-badge {
+    background: #F3F4F6;
+    color: #6B7280;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #E5E7EB;
+    cursor: not-allowed;
+}
+
+.limit-reached-badge i {
+    font-size: 14px;
 }

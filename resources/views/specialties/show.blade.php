@@ -4,148 +4,168 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/app.css') . '?v=' . (file_exists(public_path('css/app.css')) ? filemtime(public_path('css/app.css')) : time()) }}">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 @endpush
 
 @section('content')
+<div class="specialty-details-page">
     <div class="container">
-        <div class="specialty-header">
+        <!-- Header Section -->
+        <header class="specialty-header" data-aos="fade-down">
             <div class="specialty-header-line">
                 <h1 class="specialty-title">{{ $specialty->name }}</h1>
                 @if($specialty->code)
                     <span class="specialty-code-pill">{{ $specialty->code }}</span>
                 @endif
             </div>
+
             @php
-                $studyForms = [];
-                $tuitionByForm = [];
-
-                if (!is_null($specialty->cost_full_time)) {
-                    $studyForms[] = 'очная';
-                    $tuitionByForm['очная'] = $specialty->cost_full_time;
-                }
-
-                if (!is_null($specialty->cost_part_time)) {
-                    $studyForms[] = 'заочная';
-                    $tuitionByForm['заочная'] = $specialty->cost_part_time;
-                }
-
-                if (!is_null($specialty->cost_distance)) {
-                    $studyForms[] = 'дистанционная';
-                    $tuitionByForm['дистанционная'] = $specialty->cost_distance;
-                }
-
-                if (empty($studyForms)) {
-                    $studyForms[] = 'очная';
-                }
+                $availableForms = $specialty->available_study_forms;
             @endphp
+
             <div class="specialty-study-row">
-                @foreach($studyForms as $form)
+                @foreach($availableForms as $form => $fee)
                     @php
-                        $formType = $form === 'очная' ? 'fulltime' : ($form === 'заочная' ? 'parttime' : 'mixed');
+                        $formType = $form === 'очная' ? 'fulltime' : ($form === 'заочная' ? 'parttime' : ($form === 'очно-заочная' ? 'evening' : 'mixed'));
+                        $icon = $form === 'очная' ? 'fa-sun' : ($form === 'заочная' ? 'fa-moon' : ($form === 'очно-заочная' ? 'fa-cloud-sun' : 'fa-laptop-house'));
                     @endphp
-                    <span class="study-badge study-badge-{{ $formType }}">{{ $form }}</span>
+                    <span class="study-badge study-badge-{{ $formType }}">
+                        <i class="fas {{ $icon }}"></i>
+                        {{ $form }}
+                    </span>
                 @endforeach
             </div>
+
             <div class="specialty-meta">
-                <span class="duration">Срок обучения: {{ $specialty->duration }}</span>
-                <span class="qualification">Квалификация: {{ $specialty->qualification }}</span>
-                <span class="tuition">
-                    Стоимость обучения:
-                    @if(count($tuitionByForm))
-                        @foreach($tuitionByForm as $formTitle => $fee)
-                            <span>{{ $formTitle }} — {{ number_format($fee, 0, ',', ' ') }} ₽ / год</span>@if(!$loop->last), @endif
+                <span data-label="Срок обучения">
+                    <i class="fas fa-clock"></i>
+                    {{ $specialty->duration }}
+                </span>
+                <span data-label="Квалификация">
+                    <i class="fas fa-user-graduate"></i>
+                    {{ $specialty->qualification }}
+                </span>
+                <span data-label="Стоимость">
+                    <i class="fas fa-coins"></i>
+                    @if(count($availableForms) && reset($availableForms) > 0)
+                        @foreach($availableForms as $formTitle => $fee)
+                            {{ $formTitle }}: {{ number_format($fee, 0, ',', ' ') }} ₽@if(!$loop->last), @endif
                         @endforeach
                     @else
                         Уточняется
                     @endif
                 </span>
             </div>
-        </div>
+        </header>
 
+        <!-- Main Content -->
         <div class="specialty-content">
-            <div class="specialty-photo">
-                @if($specialty->photo)
-                    <img src="{{ asset('assets/img/specialties/' . $specialty->photo) }}" alt="{{ $specialty->name }}">
+            <!-- Left Column: Media -->
+            <div class="specialty-photo" data-aos="fade-right">
+                @php
+                    $photoPath = 'assets/img/specialties/' . $specialty->photo;
+                @endphp
+                @if($specialty->photo && file_exists(public_path($photoPath)))
+                    <img src="{{ asset($photoPath) }}" alt="{{ $specialty->name }}">
                 @else
                     <img src="{{ asset('assets/img/no-photo.jpg') }}" alt="Нет фото">
                 @endif
             </div>
 
+            <!-- Right Column: Details -->
             <div class="specialty-info">
                 @php
                     $qualification = $specialty->qualification ?: 'специалиста';
                     $duration = $specialty->duration;
                 @endphp
-                <section class="short-info">
+
+                <section class="info-section short-info" data-aos="fade-up">
                     <p>
                         Специальность «{{ $specialty->name }}» помогает освоить практические навыки и уверенно чувствовать себя в реальных рабочих задачах.
-                    </p>
-                    <p>
-                        За {{ $duration }} вы формируете ключевые компетенции и получаете базу для дальнейшего профессионального роста и карьерных возможностей как начинающего {{ $qualification }}.
+                        За {{ $duration }} вы формируете ключевые компетенции и получаете базу для дальнейшего профессионального роста.
                     </p>
                 </section>
-                <section class="description-section">
-                    <h2>Описание специальности</h2>
+
+                <section class="info-section description-section" data-aos="fade-up">
+                    <h2><i class="fas fa-file-alt"></i> Описание специальности</h2>
                     <p>{!! nl2br(e($specialty->description)) !!}</p>
                 </section>
 
-                <section class="skills-section">
-                    <h2>Навыки</h2>
-                    <ul class="skills-list">
-                        @foreach(explode(',', $specialty->skills) as $skill)
-                            <li>{{ trim($skill) }}</li>
-                        @endforeach
-                    </ul>
-                </section>
-
-                <section class="job-prospects">
-                    <h2>Перспективы трудоустройства</h2>
+                <section class="info-section job-prospects" data-aos="fade-up">
+                    <h2><i class="fas fa-briefcase"></i> Карьерный путь</h2>
                     <div class="job-grid">
                         <div class="job-card">
                             <h3>Где работать</h3>
                             <ul>
-                                <li>Промышленные предприятия</li>
-                                <li>Строительные компании</li>
-                                <li>Сервисные центры</li>
-                                <li>Частные мастерские</li>
+                                @if(!empty($specialty->where_to_work))
+                                    @foreach($specialty->where_to_work as $item)
+                                        <li><i class="fas fa-check-circle"></i> {{ $item }}</li>
+                                    @endforeach
+                                @else
+                                    <li><i class="fas fa-check-circle"></i> ИТ-компании и стартапы</li>
+                                    <li><i class="fas fa-check-circle"></i> Государственные структуры</li>
+                                    <li><i class="fas fa-check-circle"></i> Фриланс и консалтинг</li>
+                                    <li><i class="fas fa-check-circle"></i> Крупный бизнес</li>
+                                @endif
                             </ul>
                         </div>
                         <div class="job-card">
                             <h3>Кем работать</h3>
                             <ul>
-                                <li>Специалист по ремонту</li>
-                                <li>Техник-эксплуатационник</li>
-                                <li>Мастер производственного обучения</li>
-                                <li>Инженер-технолог</li>
+                                @if(!empty($specialty->job_roles))
+                                    @foreach($specialty->job_roles as $item)
+                                        <li><i class="fas fa-user-tie"></i> {{ $item }}</li>
+                                    @endforeach
+                                @else
+                                    <li><i class="fas fa-user-tie"></i> {{ $qualification }}</li>
+                                    <li><i class="fas fa-user-tie"></i> Ведущий специалист</li>
+                                    <li><i class="fas fa-user-tie"></i> Технический менеджер</li>
+                                    <li><i class="fas fa-user-tie"></i> Аналитик данных</li>
+                                @endif
                             </ul>
                         </div>
                     </div>
                 </section>
 
-                <section class="admission-steps">
-                    <h2>Как поступить</h2>
+                <section class="info-section admission-steps" data-aos="fade-up">
+                    <h2><i class="fas fa-rocket"></i> Как поступить</h2>
                     <div class="steps-grid">
                         <div class="step">
                             <div class="step-number">1</div>
-                            <h3>Подача документов</h3>
-                            <p>Подготовьте необходимые документы и подайте их в приемную комиссию</p>
+                            <div class="step-content">
+                                <h3>Подача документов</h3>
+                                <p>Загрузите документы через личный кабинет или принесите лично</p>
+                            </div>
                         </div>
                         <div class="step">
                             <div class="step-number">2</div>
-                            <h3>Вступительные испытания</h3>
-                            <p>Пройдите вступительные испытания по профильным предметам</p>
+                            <div class="step-content">
+                                <h3>Рассмотрение</h3>
+                                <p>Ваша заявка будет проверена приемной комиссией в течение 3-х дней</p>
+                            </div>
                         </div>
                         <div class="step">
                             <div class="step-number">3</div>
-                            <h3>Зачисление</h3>
-                            <p>После успешного прохождения испытаний вы будете зачислены на специальность</p>
+                            <div class="step-content">
+                                <h3>Зачисление</h3>
+                                <p>Следите за рейтингом и подтвердите свое намерение учиться</p>
+                            </div>
                         </div>
                     </div>
                 </section>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- JavaScript if needed from app.js, but layout usually handles it. Original had js/app.js. -->
-    <!-- We might need to check if js/app.js has specific logic for this page. -->
+@push('scripts')
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+    </script>
+@endpush
 @endsection

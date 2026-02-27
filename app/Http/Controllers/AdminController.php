@@ -28,12 +28,22 @@ class AdminController extends Controller
             'description' => 'required|string',
             'budget_places' => 'required|integer|min:0',
             'total_places' => 'nullable|integer|min:0',
-            'skills' => 'nullable|string',
+            'study_forms' => 'nullable|string',
             'photo' => 'nullable|image|max:2048',
             'cost_full_time' => 'nullable|numeric|min:0',
             'cost_part_time' => 'nullable|numeric|min:0',
             'cost_distance' => 'nullable|numeric|min:0',
+            'where_to_work' => 'nullable|string',
+            'job_roles' => 'nullable|string',
         ]);
+
+        // Convert comma-separated strings to arrays
+        if (!empty($validated['where_to_work'])) {
+            $validated['where_to_work'] = array_map('trim', explode(',', $validated['where_to_work']));
+        }
+        if (!empty($validated['job_roles'])) {
+            $validated['job_roles'] = array_map('trim', explode(',', $validated['job_roles']));
+        }
 
         if (isset($validated['total_places']) && $validated['total_places'] < $validated['budget_places']) {
             $validated['total_places'] = $validated['budget_places'];
@@ -48,8 +58,10 @@ class AdminController extends Controller
         }
 
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('specialties', 'public');
-            $validated['photo'] = $path;
+            $file = $request->file('photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('assets/img/specialties'), $filename);
+            $validated['photo'] = $filename;
         }
 
         Specialty::create($validated);
@@ -66,12 +78,22 @@ class AdminController extends Controller
             'description' => 'required|string',
             'budget_places' => 'required|integer|min:0',
             'total_places' => 'nullable|integer|min:0',
-            'skills' => 'nullable|string',
+            'study_forms' => 'nullable|string',
             'photo' => 'nullable|image|max:2048',
             'cost_full_time' => 'nullable|numeric|min:0',
             'cost_part_time' => 'nullable|numeric|min:0',
             'cost_distance' => 'nullable|numeric|min:0',
+            'where_to_work' => 'nullable|string',
+            'job_roles' => 'nullable|string',
         ]);
+
+        // Convert comma-separated strings to arrays
+        if (!empty($validated['where_to_work'])) {
+            $validated['where_to_work'] = array_map('trim', explode(',', $validated['where_to_work']));
+        }
+        if (!empty($validated['job_roles'])) {
+            $validated['job_roles'] = array_map('trim', explode(',', $validated['job_roles']));
+        }
 
         if (isset($validated['total_places']) && $validated['total_places'] < $validated['budget_places']) {
             $validated['total_places'] = $validated['budget_places'];
@@ -86,11 +108,16 @@ class AdminController extends Controller
         }
 
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('specialties', 'public');
-            $validated['photo'] = $path;
+            $file = $request->file('photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
             
-            // Optional: Delete old photo if exists
-            // if ($specialty->photo) Storage::disk('public')->delete($specialty->photo);
+            // Delete old photo if it exists
+            if ($specialty->photo && file_exists(public_path('assets/img/specialties/' . $specialty->photo))) {
+                unlink(public_path('assets/img/specialties/' . $specialty->photo));
+            }
+            
+            $file->move(public_path('assets/img/specialties'), $filename);
+            $validated['photo'] = $filename;
         }
 
         $specialty->update($validated);
