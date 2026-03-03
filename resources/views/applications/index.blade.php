@@ -143,91 +143,62 @@
                         };
 
                         $code = $specialty?->code;
-                        $educationLevel = 'Среднее профессиональное образование';
-                        $studyForms = [];
-                        $tuitionByForm = [];
-
-                        if ($specialty) {
-                            if (!is_null($specialty->cost_full_time)) {
-                                $studyForms[] = 'очная';
-                                $tuitionByForm['очная'] = $specialty->cost_full_time;
-                            }
-
-                            if (!is_null($specialty->cost_part_time)) {
-                                $studyForms[] = 'заочная';
-                                $tuitionByForm['заочная'] = $specialty->cost_part_time;
-                            }
-
-                            if (!is_null($specialty->cost_distance)) {
-                                $studyForms[] = 'дистанционная';
-                                $tuitionByForm['дистанционная'] = $specialty->cost_distance;
-                            }
-                        }
-
-                        if (empty($studyForms)) {
-                            $fallbackForm = $application->study_form ?: 'очная';
-                            $studyForms[] = $fallbackForm;
-                        }
-
-                        $selectedForm = $application->study_form ?: ($studyForms[0] ?? null);
-
+                        $educationLevel = 'СПО';
+                        $selectedForm = $application->study_form ?: 'очная';
                         $selectedFee = null;
 
                         if ($specialty) {
-                            $normalized = $selectedForm ? mb_strtolower($selectedForm) : null;
+                            $normalized = mb_strtolower($selectedForm);
 
-                            if ($normalized === 'очная' && !is_null($specialty->cost_full_time)) {
+                            if ($normalized === 'очная') {
                                 $selectedFee = $specialty->cost_full_time;
-                            } elseif ($normalized === 'заочная' && !is_null($specialty->cost_part_time)) {
+                            } elseif ($normalized === 'заочная') {
                                 $selectedFee = $specialty->cost_part_time;
-                            } elseif ($normalized === 'дистанционная' && !is_null($specialty->cost_distance)) {
+                            } elseif ($normalized === 'очно-заочная') {
                                 $selectedFee = $specialty->cost_distance;
                             }
 
                             if ($selectedFee === null) {
-                                if (!is_null($specialty->cost_full_time)) {
-                                    $selectedFee = $specialty->cost_full_time;
-                                } elseif (!is_null($specialty->cost_part_time)) {
-                                    $selectedFee = $specialty->cost_part_time;
-                                } elseif (!is_null($specialty->cost_distance)) {
-                                    $selectedFee = $specialty->cost_distance;
-                                }
+                                $selectedFee = $specialty->cost_full_time ?? $specialty->cost_part_time ?? $specialty->cost_distance;
                             }
                         }
 
                         $tuitionPeriod = 'год';
-                        $paidPlaces = max(0, (int) ($specialty->total_places ?? 0) - (int) ($specialty->budget_places ?? 0));
+                        $paidPlaces = max(0, (int) ($specialty?->total_places ?? 0) - (int) ($specialty?->budget_places ?? 0));
                         $createdAtTimestamp = $application->created_at ? $application->created_at->getTimestamp() : null;
                     @endphp
 
                     <div class="application-card"
                          data-code="{{ $code }}"
-                         data-form="{{ $selectedForm ? mb_strtolower($selectedForm) : '' }}"
+                         data-form="{{ mb_strtolower($selectedForm) }}"
                          data-fee="{{ $selectedFee ?? '' }}"
                          data-date="{{ $createdAtTimestamp ?? '' }}">
                         <div class="card-header">
                             <div class="application-header-main">
-                                <div class="application-tags-row">
+                                <div class="application-title-row">
                                     @if($code)
                                         <span class="application-code-pill">{{ $code }}</span>
                                     @endif
+                                    <div class="specialty-title">{{ $specialty?->name ?? 'Специальность удалена' }}</div>
+                                </div>
+                                <div class="application-tags-row" style="margin-top: 8px;">
                                     @if($educationLevel)
                                         <span class="application-education-pill">{{ $educationLevel }}</span>
                                     @endif
+                                    @php
+                                        $form = $application->study_form ?: 'Не указана';
+                                        $formValue = mb_strtolower($form);
+                                        $formType = match($formValue) {
+                                            'очная' => 'fulltime',
+                                            'заочная' => 'parttime',
+                                            'очно-заочная' => 'mixed',
+                                            default => 'mixed'
+                                        };
+                                    @endphp
+                                    <span class="application-study-badge application-study-badge-{{ $formType }}">
+                                        {{ $form }}
+                                    </span>
                                 </div>
-                                <div class="application-study-row">
-                                    @foreach($studyForms as $form)
-                                        @php
-                                            $formValue = mb_strtolower($form);
-                                            $formType = $formValue === 'очная' ? 'fulltime' : ($formValue === 'заочная' ? 'parttime' : 'mixed');
-                                            $isSelected = $selectedForm && mb_strtolower($selectedForm) === $formValue;
-                                        @endphp
-                                        <span class="application-study-badge application-study-badge-{{ $formType }}">
-                                            {{ $form }}@if($isSelected) · выбранная форма@endif
-                                        </span>
-                                    @endforeach
-                                </div>
-                                <div class="specialty-title">{{ $specialty?->name ?? 'Специальность удалена' }}</div>
                             </div>
                             <div class="application-header-side">
                                 <div class="application-date">

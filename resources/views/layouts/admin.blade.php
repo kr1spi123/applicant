@@ -12,17 +12,20 @@
 </head>
 <body>
     <div class="admin-container">
-        <!-- Sidebar -->
-        <div class="admin-sidebar">
-            <div class="admin-logo">
-                <a href="{{ route('home') }}">
-                    <img src="{{ asset('assets/img/logo.png') }}" alt="Logo">
-                    <h2>Админ-панель</h2>
-                </a>
-            </div>
-            <nav class="admin-nav">
-                <ul>
-                    <li class="{{ request()->routeIs('admin.specialties.*') ? 'active' : '' }}">
+        <!-- Horizontal Navbar -->
+        <header class="admin-navbar">
+            <a href="{{ route('home') }}" class="navbar-brand">
+                <img src="{{ asset('assets/img/logo.png') }}" alt="Logo">
+                <h2>Админ-панель</h2>
+            </a>
+            <button class="navbar-toggle" aria-label="Меню" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="navbar-menu">
+                <ul class="navbar-nav">
+                    <li class="{{ request()->routeIs('admin.specialties.index') ? 'active' : '' }}">
                         <a href="{{ route('admin.specialties.index') }}">Специальности</a>
                     </li>
                     <li class="{{ request()->routeIs('admin.applications.*') ? 'active' : '' }}">
@@ -34,12 +37,17 @@
                     <li class="{{ request()->routeIs('admin.enrollment.*') ? 'active' : '' }}">
                         <a href="{{ route('admin.enrollment.index') }}">Рейтинги</a>
                     </li>
-                    <li>
-                        <a href="{{ route('home') }}" style="display: block; padding: 12px 15px; text-decoration: none; color: #424551; font-weight: 500;">На сайт</a>
-                    </li>
                 </ul>
             </nav>
-        </div>
+
+            <div class="navbar-user">
+                <span style="font-weight: 600; font-size: 14px; color: #1E212C;">{{ auth()->user()->name }}</span>
+                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="btn-logout">Выйти</button>
+                </form>
+            </div>
+        </header>
 
         <!-- Main Content -->
         <div class="admin-main">
@@ -66,5 +74,17 @@
     </div>
     
     @stack('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toggle = document.querySelector('.navbar-toggle');
+            var nav = document.querySelector('.navbar-nav');
+            if (toggle && nav) {
+                toggle.addEventListener('click', function () {
+                    var open = nav.classList.toggle('open');
+                    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                });
+            }
+        });
+    </script>
 </body>
 </html>

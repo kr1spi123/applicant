@@ -2,9 +2,7 @@
 
 @section('title', 'Статистика')
 
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/statistics.css') }}">
-@endpush
+
 
 @section('content')
 <div class="admin-content">

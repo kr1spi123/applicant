@@ -161,17 +161,21 @@
                                         <div class="error-message">Введите корректный email адрес</div>
                                     </div>
                                     <div class="input-wrapper">
-                                        <input type="text" name="citizenship" placeholder="Гражданство" class="text-input"
-                                            required pattern="[A-Za-zА-Яа-яЁё\s-]{2,50}" list="citizenship-list-application"
-                                            value="{{ old('citizenship', auth()->user()->citizenship) }}">
-                                        <datalist id="citizenship-list-application">
-                                            <option value="Россия"></option>
-                                            <option value="Казахстан"></option>
-                                            <option value="Беларусь"></option>
-                                            <option value="Армения"></option>
-                                            <option value="Киргизия"></option>
-                                            <option value="Другое"></option>
-                                        </datalist>
+                                        <div class="education-name-dropdown">
+                                            <input type="text" name="citizenship" placeholder="Гражданство" class="text-input"
+                                                required pattern="[A-Za-zА-Яа-яЁё\s-]{2,50}" list="citizenship-list-application"
+                                                value="{{ old('citizenship', auth()->user()->citizenship) }}">
+                                            <button type="button" class="education-name-toggle datalist-toggle"
+                                                aria-label="Показать список"></button>
+                                            <datalist id="citizenship-list-application">
+                                                <option value="Россия"></option>
+                                                <option value="Казахстан"></option>
+                                                <option value="Беларусь"></option>
+                                                <option value="Армения"></option>
+                                                <option value="Киргизия"></option>
+                                                <option value="Другое"></option>
+                                            </datalist>
+                                        </div>
                                         <svg class="validation-icon success" viewBox="0 0 20 20" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path d="M16.6667 5L7.50004 14.1667L3.33337 10" stroke="currentColor"
@@ -195,15 +199,19 @@
                                 <h3>Адрес проживания</h3>
                                 <div class="input-grid">
                                     <div class="input-wrapper">
-                                        <input type="text" name="city" placeholder="Город" class="text-input"
-                                            list="city-list-application" value="{{ old('city', auth()->user()->city) }}">
-                                        <datalist id="city-list-application">
-                                            <option value="Москва"></option>
-                                            <option value="Санкт-Петербург"></option>
-                                            <option value="Новосибирск"></option>
-                                            <option value="Екатеринбург"></option>
-                                            <option value="Казань"></option>
-                                        </datalist>
+                                        <div class="education-name-dropdown">
+                                            <input type="text" name="city" placeholder="Город" class="text-input"
+                                                list="city-list-application" value="{{ old('city', auth()->user()->city) }}">
+                                            <button type="button" class="education-name-toggle datalist-toggle"
+                                                aria-label="Показать список"></button>
+                                            <datalist id="city-list-application">
+                                                <option value="Москва"></option>
+                                                <option value="Санкт-Петербург"></option>
+                                                <option value="Новосибирск"></option>
+                                                <option value="Екатеринбург"></option>
+                                                <option value="Казань"></option>
+                                            </datalist>
+                                        </div>
                                         <svg class="validation-icon success" viewBox="0 0 20 20" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path d="M16.6667 5L7.50004 14.1667L3.33337 10" stroke="currentColor"
@@ -280,13 +288,16 @@
                                             <div class="education-type">
                                                 @php
                                                     $types = ['🏫 Школа', '🏛️ Колледж', '🎓 Университет'];
-                                                    $selectedType = old('education.0.type', 'Школа');
+                                                    $selectedType = old('education.0.type', '🏫 Школа');
                                                 @endphp
-                                                <select name="education[0][type]" class="text-input education-type-select">
-                                                    @foreach($types as $type)
-                                                        <option value="{{ $type }}" {{ $selectedType === $type ? 'selected' : '' }}>{{ $type }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <div class="education-name-dropdown custom-select-dropdown" data-options="{{ json_encode($types) }}">
+                                                    <input type="text" name="education[0][type]" 
+                                                        class="text-input education-type-input" 
+                                                        readonly
+                                                        value="{{ $selectedType }}">
+                                                    <button type="button" class="education-name-toggle" aria-label="Показать список"></button>
+                                                    <div class="education-name-panel"></div>
+                                                </div>
                                             </div>
                                             <div class="education-title">
                                                 <div class="education-name-dropdown">
@@ -307,11 +318,11 @@
                                             </div>
                                         </div>
                                         <div class="education-item-body">
-                                            <div class="education-doc">
+                                            <div class="education-doc" style="margin-bottom: 10px;">
                                                 <input type="text" name="education[0][doc_series]"
                                                     placeholder="Серия документа" class="text-input education-series-input"
                                                     pattern="[0-9А-ЯA-Z\-]{0,10}"
-                                                    value="{{ old('education.0.doc_series') }}" style="margin-bottom:7px;">
+                                                    value="{{ old('education.0.doc_series') }}">
                                             </div>
                                             <div class="education-doc">
                                                 <input type="text" name="education[0][doc_number]"
@@ -566,12 +577,22 @@
                             <div class="specialties-filters">
                                 <div class="specialties-filter">
                                     <span>Уровень образования:</span>
-                                    <select id="level-filter" class="text-input valid">
-                                        <option value="all">🌟 Все уровни</option>
-                                        <option value="бакалавриат">📘 Бакалавриат</option>
-                                        <option value="специалитет">📚 Специалитет</option>
-                                        <option value="магистратура">🎯 Магистратура</option>
-                                    </select>
+                                    <div class="education-name-dropdown custom-select-dropdown" id="level-filter-dropdown" data-options='["🌟 Все уровни", "📘 Бакалавриат", "📚 Специалитет", "🎯 Магистратура"]' data-values='["all", "бакалавриат", "специалитет", "магистратура"]'>
+                                        <input type="text" id="level-filter-input" class="text-input" readonly value="🌟 Все уровни">
+                                        <input type="hidden" id="level-filter" value="all">
+                                        <button type="button" class="education-name-toggle" aria-label="Показать список"></button>
+                                        <div class="education-name-panel"></div>
+                                    </div>
+                                </div>
+                                <div class="places-legend">
+                                    <div class="legend-item">
+                                        <div class="legend-circle circle-budget">Б</div>
+                                        <div class="legend-tooltip">Синий кружок: Бюджетные места</div>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-circle circle-paid">П</div>
+                                        <div class="legend-tooltip">Зелёный кружок: Платные места</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="specialties-content">
@@ -600,34 +621,55 @@
                                             data-passing-score="{{ $passingScore }}" @endif>
                                             <div class="specialty-text">
                                                 <div class="specialty-header-line">
-                                                    <span class="specialty-name">{{ $specialty->name }}</span>
                                                     @if($specialty->code)
                                                         <span class="specialty-code-pill">{{ $specialty->code }}</span>
                                                     @endif
+                                                    <span class="specialty-name">{{ $specialty->name }}</span>
                                                 </div>
                                                 <div class="specialty-study-row">
                                                     @php
                                                         $availableForms = array_keys($specialty->available_study_forms);
                                                         $allForms = ['очная', 'заочная', 'очно-заочная'];
-                                                        $firstAvailable = $availableForms[0] ?? 'очная';
+                                                        $alreadyAppliedForms = $existingApplications[$specialty->id] ?? [];
+                                                        
+                                                        // Find the first form that the user HAS NOT applied to yet
+                                                        $firstAvailable = collect($availableForms)
+                                                            ->reject(fn($form) => in_array($form, $alreadyAppliedForms))
+                                                            ->first();
+                                                        
+                                                        // If all available forms are already applied to, just take the first one (it will be disabled anyway)
+                                                        if (!$firstAvailable) {
+                                                            $firstAvailable = $availableForms[0] ?? 'очная';
+                                                        }
                                                     @endphp
                                                     <div class="study-form-toggle" data-specialty="{{ $specialty->id }}">
                                                         @foreach($allForms as $form)
                                                             @php
                                                                 $isAvailable = in_array($form, $availableForms);
+                                                                $isAlreadyApplied = in_array($form, $alreadyAppliedForms);
+                                                                $isDisabled = !$isAvailable || $isAlreadyApplied;
                                                             @endphp
                                                             <button type="button" 
-                                                                class="study-form-option {{ $form === $firstAvailable ? 'active' : '' }} {{ !$isAvailable ? 'disabled' : '' }}"
+                                                                class="study-form-option {{ $form === $firstAvailable ? 'active' : '' }} {{ $isDisabled ? 'disabled' : '' }}"
                                                                 data-value="{{ $form }}"
-                                                                {{ !$isAvailable ? 'disabled' : '' }}>
+                                                                {{ $isDisabled ? 'disabled' : '' }}
+                                                                @if($isAlreadyApplied) title="Вы уже подали заявку на эту форму обучения" @endif>
                                                                 {{ mb_convert_case($form, MB_CASE_TITLE, "UTF-8") }}
+                                                                @if($isAlreadyApplied)
+                                                                    <i class="fas fa-check-circle" style="margin-left: 4px; font-size: 10px;"></i>
+                                                                @endif
                                                             </button>
                                                         @endforeach
                                                     </div>
                                                     <div class="specialty-places">
-                                                        <span class="places-badge">Бюджет:
-                                                            {{ $specialty->budget_places }}</span>
-                                                        <span class="places-badge">Платные: {{ $paidPlaces }}</span>
+                                                        <div class="legend-item" title="Бюджетных мест">
+                                                            <div class="legend-circle circle-budget">{{ $specialty->budget_places }}</div>
+                                                            <div class="legend-tooltip">Бюджетных мест: {{ $specialty->budget_places }}</div>
+                                                        </div>
+                                                        <div class="legend-item" title="Платных мест">
+                                                            <div class="legend-circle circle-paid">{{ $paidPlaces }}</div>
+                                                            <div class="legend-tooltip">Платных мест: {{ $paidPlaces }}</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 @if($passingScore)
@@ -637,8 +679,13 @@
                                                 @endif
                                             </div>
                                             <input type="hidden" name="study_form[{{ $specialty->id }}]" value="{{ $firstAvailable }}">
+                                            @php
+                                                $allFormsApplied = count(array_diff($availableForms, $alreadyAppliedForms)) === 0;
+                                            @endphp
                                             <input type="checkbox" name="specialty[]" value="{{ $specialty->id }}"
-                                                class="specialty-checkbox" {{ is_array(old('specialty')) && in_array($specialty->id, old('specialty')) ? 'checked' : '' }}>
+                                                class="specialty-checkbox {{ $allFormsApplied ? 'already-applied-all' : '' }}" 
+                                                {{ (is_array(old('specialty')) && in_array($specialty->id, old('specialty'))) ? 'checked' : '' }}
+                                                {{ $allFormsApplied ? 'disabled' : '' }}>
                                             <span class="custom-checkbox"></span>
                                         </label>
                                     @endforeach
@@ -669,9 +716,46 @@
         </div>
     </div>
 
+    <!-- Success Modal -->
+    <div class="success-modal-overlay">
+        <div class="success-modal">
+            <div class="success-icon-wrapper">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2>Заявка подана!</h2>
+            <p id="success-modal-text">Ваша заявка успешно отправлена на рассмотрение. Вы можете отслеживать статус в личном кабинете.</p>
+            <div class="success-modal-buttons">
+                <a href="{{ route('applications.index') }}" class="modal-btn-primary">Мои заявки</a>
+                <button type="button" class="modal-btn-secondary" onclick="closeSuccessModal()">Подать еще одну</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            function showSuccessModal(data) {
+                const overlay = document.querySelector('.success-modal-overlay');
+                const text = document.getElementById('success-modal-text');
+                if (overlay) {
+                    let message = 'Ваша заявка успешно отправлена на рассмотрение.';
+                    if (data && data.application_ids && data.application_ids.length) {
+                        message += ' Номер(а) заявки: ' + data.application_ids.join(', ');
+                    }
+                    if (text) text.textContent = message;
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Запрет скролла
+                }
+            }
+
+            window.closeSuccessModal = function() {
+                const overlay = document.querySelector('.success-modal-overlay');
+                if (overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = ''; // Возврат скролла
+                    window.location.reload(); // Перезагружаем для обновления лимитов и состояний
+                }
+            };
+
             const EXISTING_COUNT = {{ $existingCount ?? 0 }};
             const MAX_TOTAL = 3;
             const MAX_SELECTIONS = MAX_TOTAL - EXISTING_COUNT;
@@ -692,6 +776,14 @@
             }
 
             document.querySelectorAll('.specialty-checkbox').forEach(checkbox => {
+                const specialtyItem = checkbox.closest('.specialty-item');
+                
+                // Mark already applied items visually
+                if (checkbox.classList.contains('already-applied-all')) {
+                    specialtyItem.classList.add('already-applied');
+                    specialtyItem.title = "Вы уже подали заявки на все доступные формы обучения по этой специальности";
+                }
+
                 checkbox.addEventListener('change', function (e) {
                     const currentSelected = document.querySelectorAll('.specialty-checkbox:checked').length;
                     const specialtyItem = this.closest('.specialty-item');
@@ -1083,10 +1175,79 @@
                 });
             }
 
+            function initCustomSelectDropdown(container) {
+                const input = container.querySelector('.text-input');
+                const hiddenInput = container.querySelector('input[type="hidden"]');
+                const panel = container.querySelector('.education-name-panel');
+                const toggle = container.querySelector('.education-name-toggle');
+                if (!input || !panel || !toggle) return;
+
+                const options = JSON.parse(container.getAttribute('data-options') || '[]');
+                const values = JSON.parse(container.getAttribute('data-values') || '[]');
+
+                function renderOptions() {
+                    panel.innerHTML = '';
+                    options.forEach(function (value, index) {
+                        const option = document.createElement('button');
+                        option.type = 'button';
+                        option.className = 'education-name-option';
+                        if (input.value === value) {
+                            option.classList.add('active');
+                        }
+                        option.textContent = value;
+                        option.addEventListener('mousedown', function (e) {
+                            e.preventDefault();
+                            input.value = value;
+                            if (hiddenInput) {
+                                hiddenInput.value = values[index] || value;
+                                hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+                            }
+                            closePanel();
+                            input.focus();
+                        });
+                        panel.appendChild(option);
+                    });
+                }
+
+                function openPanel() {
+                    renderOptions();
+                    container.classList.add('open');
+                }
+
+                function closePanel() {
+                    container.classList.remove('open');
+                }
+
+                input.addEventListener('focus', function () {
+                    openPanel();
+                });
+
+                toggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    if (container.classList.contains('open')) {
+                        closePanel();
+                    } else {
+                        openPanel();
+                        input.focus();
+                    }
+                });
+            }
+
             function initAllEducationDropdowns() {
                 document.querySelectorAll('.education-name-dropdown').forEach(function (dropdown) {
                     if (dropdown.dataset.dropdownReady === '1') return;
-                    initEducationDropdown(dropdown);
+                    
+                    if (dropdown.classList.contains('custom-select-dropdown')) {
+                        initCustomSelectDropdown(dropdown);
+                    } else if (dropdown.querySelector('.datalist-toggle')) {
+                        const input = dropdown.querySelector('input');
+                        const toggle = dropdown.querySelector('.datalist-toggle');
+                        toggle.addEventListener('click', function() {
+                            input.focus();
+                        });
+                    } else {
+                        initEducationDropdown(dropdown);
+                    }
                     dropdown.dataset.dropdownReady = '1';
                 });
             }
@@ -1138,6 +1299,15 @@
                     }
                     const newItem = firstItem.cloneNode(true);
                     newItem.setAttribute('data-index', educationIndex.toString());
+                    
+                    // Reset dropdown readiness for initialization
+                    newItem.querySelectorAll('.education-name-dropdown').forEach(function(d) {
+                        delete d.dataset.dropdownReady;
+                        const panel = d.querySelector('.education-name-panel');
+                        if (panel) panel.innerHTML = '';
+                        d.classList.remove('open');
+                    });
+
                     newItem.querySelectorAll('input, select').forEach(function (el) {
                         if (el.name.indexOf('education[0]') !== -1) {
                             el.name = el.name.replace('education[0]', 'education[' + educationIndex + ']');
@@ -1146,6 +1316,8 @@
                         }
                         if (el.tagName.toLowerCase() === 'select') {
                             el.selectedIndex = 0;
+                        } else if (el.classList.contains('education-type-input')) {
+                            el.value = '🏫 Школа';
                         } else {
                             el.value = '';
                         }
@@ -1455,16 +1627,7 @@
                             cb.checked = false;
                         });
                         updateEgeCalculator();
-                        if (statusBox) {
-                            let text = 'Заявка успешно отправлена.';
-                            if (data && data.application_ids && data.application_ids.length) {
-                                text += ' Номер(а) заявки: ' + data.application_ids.join(', ');
-                            }
-                            statusBox.textContent = text;
-                            statusBox.classList.add('visible');
-                        } else {
-                            alert('Заявка успешно отправлена.');
-                        }
+                        showSuccessModal(data);
                     }).catch(function (error) {
                         if (error && error.data && error.data.errors && errorBox) {
                             const errors = error.data.errors;

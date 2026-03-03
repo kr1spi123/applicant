@@ -29,7 +29,7 @@
                 <p>29 августа - 1 курс <span class="time">(с 8:00 до 16:00)</span></p>
                 <p>30 августа - 2 курс <span class="time">(с 8:00 до 16:00)</span></p>
                 <p>31 августа - 3-4 курс <span class="time">(с 8:00 до 15:00)</span></p>
-                <p class="address"><i class="fas fa-map-marker-alt"></i><span>Адрес:</span>  Менделеева, 2</p>
+                <p class="address"><span>Адрес:</span>  Менделеева, 2</p>
             </div>
         </div>
 

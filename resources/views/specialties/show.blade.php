@@ -11,33 +11,41 @@
 <div class="specialty-details-page">
     <div class="container">
         <!-- Header Section -->
-        <header class="specialty-header" data-aos="fade-down">
+        @php
+            $availableForms = $specialty->available_study_forms;
+        @endphp
+        <header class="specialty-header" data-aos="fade-down" 
+                data-duration="{{ $specialty->duration }}"
+                data-available-forms='@json($availableForms)'>
             <div class="specialty-header-line">
-                <h1 class="specialty-title">{{ $specialty->name }}</h1>
                 @if($specialty->code)
                     <span class="specialty-code-pill">{{ $specialty->code }}</span>
                 @endif
+                <h1 class="specialty-title">{{ $specialty->name }}</h1>
             </div>
 
-            @php
-                $availableForms = $specialty->available_study_forms;
-            @endphp
-
-            <div class="specialty-study-row">
-                @foreach($availableForms as $form => $fee)
-                    @php
-                        $formType = $form === 'очная' ? 'fulltime' : ($form === 'заочная' ? 'parttime' : ($form === 'очно-заочная' ? 'evening' : 'mixed'));
-                        $icon = $form === 'очная' ? 'fa-sun' : ($form === 'заочная' ? 'fa-moon' : ($form === 'очно-заочная' ? 'fa-cloud-sun' : 'fa-laptop-house'));
-                    @endphp
-                    <span class="study-badge study-badge-{{ $formType }}">
-                        <i class="fas {{ $icon }}"></i>
-                        {{ $form }}
-                    </span>
-                @endforeach
+            <div class="specialty-study-selector" style="max-width: 500px; margin: 0 auto 32px;">
+                @php
+                    $allForms = ['очная', 'заочная', 'очно-заочная'];
+                    $firstAvailable = collect($allForms)->first(fn($f) => isset($availableForms[$f])) ?? (array_keys($availableForms)[0] ?? 'очная');
+                @endphp
+                <div class="study-form-toggle">
+                    @foreach($allForms as $form)
+                        @php
+                            $isAvailable = isset($availableForms[$form]);
+                        @endphp
+                        <button type="button" 
+                            class="study-form-option {{ $form === $firstAvailable ? 'active' : '' }} {{ !$isAvailable ? 'disabled' : '' }}"
+                            data-value="{{ $form }}"
+                            {{ !$isAvailable ? 'disabled' : '' }}>
+                            {{ mb_convert_case($form, MB_CASE_TITLE, "UTF-8") }}
+                        </button>
+                    @endforeach
+                </div>
             </div>
 
             <div class="specialty-meta">
-                <span data-label="Срок обучения">
+                <span data-label="Срок обучения" id="meta-duration">
                     <i class="fas fa-clock"></i>
                     {{ $specialty->duration }}
                 </span>
@@ -45,15 +53,21 @@
                     <i class="fas fa-user-graduate"></i>
                     {{ $specialty->qualification }}
                 </span>
-                <span data-label="Стоимость">
+                <span data-label="Стоимость" id="meta-cost">
                     <i class="fas fa-coins"></i>
-                    @if(count($availableForms) && reset($availableForms) > 0)
-                        @foreach($availableForms as $formTitle => $fee)
-                            {{ $formTitle }}: {{ number_format($fee, 0, ',', ' ') }} ₽@if(!$loop->last), @endif
-                        @endforeach
+                    @if(isset($availableForms[$firstAvailable]) && $availableForms[$firstAvailable] > 0)
+                        {{ number_format($availableForms[$firstAvailable], 0, ',', ' ') }} ₽ / год
                     @else
-                        Уточняется
+                        Бюджет
                     @endif
+                </span>
+                <span data-label="Всего за обучение" id="meta-total-cost">
+                    <i class="fas fa-wallet"></i>
+                    —
+                </span>
+                <span data-label="Варианты оплаты" id="meta-payment-options">
+                    <i class="fas fa-credit-card"></i>
+                    —
                 </span>
             </div>
         </header>
@@ -165,6 +179,64 @@
             duration: 800,
             once: true,
             offset: 100
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const header = document.querySelector('.specialty-header');
+            if (!header) return;
+
+            const toggles = header.querySelectorAll('.study-form-option');
+            const metaDuration = document.getElementById('meta-duration');
+            const metaCost = document.getElementById('meta-cost');
+            const metaTotalCost = document.getElementById('meta-total-cost');
+            const metaPaymentOptions = document.getElementById('meta-payment-options');
+
+            const durationRaw = header.getAttribute('data-duration');
+            const availableForms = JSON.parse(header.getAttribute('data-available-forms') || '{}');
+
+            function updateStats(form) {
+                const cost = availableForms[form] || 0;
+
+                // Calculate duration adjust
+                let years = 4;
+                if (durationRaw.includes('3 года')) years = 3.8;
+                if (durationRaw.includes('2 года')) years = 2.8;
+                if (form === 'заочная' || form === 'очно-заочная') years += 1;
+
+                const durationText = durationRaw + (form !== 'очная' ? ' (+1 год)' : '');
+                if (metaDuration) {
+                    metaDuration.innerHTML = `<i class="fas fa-clock"></i> ${durationText}`;
+                }
+
+                if (metaCost) {
+                    metaCost.innerHTML = `<i class="fas fa-coins"></i> ${cost > 0 ? cost.toLocaleString() + ' ₽ / год' : 'Бюджет'}`;
+                }
+
+                if (metaTotalCost) {
+                    metaTotalCost.innerHTML = `<i class="fas fa-wallet"></i> ${cost > 0 ? (Math.round(cost * years)).toLocaleString() + ' ₽' : '—'}`;
+                }
+
+                if (metaPaymentOptions) {
+                    metaPaymentOptions.innerHTML = `<i class="fas fa-credit-card"></i> ${cost > 0 ? 'Рассрочка, Семестровая, Кредит' : '—'}`;
+                }
+            }
+
+            // Initial update
+            const activeToggle = header.querySelector('.study-form-option.active');
+            if (activeToggle) {
+                updateStats(activeToggle.getAttribute('data-value'));
+            }
+
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    if (this.classList.contains('disabled')) return;
+
+                    toggles.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    updateStats(this.getAttribute('data-value'));
+                });
+            });
         });
     </script>
 @endpush

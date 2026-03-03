@@ -104,73 +104,52 @@ body {
     flex-direction: column;
 }
 
-.specialty-header-line {
+.specialty-header-main {
+    margin-bottom: 20px;
+}
+
+.specialty-title-row {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    align-items: center; /* Геометрическое центрирование */
     gap: 12px;
-    margin-bottom: 12px;
 }
 
 .specialty-title {
     font-size: 20px;
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.2; /* Уменьшил высоту строки */
     color: var(--text-main);
     flex: 1;
+    margin: 0 !important;
+    display: inline-block;
 }
 
 .specialty-code-pill {
-    font-size: 12px;
-    font-weight: 700;
-    background: #F3F4F6;
-    padding: 4px 10px;
-    border-radius: 999px;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
+    font-size: 13px;
+    font-weight: 800;
+    background: #F1F5F9;
+    padding: 3px 10px; /* Уменьшил паддинги для точности */
+    border-radius: 6px;
+    color: #475569;
+    letter-spacing: 0.02em;
     white-space: nowrap;
-}
-
-.specialty-badges-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 16px;
+    border: 1px solid #E2E8F0;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
+    line-height: 1;
+    height: fit-content;
 }
-
-.specialty-education-pill {
-    font-size: 11px;
-    font-weight: 700;
-    background: #EEF2FF;
-    padding: 4px 10px;
-    border-radius: 999px;
-    color: #4F46E5;
-    text-transform: uppercase;
-    white-space: nowrap;
-}
-
-.study-badge {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 12px;
-    border-radius: 999px;
-    text-transform: uppercase;
-}
-
-.study-badge-fulltime { background: #DCFCE7; color: #166534; }
-.study-badge-parttime { background: #DBEAFE; color: #1E40AF; }
-.study-badge-evening { background: #FFF7ED; color: #9A3412; }
-.study-badge-mixed { background: #F3E8FF; color: #6B21A8; }
 
 .specialty-meta {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     margin-bottom: 24px;
-    padding: 16px;
-    background: #F9FAFB;
-    border-radius: var(--radius-md);
+    padding: 18px;
+    background: #F8FAFC;
+    border-radius: 16px;
+    border: 1px solid #F1F5F9;
 }
 
 .specialty-meta > span {
@@ -178,25 +157,18 @@ body {
     color: var(--text-muted);
     display: flex;
     flex-direction: column;
+    min-height: 52px;
+    justify-content: flex-start;
 }
 
 .specialty-meta > span::before {
     content: attr(data-label);
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
-    color: #9CA3AF;
-    margin-bottom: 2px;
-}
-
-.specialty-meta .tuition {
-    grid-column: span 2;
-}
-
-.specialty-meta .tuition span {
-    display: block;
-    font-weight: 600;
-    color: var(--text-main);
+    color: #94A3B8;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
 }
 
 .specialty-actions {
@@ -220,6 +192,62 @@ body {
 .btn-more:hover {
     background: var(--primary-dark);
     box-shadow: 0 4px 12px rgba(255, 90, 48, 0.3);
+}
+
+/* Study Form Toggles */
+.specialty-study-selector {
+    margin-bottom: 20px;
+}
+
+.study-form-toggle {
+    display: flex;
+    gap: 4px;
+    background: #F3F4F6;
+    padding: 4px;
+    border-radius: 12px;
+}
+
+.study-form-option {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6B7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.study-form-option:hover:not(.disabled) {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.study-form-option.active {
+    background: #FFFFFF;
+    color: var(--primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.study-form-option.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.specialty-meta .tuition-row {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    min-height: 52px;
+}
+
+.specialty-meta .tuition-row span {
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 14px;
 }
 
 /* Breakpoints */
