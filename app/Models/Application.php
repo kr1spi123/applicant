@@ -17,7 +17,6 @@ class Application extends Model
         'birthdate',
         'street',
         'house',
-        'postal_code',
         'school',
         'graduation_year',
         'certificate_file',
@@ -32,8 +31,10 @@ class Application extends Model
     ];
 
     protected $casts = [
-        'birthdate' => 'date',
+        'birthdate'     => 'date',
         'has_achievements' => 'boolean',
+        'benefits'      => 'array',
+        'benefit_proof' => 'array',
     ];
 
     public function user(): BelongsTo

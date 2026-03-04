@@ -24,7 +24,6 @@ class Specialty extends Model
         'photo',
         'cost_full_time',
         'cost_part_time',
-        'cost_distance',
         'where_to_work',
         'job_roles',
     ];
@@ -45,28 +44,27 @@ class Specialty extends Model
     public function getAvailableStudyFormsAttribute(): array
     {
         $forms = [];
-        
+
         if (!empty($this->study_forms)) {
-            $specifiedForms = array_map(function($f) { 
-                return trim(mb_strtolower($f, 'UTF-8')); 
+            $specifiedForms = array_map(function ($f) {
+                return trim(mb_strtolower($f, 'UTF-8'));
             }, explode(',', $this->study_forms));
-            
+
             foreach ($specifiedForms as $form) {
                 if ($form === 'очная') {
                     $forms['очная'] = $this->cost_full_time ?? 0;
                 } elseif ($form === 'заочная') {
                     $forms['заочная'] = $this->cost_part_time ?? 0;
                 } elseif ($form === 'очно-заочная') {
-                    $forms['очно-заочная'] = $this->cost_distance ?? 0;
+                    $forms['очно-заочная'] = $this->cost_part_time ?? 0;
                 } elseif ($form === 'дистанционная') {
-                    $forms['дистанционная'] = $this->cost_distance ?? 0;
+                    $forms['дистанционная'] = $this->cost_part_time ?? 0;
                 }
             }
         } else {
             // Fallback
             if (!is_null($this->cost_full_time)) $forms['очная'] = $this->cost_full_time;
             if (!is_null($this->cost_part_time)) $forms['заочная'] = $this->cost_part_time;
-            if (!is_null($this->cost_distance)) $forms['дистанционная'] = $this->cost_distance;
         }
 
         if (empty($forms)) {

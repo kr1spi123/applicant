@@ -6,6 +6,7 @@ services:
     volumes:
       - ./:/var/www:ro
       - ./_docker/nginx/conf.d/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - storage:/var/www/storage:ro
     ports:
       - "8000:80"
     depends_on:

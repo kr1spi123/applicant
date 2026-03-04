@@ -32,7 +32,6 @@ class AdminController extends Controller
             'photo' => 'nullable|image|max:2048',
             'cost_full_time' => 'nullable|numeric|min:0',
             'cost_part_time' => 'nullable|numeric|min:0',
-            'cost_distance' => 'nullable|numeric|min:0',
             'where_to_work' => 'nullable|string',
             'job_roles' => 'nullable|string',
         ]);
@@ -54,7 +53,7 @@ class AdminController extends Controller
         }
 
         if (!\Illuminate\Support\Facades\Schema::hasColumn('specialties', 'cost_full_time')) {
-            unset($validated['cost_full_time'], $validated['cost_part_time'], $validated['cost_distance']);
+            unset($validated['cost_full_time'], $validated['cost_part_time']);
         }
 
         if ($request->hasFile('photo')) {
@@ -82,7 +81,6 @@ class AdminController extends Controller
             'photo' => 'nullable|image|max:2048',
             'cost_full_time' => 'nullable|numeric|min:0',
             'cost_part_time' => 'nullable|numeric|min:0',
-            'cost_distance' => 'nullable|numeric|min:0',
             'where_to_work' => 'nullable|string',
             'job_roles' => 'nullable|string',
         ]);
@@ -104,18 +102,18 @@ class AdminController extends Controller
         }
 
         if (!\Illuminate\Support\Facades\Schema::hasColumn('specialties', 'cost_full_time')) {
-            unset($validated['cost_full_time'], $validated['cost_part_time'], $validated['cost_distance']);
+            unset($validated['cost_full_time'], $validated['cost_part_time']);
         }
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
             $filename = time() . '_' . $file->getClientOriginalName();
-            
+
             // Delete old photo if it exists
             if ($specialty->photo && file_exists(public_path('assets/img/specialties/' . $specialty->photo))) {
                 unlink(public_path('assets/img/specialties/' . $specialty->photo));
             }
-            
+
             $file->move(public_path('assets/img/specialties'), $filename);
             $validated['photo'] = $filename;
         }
@@ -139,12 +137,12 @@ public function applications()
         ->orderByDesc('rating')
         ->orderByDesc('created_at')
         ->get();
-    
+
     // Добавляем позиции для каждой заявки
     $applications->each(function ($application) {
         $application->position = app(RankingService::class)->getPosition($application);
     });
-    
+
     return view('admin.applications.index', compact('applications'));
 }
 

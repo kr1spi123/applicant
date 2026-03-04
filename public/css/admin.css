@@ -110,7 +110,62 @@ body {
 .navbar-user {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.user-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FF5A30, #ff8a65);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(255, 90, 48, 0.35);
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 18px;
+    color: #1E212C;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.btn-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: #F4F5F6;
+    border: 1px solid #E5E8ED;
+    border-radius: 8px;
+    color: #424551;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .18s, color .18s, border-color .18s, box-shadow .18s;
+    white-space: nowrap;
+}
+
+.btn-home:hover {
+    background: #fff;
+    color: #FF5A30;
+    border-color: #FF5A30;
+    box-shadow: 0 2px 8px rgba(255, 90, 48, 0.12);
 }
 
 .btn-logout {

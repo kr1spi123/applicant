@@ -291,8 +291,8 @@
                                                     $selectedType = old('education.0.type', '🏫 Школа');
                                                 @endphp
                                                 <div class="education-name-dropdown custom-select-dropdown" data-options="{{ json_encode($types) }}">
-                                                    <input type="text" name="education[0][type]" 
-                                                        class="text-input education-type-input" 
+                                                    <input type="text" name="education[0][type]"
+                                                        class="text-input education-type-input"
                                                         readonly
                                                         value="{{ $selectedType }}">
                                                     <button type="button" class="education-name-toggle" aria-label="Показать список"></button>
@@ -507,8 +507,8 @@
                             <div class="benefit-proof" style="display: none;">
                                 <div class="benefit-proof-title">Документ, подтверждающий льготу</div>
                                 <div class="file-upload">
-                                    <input type="file" name="benefit_proof" id="benefit_proof" class="file-input"
-                                        accept=".pdf,.jpg,.jpeg,.png">
+                                    <input type="file" name="benefit_proof[]" id="benefit_proof" class="file-input"
+                                        accept=".pdf,.jpg,.jpeg,.png" multiple>
                                     <label for="benefit_proof" class="file-label secondary">
                                         <span class="upload-icon">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -523,35 +523,7 @@
                                         </span>
                                         <span class="upload-text">ЗАГРУЗИТЬ ДОКУМЕНТ ЛЬГОТЫ</span>
                                     </label>
-                                    <div class="file-info benefit-file-info">
-                                        <div class="file-preview benefit-file-preview">
-                                            <svg class="file-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z"
-                                                    stroke="#FF5A30" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M14 2V8H20" stroke="#FF5A30" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M16 13H8" stroke="#FF5A30" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M16 17H8" stroke="#FF5A30" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M10 9H8" stroke="#FF5A30" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                            </svg>
-                                            <span class="file-name benefit-file-name"></span>
-                                        </div>
-                                        <button type="button" class="remove-file remove-benefit-file" style="display: none;">
-                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M15 5L5 15" stroke="#9A9CA5" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path d="M5 5L15 15" stroke="#9A9CA5" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                            </svg>
-                                        </button>
-                                    </div>
+                                    <div class="file-info benefit-file-info"></div>
                                 </div>
                                 <p class="file-hint">Загрузите справку или скан документа, подтверждающего льготу.
                                     Допустимые форматы: PDF, JPG, PNG. Максимальный размер: 5MB</p>
@@ -568,7 +540,7 @@
                                         @if($existingCount >= 3)
                                             Вы уже подали максимально допустимое количество заявок (3). Подача новых заявок временно недоступна.
                                         @else
-                                            У вас уже подано <strong>{{ $existingCount }}</strong> заявки(ок). 
+                                            У вас уже подано <strong>{{ $existingCount }}</strong> заявки(ок).
                                             Вы можете выбрать еще не более <strong>{{ 3 - $existingCount }}</strong>.
                                         @endif
                                     </div>
@@ -631,12 +603,12 @@
                                                         $availableForms = array_keys($specialty->available_study_forms);
                                                         $allForms = ['очная', 'заочная', 'очно-заочная'];
                                                         $alreadyAppliedForms = $existingApplications[$specialty->id] ?? [];
-                                                        
+
                                                         // Find the first form that the user HAS NOT applied to yet
                                                         $firstAvailable = collect($availableForms)
                                                             ->reject(fn($form) => in_array($form, $alreadyAppliedForms))
                                                             ->first();
-                                                        
+
                                                         // If all available forms are already applied to, just take the first one (it will be disabled anyway)
                                                         if (!$firstAvailable) {
                                                             $firstAvailable = $availableForms[0] ?? 'очная';
@@ -649,7 +621,7 @@
                                                                 $isAlreadyApplied = in_array($form, $alreadyAppliedForms);
                                                                 $isDisabled = !$isAvailable || $isAlreadyApplied;
                                                             @endphp
-                                                            <button type="button" 
+                                                            <button type="button"
                                                                 class="study-form-option {{ $form === $firstAvailable ? 'active' : '' }} {{ $isDisabled ? 'disabled' : '' }}"
                                                                 data-value="{{ $form }}"
                                                                 {{ $isDisabled ? 'disabled' : '' }}
@@ -683,7 +655,7 @@
                                                 $allFormsApplied = count(array_diff($availableForms, $alreadyAppliedForms)) === 0;
                                             @endphp
                                             <input type="checkbox" name="specialty[]" value="{{ $specialty->id }}"
-                                                class="specialty-checkbox {{ $allFormsApplied ? 'already-applied-all' : '' }}" 
+                                                class="specialty-checkbox {{ $allFormsApplied ? 'already-applied-all' : '' }}"
                                                 {{ (is_array(old('specialty')) && in_array($specialty->id, old('specialty'))) ? 'checked' : '' }}
                                                 {{ $allFormsApplied ? 'disabled' : '' }}>
                                             <span class="custom-checkbox"></span>
@@ -759,7 +731,7 @@
             const EXISTING_COUNT = {{ $existingCount ?? 0 }};
             const MAX_TOTAL = 3;
             const MAX_SELECTIONS = MAX_TOTAL - EXISTING_COUNT;
-            
+
             const specialtiesContainer = document.querySelector('.specialties-list');
             const specialtyItems = document.querySelectorAll('.specialty-item');
             const descriptionBox = document.querySelector('.specialty-description p');
@@ -777,7 +749,7 @@
 
             document.querySelectorAll('.specialty-checkbox').forEach(checkbox => {
                 const specialtyItem = checkbox.closest('.specialty-item');
-                
+
                 // Mark already applied items visually
                 if (checkbox.classList.contains('already-applied-all')) {
                     specialtyItem.classList.add('already-applied');
@@ -1236,7 +1208,7 @@
             function initAllEducationDropdowns() {
                 document.querySelectorAll('.education-name-dropdown').forEach(function (dropdown) {
                     if (dropdown.dataset.dropdownReady === '1') return;
-                    
+
                     if (dropdown.classList.contains('custom-select-dropdown')) {
                         initCustomSelectDropdown(dropdown);
                     } else if (dropdown.querySelector('.datalist-toggle')) {
@@ -1299,7 +1271,7 @@
                     }
                     const newItem = firstItem.cloneNode(true);
                     newItem.setAttribute('data-index', educationIndex.toString());
-                    
+
                     // Reset dropdown readiness for initialization
                     newItem.querySelectorAll('.education-name-dropdown').forEach(function(d) {
                         delete d.dataset.dropdownReady;
@@ -1360,9 +1332,6 @@
             const benefitCheckboxes = document.querySelectorAll('.benefits .benefit-checkbox');
             const benefitProofBlock = document.querySelector('.benefit-proof');
             const benefitFileInput = document.getElementById('benefit_proof');
-            const benefitFileInfo = document.querySelector('.benefit-file-info');
-            const benefitFileName = document.querySelector('.benefit-file-name');
-            const benefitRemoveButton = document.querySelector('.remove-benefit-file');
 
             function updateBenefitVisibility() {
                 if (!benefitProofBlock) return;
@@ -1373,11 +1342,7 @@
                 benefitProofBlock.style.display = anyChecked ? 'block' : 'none';
                 if (!anyChecked && benefitFileInput) {
                     benefitFileInput.value = '';
-                    if (benefitFileName) benefitFileName.textContent = '';
-                    if (benefitRemoveButton) benefitRemoveButton.style.display = 'none';
-                    if (benefitFileInfo) {
-                        benefitFileInfo.classList.remove('active');
-                    }
+                    renderBenefitFiles([]);
                 }
             }
 
@@ -1386,34 +1351,44 @@
             });
             updateBenefitVisibility();
 
-            if (benefitFileInput && benefitFileInfo && benefitFileName && benefitRemoveButton) {
+            if (benefitFileInput) {
                 benefitFileInput.addEventListener('change', function (e) {
-                    const file = e.target.files[0];
-                    if (!file) {
-                        benefitFileName.textContent = '';
-                        benefitRemoveButton.style.display = 'none';
-                        benefitFileInfo.classList.remove('active');
-                        return;
-                    }
-                    if (file.size > maxSize) {
-                        alert('Файл слишком большой. Максимальный размер: 5MB');
+                    const files = Array.from(e.target.files);
+                    if (!files.length) { renderBenefitFiles([]); return; }
+                    const tooBig = files.filter(function(f) { return f.size > maxSize; });
+                    if (tooBig.length) {
+                        alert('Некоторые файлы превышают 5MB: ' + tooBig.map(function(f) { return f.name; }).join(', '));
                         benefitFileInput.value = '';
-                        benefitFileName.textContent = '';
-                        benefitRemoveButton.style.display = 'none';
-                        benefitFileInfo.classList.remove('active');
+                        renderBenefitFiles([]);
                         return;
                     }
-                    benefitFileName.textContent = file.name;
-                    benefitFileInfo.classList.add('active');
-                    benefitRemoveButton.style.display = 'inline-flex';
+                    renderBenefitFiles(files);
                 });
+            }
 
-                benefitRemoveButton.addEventListener('click', function () {
-                    benefitFileInput.value = '';
-                    benefitFileName.textContent = '';
-                    benefitRemoveButton.style.display = 'none';
-                    benefitFileInfo.classList.remove('active');
+            function renderBenefitFiles(files) {
+                const container = document.querySelector('.benefit-file-info');
+                if (!container) return;
+                container.innerHTML = '';
+                if (!files.length) { container.classList.remove('active'); return; }
+                container.classList.add('active');
+                files.forEach(function (file) {
+                    const row = document.createElement('div');
+                    row.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:4px;';
+                    row.innerHTML =
+                        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5A30" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
+                        '<span style="font-size:13px;color:#424551;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + file.name + '</span>';
+                    container.appendChild(row);
                 });
+                const clearBtn = document.createElement('button');
+                clearBtn.type = 'button';
+                clearBtn.style.cssText = 'margin-top:6px;font-size:12px;color:#999;background:none;border:none;cursor:pointer;padding:0;';
+                clearBtn.textContent = '✕ Очистить все файлы';
+                clearBtn.addEventListener('click', function () {
+                    if (benefitFileInput) benefitFileInput.value = '';
+                    renderBenefitFiles([]);
+                });
+                container.appendChild(clearBtn);
             }
 
             const egeInput = document.querySelector('input[name="ege_score"]');
@@ -1472,7 +1447,7 @@
                 buttons.forEach(function (btn) {
                     btn.addEventListener('click', function () {
                         if (btn.classList.contains('disabled')) return;
-                        
+
                         buttons.forEach(function (b) {
                             b.classList.remove('active');
                         });
@@ -1510,9 +1485,9 @@
                     if (!submitButton || submitButton.disabled) {
                         return;
                     }
-                    
+
                     let allValid = true;
-                    
+
                     // Валидация текстовых полей
                     const textInputs = form.querySelectorAll('.text-input');
                     textInputs.forEach(function (input) {
@@ -1569,10 +1544,10 @@
                         errorBox.innerHTML = '';
                         errorBox.style.display = 'none';
                     }
-                    
+
                     submitButton.disabled = true;
                     submitButton.classList.add('loading');
-                    
+
                     const formData = new FormData(form);
                     const csrfInput = form.querySelector('input[name="_token"]');
                     let csrfToken = '';
@@ -1797,11 +1772,13 @@
 
                 if (documentsSection) {
                     const certFile = fileInput && fileInput.files[0] ? fileInput.files[0].name : 'Файл не выбран';
-                    const benefitFile = benefitFileInput && benefitFileInput.files && benefitFileInput.files[0] ? benefitFileInput.files[0].name : 'Файл не выбран';
+                    const benefitFiles = benefitFileInput && benefitFileInput.files && benefitFileInput.files.length
+                        ? Array.from(benefitFileInput.files).map(function(f) { return f.name; }).join(', ')
+                        : 'Файлы не выбраны';
                     documentsSection.innerHTML =
                         '<h4>Документы</h4>' +
                         '<p><strong>Аттестат:</strong> ' + certFile + '</p>' +
-                        '<p><strong>Документ, подтверждающий льготу:</strong> ' + benefitFile + '</p>';
+                        '<p><strong>Документы льготы:</strong> ' + benefitFiles + '</p>';
                 }
 
                 if (specialtiesSection) {

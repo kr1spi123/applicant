@@ -43,7 +43,7 @@ class ApplicationController extends Controller
     {
         $user = Auth::user();
         $existingCount = $user->applications()->count();
-        
+
         $specialties = Specialty::all();
         return view('applications.create', compact('specialties', 'existingCount'));
     }
@@ -51,16 +51,16 @@ class ApplicationController extends Controller
     public function store(Request $request)
     {
         $user = Auth::user();
-        
+
         // Total limit check (existing + new)
         $existingCount = $user->applications()->count();
         $newCount = is_array($request->input('specialty')) ? count($request->input('specialty')) : 0;
-        
+
         if (($existingCount + $newCount) > 3) {
-            $message = $existingCount > 0 
+            $message = $existingCount > 0
                 ? "У вас уже есть $existingCount заявки(ок). Вы можете добавить еще не более " . (3 - $existingCount) . "."
                 : "Вы не можете подать более 3 заявок суммарно.";
-                
+
             if ($request->expectsJson()) {
                 return response()->json([
                     'message' => $message,
@@ -85,7 +85,6 @@ class ApplicationController extends Controller
                 'street' => 'required|string',
                 'house' => 'required|string',
                 'city' => 'nullable|string',
-                'postal_code' => 'nullable|string',
                 'school' => 'required|string',
                 'graduation_year' => 'required|integer',
                 'certificate_file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
@@ -94,7 +93,8 @@ class ApplicationController extends Controller
                 'has_achievements' => 'boolean',
                 'benefits' => 'nullable|array',
                 'benefits.*' => 'string',
-                'benefit_proof' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
+                'benefit_proof' => 'nullable|array',
+                'benefit_proof.*' => 'file|mimes:pdf,jpg,jpeg,png|max:5120',
             ]);
 
             Log::info('Application submission started', [
@@ -123,7 +123,7 @@ class ApplicationController extends Controller
                     $exists = Application::where('user_id', $user->id)
                         ->where('specialty_id', $specialtyId)
                         ->exists();
-                    
+
                     if ($exists) {
                         Log::warning('Duplicate application attempt', [
                             'user_id' => $user->id,
@@ -143,9 +143,11 @@ class ApplicationController extends Controller
                     $certificatePath = $request->file('certificate_file')->store('certificates', 'public');
                 }
 
-                $benefitProofPath = null;
+                $benefitProofPaths = [];
                 if (!empty($validated['benefits']) && $request->hasFile('benefit_proof')) {
-                    $benefitProofPath = $request->file('benefit_proof')->store('benefits', 'public');
+                    foreach ($request->file('benefit_proof') as $file) {
+                        $benefitProofPaths[] = $file->store('benefits', 'public');
+                    }
                 }
 
                 foreach ($validated['specialty'] as $specialtyId) {
@@ -160,7 +162,6 @@ class ApplicationController extends Controller
                         'birthdate' => $validated['birthdate'],
                         'street' => $validated['street'],
                         'house' => $validated['house'],
-                        'postal_code' => $validated['postal_code'] ?? '',
                         'school' => $validated['school'],
                         'graduation_year' => $validated['graduation_year'],
                         'certificate_file' => $certificatePath,
@@ -168,7 +169,7 @@ class ApplicationController extends Controller
                         'certificate_score' => $validated['certificate_score'],
                         'has_achievements' => $request->has('has_achievements'),
                         'benefits' => isset($validated['benefits']) ? json_encode($validated['benefits']) : null,
-                        'benefit_proof' => $benefitProofPath,
+                        'benefit_proof' => !empty($benefitProofPaths) ? json_encode($benefitProofPaths) : null,
                         'status' => 'Требует подтверждения',
                         'rating' => 0,
                     ];
@@ -271,7 +272,7 @@ class ApplicationController extends Controller
         $application = Application::with(['user', 'specialty'])->findOrFail($id);
         return view('applications.verify', compact('application'));
     }
-    
+
     public function downloadCertificate(Application $application)
     {
         if (auth()->check()) {

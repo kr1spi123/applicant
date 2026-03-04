@@ -104,62 +104,66 @@ body {
     font-size: 16px;
 }
 
-.study-badge-fulltime { 
-    background: #DCFCE7; 
-    color: #166534; 
+.study-badge-fulltime {
+    background: #DCFCE7;
+    color: #166534;
     border: 1px solid #BBF7D0;
 }
-.study-badge-parttime { 
-    background: #DBEAFE; 
-    color: #1E40AF; 
+.study-badge-parttime {
+    background: #DBEAFE;
+    color: #1E40AF;
     border: 1px solid #BFDBFE;
 }
-.study-badge-evening { 
-    background: #FFF7ED; 
-    color: #9A3412; 
+.study-badge-evening {
+    background: #FFF7ED;
+    color: #9A3412;
     border: 1px solid #FFEDD5;
 }
-.study-badge-mixed { 
-    background: #F3E8FF; 
-    color: #6B21A8; 
+.study-badge-mixed {
+    background: #F3E8FF;
+    color: #6B21A8;
     border: 1px solid #E9D5FF;
 }
-
 /* Meta Grid */
 .specialty-meta {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 40px;
-    padding-top: 32px;
-    border-top: 1px solid #F3F4F6;
+  display: flex;
+  justify-content: center; /* Это уже выравнивает по центру */
+  align-items: center; /* Добавьте для вертикального выравнивания */
+  flex-wrap: wrap;
+  gap: 40px;
+  padding-top: 32px;
+  border-top: 1px solid #F3F4F6;
 }
 
 .specialty-meta > span {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--accent);
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Выравнивание содержимого по центру */
+  justify-content: center; /* Вертикальное выравнивание */
+  text-align: center; /* Центрирование текста */
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  gap: 4px;
+  min-width: 160px; /* Опционально: минимальная ширина для единообразия */
 }
 
 .specialty-meta i {
-    font-size: 24px;
-    color: var(--primary);
-    margin-bottom: 8px;
+  font-size: 24px;
+  color: var(--primary);
+  margin-bottom: 8px;
 }
 
 .specialty-meta > span::before {
-    content: attr(data-label);
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    letter-spacing: 0.1em;
+  content: attr(data-label);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-align: center; /* Центрирование подписи */
+  width: 100%; /* Занимает всю ширину */
 }
-
 /* Study Form Toggles */
 .specialty-study-selector {
     margin-bottom: 24px;

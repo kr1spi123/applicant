@@ -14,7 +14,7 @@
         @php
             $availableForms = $specialty->available_study_forms;
         @endphp
-        <header class="specialty-header" data-aos="fade-down" 
+        <header class="specialty-header" data-aos="fade-down"
                 data-duration="{{ $specialty->duration }}"
                 data-available-forms='@json($availableForms)'>
             <div class="specialty-header-line">
@@ -34,7 +34,7 @@
                         @php
                             $isAvailable = isset($availableForms[$form]);
                         @endphp
-                        <button type="button" 
+                        <button type="button"
                             class="study-form-option {{ $form === $firstAvailable ? 'active' : '' }} {{ !$isAvailable ? 'disabled' : '' }}"
                             data-value="{{ $form }}"
                             {{ !$isAvailable ? 'disabled' : '' }}>
@@ -44,32 +44,34 @@
                 </div>
             </div>
 
-            <div class="specialty-meta">
-                <span data-label="Срок обучения" id="meta-duration">
-                    <i class="fas fa-clock"></i>
-                    {{ $specialty->duration }}
-                </span>
-                <span data-label="Квалификация">
-                    <i class="fas fa-user-graduate"></i>
-                    {{ $specialty->qualification }}
-                </span>
-                <span data-label="Стоимость" id="meta-cost">
-                    <i class="fas fa-coins"></i>
-                    @if(isset($availableForms[$firstAvailable]) && $availableForms[$firstAvailable] > 0)
-                        {{ number_format($availableForms[$firstAvailable], 0, ',', ' ') }} ₽ / год
-                    @else
-                        Бюджет
-                    @endif
-                </span>
-                <span data-label="Всего за обучение" id="meta-total-cost">
-                    <i class="fas fa-wallet"></i>
-                    —
-                </span>
-                <span data-label="Варианты оплаты" id="meta-payment-options">
-                    <i class="fas fa-credit-card"></i>
-                    —
-                </span>
-            </div>
+<div class="specialty-meta-wrapper">
+    <div class="specialty-meta">
+        <span data-label="Срок обучения" id="meta-duration">
+            <i class="fas fa-clock"></i>
+            {{ $specialty->duration }}
+        </span>
+
+        <span data-label="Квалификация">
+            <i class="fas fa-user-graduate"></i>
+            {{ $specialty->qualification }}
+        </span>
+
+        <span data-label="Стоимость" id="meta-cost">
+            <i class="fas fa-coins"></i>
+            @if(isset($availableForms[$firstAvailable]) && $availableForms[$firstAvailable] > 0)
+                {{ number_format($availableForms[$firstAvailable], 0, ',', ' ') }} ₽ / год
+            @else
+                Бюджет
+            @endif
+        </span>
+
+        <span data-label="Всего за обучение" id="meta-total-cost">
+            <i class="fas fa-wallet"></i>
+            —
+        </span>
+    </div>
+</div>
+
         </header>
 
         <!-- Main Content -->
