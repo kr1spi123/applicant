@@ -23,10 +23,10 @@ class AdminController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'duration' => 'required|string',
-            'qualification' => 'required|string',
+            'duration' => 'nullable|string',
+            'qualification' => 'nullable|string',
             'description' => 'required|string',
-            'budget_places' => 'required|integer|min:0',
+            'budget_places' => 'nullable|integer|min:0',
             'total_places' => 'nullable|integer|min:0',
             'study_forms' => 'nullable|string',
             'photo' => 'nullable|image|max:2048',
@@ -34,6 +34,19 @@ class AdminController extends Controller
             'cost_part_time' => 'nullable|numeric|min:0',
             'where_to_work' => 'nullable|string',
             'job_roles' => 'nullable|string',
+            // per-form overrides
+            'duration_full_time'      => 'nullable|string',
+            'duration_part_time'      => 'nullable|string',
+            'duration_distance'       => 'nullable|string',
+            'qualification_full_time' => 'nullable|string',
+            'qualification_part_time' => 'nullable|string',
+            'qualification_distance'  => 'nullable|string',
+            'budget_places_full_time' => 'nullable|integer|min:0',
+            'budget_places_part_time' => 'nullable|integer|min:0',
+            'budget_places_distance'  => 'nullable|integer|min:0',
+            'total_places_full_time'  => 'nullable|integer|min:0',
+            'total_places_part_time'  => 'nullable|integer|min:0',
+            'total_places_distance'   => 'nullable|integer|min:0',
         ]);
 
         // Convert comma-separated strings to arrays
@@ -72,10 +85,10 @@ class AdminController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'duration' => 'required|string',
-            'qualification' => 'required|string',
+            'duration' => 'nullable|string',
+            'qualification' => 'nullable|string',
             'description' => 'required|string',
-            'budget_places' => 'required|integer|min:0',
+            'budget_places' => 'nullable|integer|min:0',
             'total_places' => 'nullable|integer|min:0',
             'study_forms' => 'nullable|string',
             'photo' => 'nullable|image|max:2048',
@@ -83,6 +96,19 @@ class AdminController extends Controller
             'cost_part_time' => 'nullable|numeric|min:0',
             'where_to_work' => 'nullable|string',
             'job_roles' => 'nullable|string',
+            // per-form overrides
+            'duration_full_time'      => 'nullable|string',
+            'duration_part_time'      => 'nullable|string',
+            'duration_distance'       => 'nullable|string',
+            'qualification_full_time' => 'nullable|string',
+            'qualification_part_time' => 'nullable|string',
+            'qualification_distance'  => 'nullable|string',
+            'budget_places_full_time' => 'nullable|integer|min:0',
+            'budget_places_part_time' => 'nullable|integer|min:0',
+            'budget_places_distance'  => 'nullable|integer|min:0',
+            'total_places_full_time'  => 'nullable|integer|min:0',
+            'total_places_part_time'  => 'nullable|integer|min:0',
+            'total_places_distance'   => 'nullable|integer|min:0',
         ]);
 
         // Convert comma-separated strings to arrays

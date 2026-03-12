@@ -1,11 +1,8 @@
-/* Advanced Details Page Redesign */
-
 :root {
     --primary: #FF5A30;
     --primary-hover: #E64A20;
     --primary-soft: rgba(255, 90, 48, 0.1);
     --accent: #1E212C;
-    --accent-light: #EEF2FF;
     --text-main: #1F2937;
     --text-muted: #6B7280;
     --bg-card: #FFFFFF;
@@ -23,11 +20,11 @@ body {
     padding: 60px 0;
 }
 
-/* Header Section */
+/* ── Header ── */
 .specialty-header {
     background: #fff;
     border-radius: var(--radius-lg);
-    padding: 60px 40px;
+    padding: 60px 40px 48px;
     margin-bottom: 40px;
     box-shadow: var(--shadow);
     text-align: center;
@@ -38,148 +35,63 @@ body {
 .specialty-header::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 6px;
     background: var(--primary);
 }
 
+.specialty-header-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
 .specialty-title {
-    font-size: clamp(32px, 5vw, 48px);
+    font-size: clamp(28px, 4vw, 44px);
     font-weight: 800;
     color: var(--accent);
     margin: 0 !important;
     letter-spacing: -0.02em;
     line-height: 1.2;
-    display: inline-block;
-}
-
-.specialty-header-line {
-    display: flex;
-    align-items: center; /* Центрирование по геометрическому центру */
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-bottom: 24px;
 }
 
 .specialty-code-pill {
     background: #F1F5F9;
     color: #475569;
-    padding: 4px 14px;
+    padding: 5px 14px;
     border-radius: 8px;
     font-weight: 800;
-    font-size: 16px;
+    font-size: 15px;
     letter-spacing: 0.05em;
     border: 1px solid #E2E8F0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: fit-content;
-    line-height: 1;
+    white-space: nowrap;
 }
 
-/* Study Badges - More Visible */
-.specialty-study-row {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 32px;
-}
-
-.study-badge {
-    padding: 8px 20px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.study-badge i {
-    font-size: 16px;
-}
-
-.study-badge-fulltime {
-    background: #DCFCE7;
-    color: #166534;
-    border: 1px solid #BBF7D0;
-}
-.study-badge-parttime {
-    background: #DBEAFE;
-    color: #1E40AF;
-    border: 1px solid #BFDBFE;
-}
-.study-badge-evening {
-    background: #FFF7ED;
-    color: #9A3412;
-    border: 1px solid #FFEDD5;
-}
-.study-badge-mixed {
-    background: #F3E8FF;
-    color: #6B21A8;
-    border: 1px solid #E9D5FF;
-}
-/* Meta Grid */
-.specialty-meta {
-  display: flex;
-  justify-content: center; /* Это уже выравнивает по центру */
-  align-items: center; /* Добавьте для вертикального выравнивания */
-  flex-wrap: wrap;
-  gap: 40px;
-  padding-top: 32px;
-  border-top: 1px solid #F3F4F6;
-}
-
-.specialty-meta > span {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Выравнивание содержимого по центру */
-  justify-content: center; /* Вертикальное выравнивание */
-  text-align: center; /* Центрирование текста */
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--accent);
-  gap: 4px;
-  min-width: 160px; /* Опционально: минимальная ширина для единообразия */
-}
-
-.specialty-meta i {
-  font-size: 24px;
-  color: var(--primary);
-  margin-bottom: 8px;
-}
-
-.specialty-meta > span::before {
-  content: attr(data-label);
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  letter-spacing: 0.1em;
-  text-align: center; /* Центрирование подписи */
-  width: 100%; /* Занимает всю ширину */
-}
-/* Study Form Toggles */
+/* ── Study Form Toggle ── */
 .specialty-study-selector {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 
 .study-form-toggle {
-    display: flex;
+    display: inline-flex;
     gap: 6px;
     background: #F3F4F6;
     padding: 6px;
     border-radius: 16px;
 }
 
+/* Hide disabled forms completely on show page too */
+.study-form-option.disabled {
+    display: none;
+}
+
 .study-form-option {
-    flex: 1;
-    padding: 10px 16px;
+    padding: 10px 20px;
     border: none;
     background: transparent;
     border-radius: 12px;
@@ -191,72 +103,78 @@ body {
     white-space: nowrap;
 }
 
-.study-form-option:hover:not(.disabled) {
+.study-form-option:hover {
     color: var(--text-main);
     background: rgba(255, 255, 255, 0.5);
 }
 
 .study-form-option.active {
-    background: #FFFFFF;
+    background: #fff;
     color: var(--primary);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-.study-form-option.disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-/* Meta section updates */
+/* ── Meta strip ── */
 .specialty-meta {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    max-width: 900px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+    max-width: 960px;
     margin: 0 auto;
+    padding-top: 28px;
+    border-top: 1px solid #F3F4F6;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: #F9FAFB;
+    border: 1px solid #EDEEF0;
 }
 
-.specialty-meta > span {
-    background: #F9FAFB;
-    padding: 16px 20px;
-    border-radius: var(--radius-md);
+.specialty-meta>span {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    font-size: 16px;
+    justify-content: center;
+    gap: 6px;
+    padding: 20px 24px;
+    text-align: center;
+    flex: 1 1 160px;
+    min-width: 130px;
+    font-size: 17px;
     font-weight: 700;
     color: var(--text-main);
+    border-right: 1px solid #EDEEF0;
+    border-bottom: 1px solid #EDEEF0;
+    background: #F9FAFB;
+    transition: background 0.15s;
 }
 
-.specialty-meta > span::before {
+.specialty-meta>span:last-child {
+    border-right: none;
+}
+
+.specialty-meta>span::before {
     content: attr(data-label);
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 10px;
+    font-weight: 700;
     text-transform: uppercase;
     color: var(--text-muted);
-    letter-spacing: 0.05em;
+    letter-spacing: 0.07em;
+    order: -1;
 }
 
-.specialty-meta > span i {
-    font-size: 20px;
+.specialty-meta i {
+    font-size: 18px;
     color: var(--primary);
-    margin-bottom: 4px;
 }
 
-@media (min-width: 768px) {
-    .specialty-meta {
-        grid-template-columns: repeat(5, 1fr);
+@media (max-width: 600px) {
+    .specialty-meta>span {
+        flex: 1 1 45%;
     }
 }
 
-@media (max-width: 767px) {
-    .specialty-meta {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Main Content Grid */
+/* ── Main content ── */
 .specialty-content {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
@@ -278,16 +196,13 @@ body {
     overflow: hidden;
     box-shadow: var(--shadow);
     background: #fff;
-    /* Убираем жесткое соотношение сторон, чтобы не обрезать фото */
-    height: auto;
-    max-height: 600px;
 }
 
 .specialty-photo img {
     width: 100%;
     height: auto;
     display: block;
-    object-fit: contain; /* Чтобы видеть фото целиком */
+    object-fit: contain;
     transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
@@ -302,11 +217,10 @@ body {
     border-radius: var(--radius-lg);
     padding: 40px;
     box-shadow: var(--shadow);
-    transition: transform 0.3s ease;
 }
 
 .info-section h2 {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 800;
     margin-bottom: 24px;
     color: var(--accent);
@@ -328,40 +242,45 @@ body {
 
 .short-info {
     background: var(--primary-soft);
-    color: var(--text-main);
     border-left: 6px solid var(--primary);
 }
 
 .short-info p {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 500;
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .description-section p {
-    font-size: 16px;
+    font-size: 15px;
     color: #4B5563;
     line-height: 1.8;
 }
 
-/* Job Prospects */
+/* Job grid */
 .job-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: 20px;
+}
+
+@media (max-width: 600px) {
+    .job-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .job-card {
     background: var(--bg-body);
-    padding: 24px;
+    padding: 20px;
     border-radius: 16px;
     border: 1px solid #E5E7EB;
 }
 
 .job-card h3 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     color: var(--accent);
 }
 
@@ -369,38 +288,38 @@ body {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .job-card li {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--text-main);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .job-card li i {
     color: var(--primary);
-    font-size: 14px;
+    font-size: 13px;
 }
 
 /* Steps */
 .steps-grid {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
 }
 
 .step {
     display: flex;
     align-items: center;
-    gap: 24px;
-    padding: 24px;
+    gap: 20px;
+    padding: 20px;
     background: var(--bg-body);
     border-radius: 16px;
     border: 1px solid #E5E7EB;
-    transition: var(--shadow);
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .step:hover {
@@ -410,58 +329,51 @@ body {
 }
 
 .step-number {
-    width: 56px;
-    height: 56px;
+    width: 52px;
+    height: 52px;
     background: var(--primary);
     color: #fff;
-    border-radius: 16px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 800;
-    font-size: 24px;
+    font-size: 22px;
     flex-shrink: 0;
     box-shadow: 0 4px 10px rgba(255, 90, 48, 0.3);
 }
 
 .step-content h3 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
     margin-bottom: 4px;
     color: var(--accent);
 }
 
 .step-content p {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--text-muted);
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
-    .specialty-content {
-        grid-template-columns: 1fr;
-    }
-    .specialty-photo {
-        position: static;
-        aspect-ratio: 16/9;
-        height: 400px;
-    }
-}
-
 @media (max-width: 768px) {
     .specialty-header {
-        padding: 40px 20px;
+        padding: 40px 20px 32px;
     }
+
     .specialty-meta {
-        gap: 24px;
+        gap: 10px;
     }
-    .job-grid {
-        grid-template-columns: 1fr;
-    }
+
     .info-section {
         padding: 24px;
     }
+
     .specialty-title {
-        font-size: 28px;
+        font-size: 26px;
+    }
+
+    .specialty-photo {
+        position: static;
     }
 }

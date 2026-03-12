@@ -3,258 +3,409 @@
 @section('title', 'Рейтинги по специальностям')
 
 @section('content')
-<div class="admin-content">
-    <div class="admin-header">
-        <h1>Рейтинги по специальностям</h1>
-        <p class="admin-subheader">Таблицы заявлений, отсортированные по рейтингу. Верхние — бюджет.</p>
-    </div>
+    <div class="admin-main-wrap">
 
-    {{-- ====== ФИЛЬТРЫ ====== --}}
-    <div class="filters-card">
-        <div style="display:grid;grid-template-columns:2fr 2fr 1fr 1.5fr 1fr 1fr 1fr auto;gap:12px;align-items:flex-end;">
-
+        <div class="er-header">
             <div>
-                <label class="filter-label">Поиск по ФИО</label>
-                <input type="text" id="f-search" placeholder="Иванов..." oninput="applyFilters()"
-                    style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;outline:none;transition:border-color .2s;"
-                    onfocus="this.style.borderColor='#FF5A30'" onblur="this.style.borderColor='#E5E8ED'">
+                <h1 class="er-title">Рейтинги по специальностям</h1>
+                <p class="er-sub">Таблицы заявлений, отсортированные по рейтингу. Верхние — бюджет.</p>
             </div>
-
-            <div>
-                <label class="filter-label">Специальность</label>
-                <select id="f-specialty" onchange="applyFilters()" style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;background:#fff;cursor:pointer;">
-                    <option value="">Все специальности</option>
-                    @foreach($specialties as $specialty)
-                        <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div>
-                <label class="filter-label">Тип места</label>
-                <select id="f-type" onchange="applyFilters()" style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;background:#fff;cursor:pointer;">
-                    <option value="">Все</option>
-                    <option value="Бюджет">Бюджет</option>
-                    <option value="Платно">Платно</option>
-                    <option value="Вне мест">Вне мест</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="filter-label">Статус заявки</label>
-                <select id="f-status" onchange="applyFilters()" style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;background:#fff;cursor:pointer;">
-                    <option value="">Все</option>
-                    <option value="Требует подтверждения">Требует подтверждения</option>
-                    <option value="На рассмотрении">На рассмотрении</option>
-                    <option value="Проверено">Проверено</option>
-                    <option value="Одобрено">Одобрено</option>
-                    <option value="Отклонено">Отклонено</option>
-                </select>
-            </div>
-
-            <div>
-                <label class="filter-label">ЕГЭ от</label>
-                <input type="number" id="f-ege-min" min="0" max="300" placeholder="0" oninput="applyFilters()"
-                    style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;outline:none;">
-            </div>
-
-            <div>
-                <label class="filter-label">ЕГЭ до</label>
-                <input type="number" id="f-ege-max" min="0" max="300" placeholder="300" oninput="applyFilters()"
-                    style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;outline:none;">
-            </div>
-
-            <div>
-                <label class="filter-label">Аттестат от</label>
-                <input type="number" id="f-cert-min" min="3" max="5" step="0.1" placeholder="3.0" oninput="applyFilters()"
-                    style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;outline:none;">
-            </div>
-
-            <div style="display:flex;align-items:flex-end;">
-                <button onclick="resetFilters()"
-                    style="padding:9px 16px;background:#F4F5F6;border:1px solid #E5E8ED;border-radius:8px;font-size:13px;cursor:pointer;font-weight:600;color:#555;white-space:nowrap;transition:all .2s;"
-                    onmouseover="this.style.background='#E5E8ED'" onmouseout="this.style.background='#F4F5F6'">
-                    ✕ Сбросить
-                </button>
+            <div class="er-header-btns">
+                <button class="er-btn er-btn--ghost" onclick="toggleAll(true)">↓ Развернуть все</button>
+                <button class="er-btn er-btn--ghost" onclick="toggleAll(false)">↑ Свернуть все</button>
             </div>
         </div>
 
-        <div style="margin-top:12px;font-size:13px;color:#888;">
-            Показано заявлений: <strong id="totalVisible" style="color:#FF5A30;">0</strong>
-        </div>
-    </div>
-
-    {{-- ====== ТАБЛИЦЫ ПО СПЕЦИАЛЬНОСТЯМ ====== --}}
-    @foreach($specialties as $specialty)
-        @php
-            $budget = (int) ($specialty->budget_places ?? 0);
-            $total  = (int) ($specialty->total_places ?? $budget);
-            $apps   = $specialty->applications;
-        @endphp
-
-        <div class="specialty-block" data-specialty-id="{{ $specialty->id }}" style="margin-bottom:32px;">
-
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;padding:16px 20px;background:#fff;border-radius:10px;border:1px solid #E5E8ED;box-shadow:0 1px 4px rgba(0,0,0,.04);">
-                <h2 style="margin:0;font-size:18px;font-weight:700;">{{ $specialty->name }}</h2>
-                <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:#666;align-items:center;">
-                    <span>Бюджет: <strong style="color:#15803D;">{{ $budget }}</strong></span>
-                    <span>Всего мест: <strong>{{ $total }}</strong></span>
-                    <span>Заявлений: <strong>{{ $apps->count() }}</strong></span>
-                    <span style="color:#FF5A30;">Показано: <strong class="spec-visible-count">{{ $apps->count() }}</strong></span>
+        {{-- ФИЛЬТРЫ --}}
+        <div class="fcard">
+            <div class="fgrid">
+                <div class="fg fg-2">
+                    <label class="flabel">Поиск по ФИО</label>
+                    <input type="text" id="f-search" placeholder="Иванов..." oninput="applyFilters()" class="finput">
+                </div>
+                <div class="fg fg-2">
+                    <label class="flabel">Специальность</label>
+                    <div class="csel-wrap">
+                        <div class="csel" onclick="toggleCsel(this)">
+                            <span class="csel__val">Все специальности</span>
+                            <svg class="csel__arr" width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+                        </div>
+                        <div class="csel__drop">
+                            <div class="csel__opt csel__opt--active" data-val="">Все специальности</div>
+                            @foreach($specialties as $specialty)
+                                <div class="csel__opt" data-val="{{ $specialty->id }}">{{ $specialty->name }}</div>
+                            @endforeach
+                        </div>
+                        <input type="hidden" id="f-specialty" value="">
+                    </div>
+                </div>
+                <div class="fg">
+                    <label class="flabel">Тип места</label>
+                    <div class="csel-wrap">
+                        <div class="csel" onclick="toggleCsel(this)">
+                            <span class="csel__val">Все</span>
+                            <svg class="csel__arr" width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+                        </div>
+                        <div class="csel__drop">
+                            <div class="csel__opt csel__opt--active" data-val="">Все</div>
+                            <div class="csel__opt" data-val="Бюджет" data-color="approved">Бюджет</div>
+                            <div class="csel__opt" data-val="Платно" data-color="review">Платно</div>
+                            <div class="csel__opt" data-val="Вне мест" data-color="rejected">Вне мест</div>
+                        </div>
+                        <input type="hidden" id="f-type" value="">
+                    </div>
+                </div>
+                <div class="fg">
+                    <label class="flabel">Статус заявки</label>
+                    <div class="csel-wrap">
+                        <div class="csel" onclick="toggleCsel(this)">
+                            <span class="csel__val">Все</span>
+                            <svg class="csel__arr" width="12" height="8" viewBox="0 0 12 8"><path d="M1 1l5 5 5-5" stroke="#999" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+                        </div>
+                        <div class="csel__drop">
+                            <div class="csel__opt csel__opt--active" data-val="">Все</div>
+                            <div class="csel__opt" data-val="Требует подтверждения" data-color="pending">Требует подтверждения</div>
+                            <div class="csel__opt" data-val="На рассмотрении" data-color="review">На рассмотрении</div>
+                            <div class="csel__opt" data-val="Проверено" data-color="checked">Проверено</div>
+                            <div class="csel__opt" data-val="Одобрено" data-color="approved">Одобрено</div>
+                            <div class="csel__opt" data-val="Отклонено" data-color="rejected">Отклонено</div>
+                        </div>
+                        <input type="hidden" id="f-status" value="">
+                    </div>
+                </div>
+                <div class="fg">
+                    <label class="flabel">ЕГЭ от</label>
+                    <input type="number" id="f-ege-min" min="0" max="300" placeholder="0" oninput="applyFilters()" class="finput">
+                </div>
+                <div class="fg">
+                    <label class="flabel">ЕГЭ до</label>
+                    <input type="number" id="f-ege-max" min="0" max="300" placeholder="300" oninput="applyFilters()" class="finput">
+                </div>
+                <div class="fg">
+                    <label class="flabel">Аттестат от</label>
+                    <input type="number" id="f-cert-min" min="3" max="5" step="0.1" placeholder="3.0" oninput="applyFilters()" class="finput">
+                </div>
+                <div class="fg fg-end">
+                    <button onclick="resetFilters()" class="btn-reset">✕ Сбросить</button>
                 </div>
             </div>
-
-            @if($apps->count() > 0)
-            <div style="overflow-x:auto;">
-            <table class="admin-table" style="width:100%;">
-                <thead>
-                    <tr>
-                        <th style="width:60px;">Место</th>
-                        <th>ФИО</th>
-                        <th style="width:110px;">Аттестат</th>
-                        <th style="width:90px;">ЕГЭ</th>
-                        <th style="width:120px;">Тип</th>
-                        <th style="width:180px;">Статус</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($apps as $i => $app)
-                        @php
-                            $position = $i + 1;
-                            $type = $position <= $budget
-                                ? 'Бюджет'
-                                : ($position <= $total ? 'Платно' : 'Вне мест');
-                            $typeBadge = $type === 'Бюджет'  ? 'status-approved'
-                                : ($type === 'Платно'        ? 'status-review' : 'status-rejected');
-                            $statusBadge = match($app->status) {
-                                'Требует подтверждения' => 'pending',
-                                'На рассмотрении'       => 'review',
-                                'Проверено'             => 'checked',
-                                'Одобрено'              => 'approved',
-                                'Отклонено'             => 'rejected',
-                                default                 => 'pending',
-                            };
-                            // Полное ФИО для поиска
-                            $fullName = strtolower(trim(implode(' ', array_filter([
-                                $app->user->surname ?? null,
-                                $app->user->name ?? null,
-                                $app->full_name ?? null,
-                            ]))));
-                        @endphp
-                        <tr class="rating-row"
-                            data-name="{{ $fullName }}"
-                            data-specialty="{{ $specialty->id }}"
-                            data-type="{{ $type }}"
-                            data-status="{{ $app->status }}"
-                            data-ege="{{ $app->ege_score ?? 0 }}"
-                            data-cert="{{ $app->certificate_score }}">
-
-                            <td style="text-align:center;">
-                                @if($position === 1)
-                                    <span style="font-size:20px;">🥇</span>
-                                @elseif($position === 2)
-                                    <span style="font-size:20px;">🥈</span>
-                                @elseif($position === 3)
-                                    <span style="font-size:20px;">🥉</span>
-                                @else
-                                    <strong style="color:#555;">{{ $position }}</strong>
-                                @endif
-                            </td>
-                            <td style="font-weight:500;">{{ $app->user->name }}</td>
-                            <td style="font-weight:700;">{{ $app->certificate_score }}</td>
-                            <td style="font-weight:700;">{{ $app->ege_score ?? '—' }}</td>
-                            <td><span class="status-badge {{ $typeBadge }}">{{ $type }}</span></td>
-                            <td><span class="status-badge status-{{ $statusBadge }}">{{ $app->status }}</span></td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            </div>
-            @else
-                <div style="color:#bbb;font-size:14px;padding:16px 20px;background:#fff;border-radius:8px;border:1px solid #E5E8ED;">Заявлений пока нет</div>
-            @endif
+            <div class="fcount">Показано заявлений: <strong id="totalVisible">0</strong></div>
         </div>
-    @endforeach
 
-    <div id="noResults" style="display:none;text-align:center;padding:60px;color:#999;font-size:16px;">
-        Ничего не найдено по выбранным фильтрам
+        {{-- БЛОКИ СПЕЦИАЛЬНОСТЕЙ --}}
+        @foreach($specialties as $specialty)
+            @php
+                $budget = (int) ($specialty->budget_places ?? 0);
+                $total = (int) ($specialty->total_places ?? $budget);
+                $apps = $specialty->applications;
+            @endphp
+
+            <div class="spec-block" data-specialty-id="{{ $specialty->id }}">
+
+                {{-- Заголовок — кликабельный --}}
+                <div class="spec-block__head" onclick="toggleBlock(this)">
+                    <div class="spec-block__head-left">
+                        <span class="spec-block__chevron">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </span>
+                        <span class="spec-block__name">{{ $specialty->name }}</span>
+                    </div>
+                    <div class="spec-block__meta">
+                        <span class="spec-meta-chip spec-meta-chip--green">Бюджет: {{ $budget }}</span>
+                        <span class="spec-meta-chip">Мест: {{ $total }}</span>
+                        <span class="spec-meta-chip">Заявлений: <strong class="spec-visible-count">{{ $apps->count() }}</strong></span>
+                    </div>
+                </div>
+
+                {{-- Тело таблицы --}}
+                <div class="spec-block__body">
+                    @if($apps->count() > 0)
+                        <div class="spec-table-wrap">
+                        <table class="spec-table">
+                            <thead>
+                                <tr>
+                                    <th class="th-pos">Место</th>
+                                    <th>ФИО</th>
+                                    <th class="th-num">Аттестат</th>
+                                    <th class="th-num">ЕГЭ</th>
+                                    <th class="th-type">Тип</th>
+                                    <th class="th-status">Статус</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($apps as $i => $app)
+                                    @php
+                                        $position = $i + 1;
+                                        $type = $position <= $budget
+                                            ? 'Бюджет'
+                                            : ($position <= $total ? 'Платно' : 'Вне мест');
+                                        $typeBadge = $type === 'Бюджет' ? 'approved'
+                                            : ($type === 'Платно' ? 'review' : 'rejected');
+                                        $statusBadge = match ($app->status) {
+                                            'Требует подтверждения' => 'pending',
+                                            'На рассмотрении' => 'review',
+                                            'Проверено' => 'checked',
+                                            'Одобрено' => 'approved',
+                                            'Отклонено' => 'rejected',
+                                            default => 'pending',
+                                        };
+                                        $fullName = strtolower(trim(implode(' ', array_filter([
+                                            $app->user->surname ?? null,
+                                            $app->user->name ?? null,
+                                            $app->full_name ?? null,
+                                        ]))));
+                                    @endphp
+                                    <tr class="rating-row"
+                                        data-name="{{ $fullName }}"
+                                        data-specialty="{{ $specialty->id }}"
+                                        data-type="{{ $type }}"
+                                        data-status="{{ $app->status }}"
+                                        data-ege="{{ $app->ege_score ?? 0 }}"
+                                        data-cert="{{ $app->certificate_score }}">
+                                        <td class="td-pos">
+                                            @if($position === 1) <span class="medal">🥇</span>
+                                            @elseif($position === 2) <span class="medal">🥈</span>
+                                            @elseif($position === 3) <span class="medal">🥉</span>
+                                            @else <span class="pos-num">{{ $position }}</span>
+                                            @endif
+                                        </td>
+                                        <td class="td-name">{{ $app->user->name }} {{ $app->user->surname ?? '' }}</td>
+                                        <td class="td-num">{{ $app->certificate_score }}</td>
+                                        <td class="td-num">{{ $app->ege_score ?? '—' }}</td>
+                                        <td><span class="sbadge sbadge--{{ $typeBadge }}">{{ $type }}</span></td>
+                                        <td><span class="sbadge sbadge--{{ $statusBadge }}">{{ $app->status }}</span></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        </div>
+                    @else
+                        <div class="spec-empty">Заявлений пока нет</div>
+                    @endif
+                </div>
+            </div>
+        @endforeach
+
+        <div id="noResults" style="display:none;" class="no-results">Ничего не найдено по выбранным фильтрам</div>
     </div>
-</div>
 
-@push('styles')
-<style>
-    .filter-label { font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:5px; }
-    .filters-card { background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.03);margin-bottom:25px;border:1px solid #E5E8ED; }
+    @push('styles')
+        <style>
+        .admin-main { max-width:100% !important; padding:24px 30px; }
+        .admin-main-wrap {}
 
-    .status-badge { padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap; }
-    .status-pending  { background:#FFF7ED;color:#C2410C;border:1px solid #FED7AA; }
-    .status-review   { background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE; }
-    .status-checked  { background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0; }
-    .status-approved { background:#DCFCE7;color:#166534;border:1px solid #86EFAC; }
-    .status-rejected { background:#FEF2F2;color:#B91C1C;border:1px solid #FECACA; }
+        /* Header */
+        .er-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+        .er-title  { font-size:26px; font-weight:800; color:#1E212C; margin:0 0 4px; }
+        .er-sub    { font-size:14px; color:#aaa; margin:0; }
+        .er-header-btns { display:flex; gap:8px; }
+        .er-btn { padding:8px 16px; border-radius:20px; font-size:13px; font-weight:600; cursor:pointer; border:none; transition:all .15s; }
+        .er-btn--ghost { background:#F4F5F6; color:#555; border:1px solid #E5E8ED; }
+        .er-btn--ghost:hover { background:#E5E8ED; }
 
-    .admin-main { max-width:100% !important; padding:24px 30px; }
-</style>
-@endpush
+        /* Filters */
+        .fcard  { background:#fff; padding:18px 20px; border-radius:12px; border:1px solid #E5E8ED; box-shadow:0 2px 8px rgba(0,0,0,.04); margin-bottom:24px; }
+        .fgrid  { display:grid; grid-template-columns:1.5fr 1.5fr 1fr 1fr 0.7fr 0.7fr 0.7fr auto; gap:12px; align-items:flex-end; }
+        .fg-2   { grid-column: span 1; }
+        .fg-end { display:flex; align-items:flex-end; }
+        .flabel { font-size:11px; font-weight:700; color:#666; text-transform:uppercase; letter-spacing:.05em; display:block; margin-bottom:5px; }
+        .finput { width:100%; padding:8px 14px; border:1px solid #E5E8ED; border-radius:20px; font-size:13px; background:#fff; transition:border-color .15s; box-sizing:border-box; }
+        .finput:focus { outline:none; border-color:#FF5A30; box-shadow:0 0 0 3px rgba(255,90,48,.1); }
+        .btn-reset { padding:8px 16px; background:#F4F5F6; border:1px solid #E5E8ED; border-radius:20px; font-size:13px; font-weight:600; color:#555; cursor:pointer; white-space:nowrap; width:100%; }
+        .btn-reset:hover { background:#E5E8ED; }
+        .fcount { margin-top:10px; font-size:13px; color:#888; }
+        .fcount strong { color:#FF5A30; }
 
-@push('scripts')
-<script>
-function applyFilters() {
-    const search     = document.getElementById('f-search').value.toLowerCase().trim();
-    const specialtyF = document.getElementById('f-specialty').value;
-    const typeF      = document.getElementById('f-type').value;
-    const statusF    = document.getElementById('f-status').value;
-    const egeMinVal  = document.getElementById('f-ege-min').value;
-    const egeMaxVal  = document.getElementById('f-ege-max').value;
-    const certMinVal = document.getElementById('f-cert-min').value;
-    const egeMin     = egeMinVal  !== '' ? parseFloat(egeMinVal)  : 0;
-    const egeMax     = egeMaxVal  !== '' ? parseFloat(egeMaxVal)  : 300;
-    const certMin    = certMinVal !== '' ? parseFloat(certMinVal) : 3;
+        /* Custom select */
+        .csel-wrap { position:relative; }
+        .csel { display:flex; align-items:center; justify-content:space-between; padding:8px 14px; border:1px solid #E5E8ED; border-radius:20px; font-size:13px; background:#fff; cursor:pointer; user-select:none; transition:border-color .15s, box-shadow .15s; min-height:36px; }
+        .csel:hover { border-color:#ccc; }
+        .csel.open  { border-color:#FF5A30; box-shadow:0 0 0 3px rgba(255,90,48,.1); }
+        .csel__val  { color:#333; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .csel__arr  { flex-shrink:0; margin-left:8px; transition:transform .2s; }
+        .csel.open .csel__arr { transform:rotate(180deg); }
+        .csel__drop { display:none; position:absolute; top:calc(100% + 6px); left:0; right:0; background:#fff; border:1px solid #E5E8ED; border-radius:14px; box-shadow:0 8px 24px rgba(0,0,0,.1); z-index:200; padding:6px; max-height:240px; overflow-y:auto; }
+        .csel__drop.open { display:block; }
+        .csel__opt { padding:8px 12px; border-radius:10px; font-size:13px; cursor:pointer; color:#333; transition:background .12s; }
+        .csel__opt:hover { background:#F4F5F6; }
+        .csel__opt--active { background:#FFF0EC; color:#FF5A30; font-weight:700; }
+        .csel__opt[data-color="pending"]:hover,  .csel__opt[data-color="pending"].csel__opt--active  { background:#FFF7ED; color:#C2410C; }
+        .csel__opt[data-color="review"]:hover,   .csel__opt[data-color="review"].csel__opt--active    { background:#EFF6FF; color:#1D4ED8; }
+        .csel__opt[data-color="checked"]:hover,  .csel__opt[data-color="checked"].csel__opt--active   { background:#F0FDF4; color:#15803D; }
+        .csel__opt[data-color="approved"]:hover, .csel__opt[data-color="approved"].csel__opt--active  { background:#DCFCE7; color:#166534; }
+        .csel__opt[data-color="rejected"]:hover, .csel__opt[data-color="rejected"].csel__opt--active  { background:#FEF2F2; color:#B91C1C; }
 
-    let totalVisible = 0;
+        /* Specialty block */
+        .spec-block { background:#fff; border:1px solid #E5E8ED; border-radius:12px; margin-bottom:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,.04); transition:box-shadow .15s; }
+        .spec-block:hover { box-shadow:0 4px 14px rgba(0,0,0,.07); }
 
-    document.querySelectorAll('.specialty-block').forEach(block => {
-        const specId = block.dataset.specialtyId;
-        const rows   = block.querySelectorAll('.rating-row');
-        let blockVisible = 0;
-
-        if (specialtyF && specId !== specialtyF) {
-            block.style.display = 'none';
-            return;
+        .spec-block__head {
+            display:flex; align-items:center; justify-content:space-between;
+            padding:14px 20px; cursor:pointer; user-select:none;
+            border-bottom:1px solid #F0F1F3; transition:background .12s;
+            flex-wrap:wrap; gap:10px;
         }
-        block.style.display = '';
+        .spec-block__head:hover { background:#FAFBFC; }
+        .spec-block.collapsed .spec-block__head { border-bottom:none; }
 
-        rows.forEach(row => {
-            // Поиск: проверяем вхождение подстроки в data-name (полное ФИО в нижнем регистре)
-            const nameOk = !search || row.dataset.name.includes(search);
+        .spec-block__head-left { display:flex; align-items:center; gap:10px; }
+        .spec-block__chevron { color:#aaa; transition:transform .25s; display:flex; align-items:center; flex-shrink:0; }
+        .spec-block.collapsed .spec-block__chevron { transform:rotate(-90deg); }
 
-            const match =
-                nameOk &&
-                (!typeF   || row.dataset.type   === typeF) &&
-                (!statusF || row.dataset.status === statusF) &&
-                (parseFloat(row.dataset.ege  || 0) >= egeMin) &&
-                (parseFloat(row.dataset.ege  || 0) <= egeMax) &&
-                (parseFloat(row.dataset.cert || 0) >= certMin);
+        .spec-block__name { font-size:16px; font-weight:700; color:#1E212C; }
 
-            row.style.display = match ? '' : 'none';
-            if (match) { blockVisible++; totalVisible++; }
+        .spec-block__meta { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+        .spec-meta-chip { font-size:12px; font-weight:600; color:#666; background:#F4F5F6; padding:4px 10px; border-radius:20px; border:1px solid #EDEEF0; white-space:nowrap; }
+        .spec-meta-chip--green strong { color:#15803D; }
+        .spec-meta-chip strong { color:#FF5A30; }
+
+        /* Body */
+        .spec-block__body { overflow:hidden; transition:max-height .3s ease, opacity .3s ease; max-height:2000px; opacity:1; }
+        .spec-block.collapsed .spec-block__body { max-height:0; opacity:0; pointer-events:none; }
+
+        /* Table */
+        .spec-table-wrap { overflow-x:auto; }
+        .spec-table { width:100%; border-collapse:collapse; }
+        .spec-table thead tr { background:#F8F9FA; border-bottom:1px solid #EDEEF0; }
+        .spec-table th { padding:10px 16px; font-size:11px; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:.05em; text-align:left; white-space:nowrap; }
+        .spec-table td { padding:11px 16px; border-bottom:1px solid #F4F5F6; vertical-align:middle; }
+        .spec-table tbody tr:last-child td { border-bottom:none; }
+        .spec-table tbody tr:hover { background:#FAFBFC; }
+
+        .th-pos, .td-pos { width:64px; text-align:center; }
+        .th-num, .td-num { width:100px; font-size:15px; font-weight:700; color:#1E212C; }
+        .th-type  { width:100px; }
+        .th-status { width:190px; }
+
+        .td-name { font-size:14px; font-weight:600; color:#1E212C; }
+        .medal   { font-size:20px; }
+        .pos-num { font-size:14px; font-weight:700; color:#888; }
+
+        /* Badges */
+        .sbadge { display:inline-block; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; white-space:nowrap; }
+        .sbadge--pending  { background:#FFF7ED; color:#C2410C; border:1px solid #FED7AA; }
+        .sbadge--review   { background:#EFF6FF; color:#1D4ED8; border:1px solid #BFDBFE; }
+        .sbadge--checked  { background:#F0FDF4; color:#15803D; border:1px solid #BBF7D0; }
+        .sbadge--approved { background:#DCFCE7; color:#166534; border:1px solid #86EFAC; }
+        .sbadge--rejected { background:#FEF2F2; color:#B91C1C; border:1px solid #FECACA; }
+
+        .spec-empty { padding:16px 20px; color:#bbb; font-size:14px; }
+        .no-results { text-align:center; padding:60px; color:#999; font-size:16px; background:#fff; border-radius:12px; border:1px solid #E5E8ED; margin-top:16px; }
+        </style>
+    @endpush
+
+    @push('scripts')
+        <script>
+        // ── Custom selects ────────────────────────────
+        function toggleCsel(el) {
+            const wrap = el.closest('.csel-wrap');
+            const drop = wrap.querySelector('.csel__drop');
+            const isOpen = drop.classList.contains('open');
+            document.querySelectorAll('.csel__drop.open').forEach(d => {
+                d.classList.remove('open');
+                d.closest('.csel-wrap').querySelector('.csel').classList.remove('open');
+            });
+            if (!isOpen) { drop.classList.add('open'); el.classList.add('open'); }
+        }
+        function selectCselOpt(opt) {
+            const drop = opt.closest('.csel__drop');
+            const wrap = opt.closest('.csel-wrap');
+            drop.querySelectorAll('.csel__opt').forEach(o => o.classList.remove('csel__opt--active'));
+            opt.classList.add('csel__opt--active');
+            wrap.querySelector('.csel__val').textContent = opt.textContent.trim();
+            wrap.querySelector('input[type="hidden"]').value = opt.dataset.val;
+            drop.classList.remove('open');
+            wrap.querySelector('.csel').classList.remove('open');
+            applyFilters();
+        }
+        document.addEventListener('click', e => {
+            if (!e.target.closest('.csel-wrap')) {
+                document.querySelectorAll('.csel__drop.open').forEach(d => {
+                    d.classList.remove('open');
+                    d.closest('.csel-wrap').querySelector('.csel').classList.remove('open');
+                });
+            }
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.csel__opt').forEach(opt => {
+                opt.addEventListener('click', e => { e.stopPropagation(); selectCselOpt(opt); });
+            });
         });
 
-        const counter = block.querySelector('.spec-visible-count');
-        if (counter) counter.textContent = blockVisible;
-    });
+        // ── Collapse / Expand ─────────────────────────
+        function toggleBlock(headEl) {
+            const block = headEl.closest('.spec-block');
+            block.classList.toggle('collapsed');
+        }
+        function toggleAll(expand) {
+            document.querySelectorAll('.spec-block').forEach(b => {
+                if (expand) b.classList.remove('collapsed');
+                else b.classList.add('collapsed');
+            });
+        }
 
-    document.getElementById('totalVisible').textContent = totalVisible;
-    document.getElementById('noResults').style.display = totalVisible === 0 ? 'block' : 'none';
-}
+        // ── Filters ───────────────────────────────────
+        function applyFilters() {
+            const search     = document.getElementById('f-search').value.toLowerCase().trim();
+            const specialtyF = document.getElementById('f-specialty').value;
+            const typeF      = document.getElementById('f-type').value;
+            const statusF    = document.getElementById('f-status').value;
+            const egeMinVal  = document.getElementById('f-ege-min').value;
+            const egeMaxVal  = document.getElementById('f-ege-max').value;
+            const certMinVal = document.getElementById('f-cert-min').value;
+            const egeMin  = egeMinVal  !== '' ? parseFloat(egeMinVal)  : 0;
+            const egeMax  = egeMaxVal  !== '' ? parseFloat(egeMaxVal)  : 300;
+            const certMin = certMinVal !== '' ? parseFloat(certMinVal) : 3;
 
-function resetFilters() {
-    ['f-search','f-specialty','f-type','f-status','f-ege-min','f-ege-max','f-cert-min']
-        .forEach(id => { document.getElementById(id).value = ''; });
-    applyFilters();
-}
+            let totalVisible = 0;
 
-document.addEventListener('DOMContentLoaded', applyFilters);
-</script>
-@endpush
+            document.querySelectorAll('.spec-block').forEach(block => {
+                const specId = block.dataset.specialtyId;
+                const rows   = block.querySelectorAll('.rating-row');
+                let blockVisible = 0;
+
+                if (specialtyF && specId !== specialtyF) {
+                    block.style.display = 'none'; return;
+                }
+                block.style.display = '';
+
+                rows.forEach(row => {
+                    const match =
+                        (!search  || row.dataset.name.includes(search)) &&
+                        (!typeF   || row.dataset.type   === typeF) &&
+                        (!statusF || row.dataset.status === statusF) &&
+                        (parseFloat(row.dataset.ege  || 0) >= egeMin) &&
+                        (parseFloat(row.dataset.ege  || 0) <= egeMax) &&
+                        (parseFloat(row.dataset.cert || 0) >= certMin);
+
+                    row.style.display = match ? '' : 'none';
+                    if (match) { blockVisible++; totalVisible++; }
+                });
+
+                const counter = block.querySelector('.spec-visible-count');
+                if (counter) counter.textContent = blockVisible;
+
+                // Auto-expand block if filter shows results in it
+                if (blockVisible > 0 && (search || typeF || statusF || egeMinVal || egeMaxVal || certMinVal)) {
+                    block.classList.remove('collapsed');
+                }
+            });
+
+            document.getElementById('totalVisible').textContent = totalVisible;
+            document.getElementById('noResults').style.display = totalVisible === 0 ? 'block' : 'none';
+        }
+
+        function resetFilters() {
+            document.getElementById('f-search').value = '';
+            ['f-ege-min','f-ege-max','f-cert-min'].forEach(id => document.getElementById(id).value = '');
+            document.querySelectorAll('.csel-wrap').forEach(wrap => {
+                const first = wrap.querySelector('.csel__opt');
+                if (first) selectCselOpt(first);
+            });
+            applyFilters();
+        }
+
+        document.addEventListener('DOMContentLoaded', applyFilters);
+        </script>
+    @endpush
 @endsection

@@ -53,7 +53,7 @@ body {
     margin: 0 auto 48px;
 }
 
-/* Grid System */
+/* Grid */
 .specialties-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -61,7 +61,7 @@ body {
     margin-bottom: 64px;
 }
 
-/* Specialty Card */
+/* Card */
 .specialty-card {
     background: var(--bg-card);
     border-radius: var(--radius-lg);
@@ -105,7 +105,7 @@ body {
 }
 
 .specialty-header-main {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .specialty-title-row {
@@ -124,62 +124,114 @@ body {
 }
 
 .specialty-code-pill {
-    font-size: 14px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #FFF1EE, #FFE4DC);
-    padding: 3px 10px;
-    border-radius: 20px;
-    color: var(--primary);
-    letter-spacing: 0.06em;
-    white-space: nowrap;
-    border: 1px solid rgba(255, 90, 48, 0.2);
-    display: inline-flex;
-    align-items: center;
+    padding: 4px 12px;
+    border-radius: 8px;
+    background-color: #F1F5F9;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    border: 1px solid #E2E8F0;
+}
+
+/* ── Study Form Toggle ── */
+.specialty-study-selector {
+    margin-bottom: 16px;
+}
+
+.study-form-toggle {
+    display: flex;
     gap: 4px;
-    line-height: 1.6;
-    text-transform: uppercase;
+    background: #F3F4F6;
+    padding: 4px;
+    border-radius: 12px;
 }
 
-.specialty-code-pill::before {
-    content: '';
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--primary);
-    opacity: 0.7;
+/* Hide completely unavailable forms */
+.study-form-option.disabled {
+    display: none;
 }
 
+.study-form-option {
+    flex: 1;
+    padding: 8px 10px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6B7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.study-form-option:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.study-form-option.active {
+    background: #FFFFFF;
+    color: var(--primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Meta grid ── */
 .specialty-meta {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 24px;
-    padding: 18px;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 12px;
     background: #F8FAFC;
-    border-radius: 16px;
+    border-radius: 12px;
     border: 1px solid #F1F5F9;
 }
 
-.specialty-meta > span {
-    font-size: 13px;
-    color: var(--text-muted);
+.specialty-meta>span {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-main);
     display: flex;
     flex-direction: column;
-    min-height: 52px;
-    justify-content: flex-start;
+    gap: 2px;
+    min-height: 40px;
+    overflow: hidden;
 }
 
-.specialty-meta > span::before {
+.specialty-meta>span::before {
     content: attr(data-label);
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     text-transform: uppercase;
     color: #94A3B8;
-    margin-bottom: 4px;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
+/* Стоимость и Итого — на всю ширину */
+.specialty-meta .tuition-row {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 36px;
+    flex-wrap: wrap;
+}
+
+.specialty-meta .tuition-row span {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 14px;
+}
+
+/* Actions */
 .specialty-actions {
     margin-top: auto;
 }
@@ -203,72 +255,13 @@ body {
     box-shadow: 0 4px 12px rgba(255, 90, 48, 0.3);
 }
 
-/* Study Form Toggles */
-.specialty-study-selector {
-    margin-bottom: 20px;
-}
-
-.study-form-toggle {
-    display: flex;
-    gap: 4px;
-    background: #F3F4F6;
-    padding: 4px;
-    border-radius: 12px;
-}
-
-.study-form-option {
-    flex: 1;
-    padding: 8px 12px;
-    border: none;
-    background: transparent;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #6B7280;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-}
-
-.study-form-option:hover:not(.disabled) {
-    color: var(--text-main);
-    background: rgba(255, 255, 255, 0.5);
-}
-
-.study-form-option.active {
-    background: #FFFFFF;
-    color: var(--primary);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.study-form-option.disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-.specialty-meta .tuition-row {
-    grid-column: span 2;
-    display: flex;
-    flex-direction: column;
-    min-height: 52px;
-}
-
-.specialty-meta .tuition-row span {
-    font-weight: 700;
-    color: var(--text-main);
-    font-size: 14px;
-}
-
 /* Breakpoints */
-
-/* Tablet: 768px */
 @media (min-width: 768px) {
     .specialties-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* Desktop: 1024px */
 @media (min-width: 1024px) {
     .specialties-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -276,18 +269,24 @@ body {
     }
 }
 
-/* Wide Desktop: 1440px */
 @media (min-width: 1440px) {
     .specialties-grid {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-/* Mobile small: 320px optimization */
 @media (max-width: 375px) {
-    .container { padding: 0 16px; }
-    .specialty-meta { grid-template-columns: 1fr; }
-    .specialty-meta .tuition { grid-column: span 1; }
+    .container {
+        padding: 0 16px;
+    }
+
+    .specialty-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .specialty-meta .tuition-row {
+        grid-column: span 1;
+    }
 }
 
 /* Utils */
@@ -298,4 +297,21 @@ body {
     border-radius: var(--radius-lg);
     border: 1px dashed var(--border);
     color: var(--text-muted);
+}
+
+/* Compact tuition row */
+.meta-cost-wrap {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    flex: 1;
+}
+
+.meta-cost-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #94A3B8;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
 }
