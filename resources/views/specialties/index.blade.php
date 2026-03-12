@@ -65,14 +65,14 @@
                         </div>
 
                         <div class="specialty-meta">
-                            <span data-label="Срок обучения" class="meta-duration">{{ $specialty->duration }}</span>
-                            <span data-label="Квалификация">{{ $specialty->qualification ?? 'Не указано' }}</span>
-                            <span data-label="Бюджетных мест">{{ $specialty->budget_places }}</span>
-                            <span data-label="Платных мест">{{ $paidPlaces ?: 'Уточняется' }}</span>
+                            <span data-label="Срок обучения" class="meta-duration">{{ $availableForms[$firstAvailable]['duration'] ?? $specialty->duration }}</span>
+                            <span data-label="Квалификация" class="meta-qualification">{{ $availableForms[$firstAvailable]['qualification'] ?? $specialty->qualification ?? 'Не указано' }}</span>
+                            <span data-label="Бюджетных мест" class="meta-budget-places">{{ $availableForms[$firstAvailable]['budget_places'] ?? $specialty->budget_places }}</span>
+                            <span data-label="Платных мест" class="meta-paid-places">{{ $availableForms[$firstAvailable]['paid_places'] ?? ($paidPlaces ?: 'Уточняется') }}</span>
                             <span class="tuition-row" data-label="Стоимость (год)">
                                 <span class="meta-cost">
-                                    @if(isset($availableForms[$firstAvailable]) && $availableForms[$firstAvailable] > 0)
-                                        {{ number_format($availableForms[$firstAvailable], 0, ',', ' ') }} ₽
+                                    @if(($availableForms[$firstAvailable]['cost'] ?? 0) > 0)
+                                        {{ number_format($availableForms[$firstAvailable]['cost'], 0, ',', ' ') }} ₽
                                     @else
                                         Бюджет
                                     @endif
@@ -81,7 +81,6 @@
                             <span class="tuition-row" data-label="Всего за обучение">
                                 <span class="meta-total-cost">—</span>
                             </span>
-
                         </div>
                         <div class="specialty-actions">
                             <a href="{{ route('specialties.show', $specialty) }}" class="btn-more">
@@ -101,34 +100,29 @@
             const specialtyCards = document.querySelectorAll('.specialty-card');
 
             function updateCardStats(card, form) {
-                const durationRaw = card.getAttribute('data-duration');
                 const availableForms = JSON.parse(card.getAttribute('data-available-forms') || '{}');
-                const cost = availableForms[form] || 0;
+                const info = availableForms[form] || {};
+                const cost = info.cost || 0;
+                const duration = info.duration || card.getAttribute('data-duration') || '';
 
-                const metaDuration = card.querySelector('.meta-duration');
-                const metaCost = card.querySelector('.meta-cost');
-                const metaTotalCost = card.querySelector('.meta-total-cost');
-                const metaPaymentOptions = card.querySelector('.meta-payment-options');
+                const metaDuration     = card.querySelector('.meta-duration');
+                const metaQualification= card.querySelector('.meta-qualification');
+                const metaBudget       = card.querySelector('.meta-budget-places');
+                const metaPaid         = card.querySelector('.meta-paid-places');
+                const metaCost         = card.querySelector('.meta-cost');
+                const metaTotalCost    = card.querySelector('.meta-total-cost');
 
-                // Calculate duration adjust
-                let years = 4;
-                if (durationRaw.includes('3 года')) years = 3.8;
-                if (durationRaw.includes('2 года')) years = 2.8;
-                if (form === 'заочная' || form === 'очно-заочная') years += 1;
-
-                const durationText = durationRaw + (form !== 'очная' ? ' (+1 год)' : '');
-                if (metaDuration) metaDuration.textContent = durationText;
-
-                if (metaCost) {
-                    metaCost.textContent = cost > 0 ? cost.toLocaleString() + ' ₽' : 'Бюджет';
-                }
+                if (metaDuration)      metaDuration.textContent      = duration;
+                if (metaQualification) metaQualification.textContent = info.qualification || '';
+                if (metaBudget)        metaBudget.textContent        = info.budget_places != null ? info.budget_places : '';
+                if (metaPaid)          metaPaid.textContent          = info.paid_places != null ? info.paid_places : 'Уточняется';
+                if (metaCost)          metaCost.textContent          = cost > 0 ? cost.toLocaleString('ru-RU') + ' ₽' : 'Бюджет';
 
                 if (metaTotalCost) {
-                    metaTotalCost.textContent = cost > 0 ? (Math.round(cost * years)).toLocaleString() + ' ₽' : '—';
-                }
-
-                if (metaPaymentOptions) {
-                    metaPaymentOptions.textContent = cost > 0 ? 'Рассрочка, Посеместровая, Кредит' : '—';
+                    let years = 4;
+                    if (duration.includes('3 год')) years = 3.8;
+                    if (duration.includes('2 год')) years = 2.8;
+                    metaTotalCost.textContent = cost > 0 ? (Math.round(cost * years)).toLocaleString('ru-RU') + ' ₽' : '—';
                 }
             }
 
