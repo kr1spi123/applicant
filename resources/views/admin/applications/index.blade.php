@@ -412,8 +412,6 @@
                 color: #C0C4CC;
             }
 
-            .app-card__person {}
-
             .app-card__name {
                 font-size: 15px;
                 font-weight: 700;
@@ -861,9 +859,6 @@
                 color: #FF5A30;
                 font-weight: 700;
             }
-
-            /* Status option colors */
-            .csel__opt[data-color="pending"] {}
 
             .csel__opt[data-color="pending"]:hover,
             .csel__opt[data-color="pending"].csel__opt--active {

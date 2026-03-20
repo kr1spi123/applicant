@@ -192,7 +192,6 @@
     @push('styles')
         <style>
         .admin-main { max-width:100% !important; padding:24px 30px; }
-        .admin-main-wrap {}
 
         /* Header */
         .er-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
