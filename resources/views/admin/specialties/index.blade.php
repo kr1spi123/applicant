@@ -11,7 +11,7 @@
         <div
             style="position:relative;background:#fff;border-radius:16px;padding:32px 36px;max-width:420px;width:90%;box-shadow:0 24px 60px rgba(0,0,0,.18);text-align:center;">
             <div
-                style="width:56px;height:56px;background:#FEF2F2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                style="width:56px;height:56px;background:#FEF2F2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;animation: blink-red 1s infinite;">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5"
                     stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6" />
@@ -113,7 +113,7 @@
                                     {{ $specialty->description }}</div>
                             @endif
                         </td>
-                        <td style="padding:16px;font-size:14px;color:#555;">{{ $specialty->duration }}</td>
+                        <td style="padding:16px;font-size:14px;color:#555;">{{ $specialty->formatDuration($specialty->duration) }}</td>
                         <td style="padding:16px;font-size:14px;color:#555;">{{ $specialty->qualification ?? '—' }}</td>
                         <td style="padding:16px;text-align:center;">
                             <span style="font-weight:700;color:#15803D;font-size:16px;">{{ $specialty->budget_places }}</span>
@@ -214,10 +214,17 @@
                                             <label
                                                 style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">Формы
                                                 обучения</label>
-                                            <input type="text" name="study_forms" value="{{ $specialty->study_forms }}"
-                                                placeholder="очная, заочная"
-                                                oninput="updateFormCols(this, '{{ $specialty->id }}')"
-                                                style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;box-sizing:border-box;">
+                                            <div style="display:flex;gap:16px;flex-wrap:wrap;padding:9px 0;">
+                                                @foreach(['очная', 'заочная', 'очно-заочная'] as $form)
+                                                    <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;">
+                                                        <input type="checkbox" name="study_forms_arr[]" value="{{ $form }}" 
+                                                            {{ in_array($form, $editForms) ? 'checked' : '' }}
+                                                            onchange="updateFormColsFromCheckboxes('{{ $specialty->id }}')">
+                                                        {{ ucfirst($form) }}
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                            <input type="hidden" name="study_forms" value="{{ $specialty->study_forms }}">
                                         </div>
                                         {{-- Per-form blocks --}}
                                         <div style="grid-column:span 3;margin-top:4px;">
@@ -235,7 +242,7 @@
                                                             🎓 Очная</div>
                                                         <div style="margin-bottom:10px;"><label
                                                                 style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">Срок
-                                                                обучения</label><input type="text" name="duration_full_time"
+                                                                обучения (мес.)</label><input type="number" name="duration_full_time"
                                                                 value="{{ $specialty->duration_full_time }}"
                                                                 placeholder="{{ $specialty->duration }}"
                                                                 style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;box-sizing:border-box;">
@@ -276,7 +283,7 @@
                                                             🎓 Очная</div>
                                                         <div style="margin-bottom:10px;"><label
                                                                 style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">Срок
-                                                                обучения</label><input type="text" name="duration_full_time"
+                                                                обучения (мес.)</label><input type="number" name="duration_full_time"
                                                                 value="{{ $specialty->duration_full_time }}"
                                                                 style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;box-sizing:border-box;">
                                                         </div>
@@ -314,7 +321,7 @@
                                                             📚 Заочная</div>
                                                         <div style="margin-bottom:10px;"><label
                                                                 style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">Срок
-                                                                обучения</label><input type="text" name="duration_part_time"
+                                                                обучения (мес.)</label><input type="number" name="duration_part_time"
                                                                 value="{{ $specialty->duration_part_time }}"
                                                                 placeholder="{{ $specialty->duration }}"
                                                                 style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;box-sizing:border-box;">
@@ -355,7 +362,7 @@
                                                             📚 Заочная</div>
                                                         <div style="margin-bottom:10px;"><label
                                                                 style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">Срок
-                                                                обучения</label><input type="text" name="duration_part_time"
+                                                                обучения (мес.)</label><input type="number" name="duration_part_time"
                                                                 value="{{ $specialty->duration_part_time }}"
                                                                 style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;box-sizing:border-box;">
                                                         </div>
@@ -393,7 +400,7 @@
                                                             🔄 Очно-заочная</div>
                                                         <div style="margin-bottom:10px;"><label
                                                                 style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">Срок
-                                                                обучения</label><input type="text" name="duration_distance"
+                                                                обучения (мес.)</label><input type="number" name="duration_distance"
                                                                 value="{{ $specialty->duration_distance }}"
                                                                 placeholder="{{ $specialty->duration }}"
                                                                 style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;box-sizing:border-box;">
@@ -434,7 +441,7 @@
                                                             🔄 Очно-заочная</div>
                                                         <div style="margin-bottom:10px;"><label
                                                                 style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">Срок
-                                                                обучения</label><input type="text" name="duration_distance"
+                                                                обучения (мес.)</label><input type="number" name="duration_distance"
                                                                 value="{{ $specialty->duration_distance }}"
                                                                 style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;box-sizing:border-box;">
                                                         </div>
@@ -532,9 +539,16 @@
                 <div>
                     <label style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">Формы
                         обучения</label>
-                    <input type="text" name="study_forms" id="add_study_forms" placeholder="очная, заочная, очно-заочная"
-                        oninput="updateAddFormCols(this)"
-                        style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;box-sizing:border-box;">
+                    <div style="display:flex;gap:16px;flex-wrap:wrap;padding:9px 0;">
+                        @foreach(['очная', 'заочная', 'очно-заочная'] as $form)
+                            <label style="display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;">
+                                <input type="checkbox" name="study_forms_arr[]" value="{{ $form }}" 
+                                    onchange="updateAddFormColsFromCheckboxes()">
+                                {{ ucfirst($form) }}
+                            </label>
+                        @endforeach
+                    </div>
+                    <input type="hidden" name="study_forms" id="add_study_forms">
                 </div>
                 {{-- Per-form blocks for add --}}
                 <div style="grid-column:span 3;margin-top:4px;">
@@ -548,7 +562,7 @@
                             <div style="font-size:12px;font-weight:700;color:#424551;margin-bottom:12px;">🎓 Очная</div>
                             <div style="margin-bottom:10px;"><label
                                     style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">Срок
-                                    обучения</label><input type="text" name="duration_full_time"
+                                    обучения (мес.)</label><input type="number" name="duration_full_time"
                                     style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;box-sizing:border-box;">
                             </div>
                             <div style="margin-bottom:10px;"><label
@@ -577,7 +591,7 @@
                             <div style="font-size:12px;font-weight:700;color:#424551;margin-bottom:12px;">📚 Заочная</div>
                             <div style="margin-bottom:10px;"><label
                                     style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">Срок
-                                    обучения</label><input type="text" name="duration_part_time"
+                                    обучения (мес.)</label><input type="number" name="duration_part_time"
                                     style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;box-sizing:border-box;">
                             </div>
                             <div style="margin-bottom:10px;"><label
@@ -607,7 +621,7 @@
                             </div>
                             <div style="margin-bottom:10px;"><label
                                     style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px;">Срок
-                                    обучения</label><input type="text" name="duration_distance"
+                                    обучения (мес.)</label><input type="number" name="duration_distance"
                                     style="width:100%;padding:9px 12px;border:1px solid #E5E8ED;border-radius:8px;font-size:14px;box-sizing:border-box;">
                             </div>
                             <div style="margin-bottom:10px;"><label
@@ -664,6 +678,12 @@
                 outline: none;
                 border-color: #FF5A30 !important;
                 box-shadow: 0 0 0 3px rgba(255, 90, 48, .1);
+            }
+
+            @keyframes blink-red {
+                0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+                70% { box-shadow: 0 0 0 15px rgba(220, 38, 38, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
             }
         </style>
     @endpush
@@ -723,9 +743,8 @@
                 btn.style.background = open ? '#E04820' : '#FF5A30';
                 if (open) {
                     panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // Если поле форм уже заполнено — сразу показать блоки
-                    const sf = document.getElementById('add_study_forms');
-                    if (sf && sf.value.trim()) updateAddFormCols(sf);
+                    // Sync add form cols
+                    updateAddFormColsFromCheckboxes();
                 }
             }
 
@@ -739,15 +758,57 @@
                 if (!isOpen) {
                     panel.style.display = 'table-row';
                     panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    // Sync form cols with current study_forms value
-                    const sfInput = panel.querySelector('input[name="study_forms"]');
-                    if (sfInput) updateFormCols(sfInput, id);
+                    // Sync form cols with current checkboxes
+                    updateFormColsFromCheckboxes(id);
                 }
             }
 
             // Закрыть диалог по Escape
             document.addEventListener('keydown', e => {
                 if (e.key === 'Escape') closeDeleteDialog();
+            });
+
+            function updateFormColsFromCheckboxes(spId) {
+                const panel = document.getElementById('editPanel-' + spId);
+                const checkboxes = panel.querySelectorAll('input[name="study_forms_arr[]"]:checked');
+                const forms = Array.from(checkboxes).map(cb => cb.value);
+                
+                // Update hidden input
+                const hiddenInput = panel.querySelector('input[name="study_forms"]');
+                hiddenInput.value = forms.join(', ');
+
+                Object.entries(FORM_MAP).forEach(([form, suffix]) => {
+                    const col = document.getElementById('form-col-' + suffix + '-' + spId);
+                    if (col) col.style.display = forms.includes(form) ? 'block' : 'none';
+                });
+            }
+
+            function updateAddFormColsFromCheckboxes() {
+                const panel = document.getElementById('addPanelFull');
+                const checkboxes = panel.querySelectorAll('input[name="study_forms_arr[]"]:checked');
+                const forms = Array.from(checkboxes).map(cb => cb.value);
+
+                // Update hidden input
+                const hiddenInput = document.getElementById('add_study_forms');
+                hiddenInput.value = forms.join(', ');
+
+                Object.entries(FORM_MAP).forEach(([form, suffix]) => {
+                    const col = document.getElementById('add-col-' + suffix);
+                    if (col) col.style.display = forms.includes(form) ? 'block' : 'none';
+                });
+            }
+
+            // Auto-hide alerts
+            document.addEventListener('DOMContentLoaded', () => {
+                const alerts = document.querySelectorAll('.alert');
+                alerts.forEach(alert => {
+                    setTimeout(() => {
+                        alert.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                        alert.style.opacity = '0';
+                        alert.style.transform = 'translateY(-10px)';
+                        setTimeout(() => alert.remove(), 500);
+                    }, 5000);
+                });
             });
         </script>
     @endpush

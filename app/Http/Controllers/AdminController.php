@@ -23,7 +23,7 @@ class AdminController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'duration' => 'nullable|string',
+            'duration' => 'nullable|integer',
             'qualification' => 'nullable|string',
             'description' => 'required|string',
             'budget_places' => 'nullable|integer|min:0',
@@ -35,9 +35,9 @@ class AdminController extends Controller
             'where_to_work' => 'nullable|string',
             'job_roles' => 'nullable|string',
             // per-form overrides
-            'duration_full_time'      => 'nullable|string',
-            'duration_part_time'      => 'nullable|string',
-            'duration_distance'       => 'nullable|string',
+            'duration_full_time'      => 'nullable|integer',
+            'duration_part_time'      => 'nullable|integer',
+            'duration_distance'       => 'nullable|integer',
             'qualification_full_time' => 'nullable|string',
             'qualification_part_time' => 'nullable|string',
             'qualification_distance'  => 'nullable|string',
@@ -76,6 +76,20 @@ class AdminController extends Controller
             $validated['photo'] = $filename;
         }
 
+        // Sync base fields with full_time values if base fields are empty
+        if (empty($validated['duration']) && !empty($validated['duration_full_time'])) {
+            $validated['duration'] = $validated['duration_full_time'];
+        }
+        if (empty($validated['qualification']) && !empty($validated['qualification_full_time'])) {
+            $validated['qualification'] = $validated['qualification_full_time'];
+        }
+        if (empty($validated['budget_places']) && !empty($validated['budget_places_full_time'])) {
+            $validated['budget_places'] = $validated['budget_places_full_time'];
+        }
+        if (empty($validated['total_places']) && !empty($validated['total_places_full_time'])) {
+            $validated['total_places'] = $validated['total_places_full_time'];
+        }
+
         Specialty::create($validated);
 
         return redirect()->route('admin.specialties.index')->with('success', 'Специальность успешно добавлена');
@@ -85,7 +99,7 @@ class AdminController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'duration' => 'nullable|string',
+            'duration' => 'nullable|integer',
             'qualification' => 'nullable|string',
             'description' => 'required|string',
             'budget_places' => 'nullable|integer|min:0',
@@ -97,9 +111,9 @@ class AdminController extends Controller
             'where_to_work' => 'nullable|string',
             'job_roles' => 'nullable|string',
             // per-form overrides
-            'duration_full_time'      => 'nullable|string',
-            'duration_part_time'      => 'nullable|string',
-            'duration_distance'       => 'nullable|string',
+            'duration_full_time'      => 'nullable|integer',
+            'duration_part_time'      => 'nullable|integer',
+            'duration_distance'       => 'nullable|integer',
             'qualification_full_time' => 'nullable|string',
             'qualification_part_time' => 'nullable|string',
             'qualification_distance'  => 'nullable|string',
@@ -142,6 +156,20 @@ class AdminController extends Controller
 
             $file->move(public_path('assets/img/specialties'), $filename);
             $validated['photo'] = $filename;
+        }
+
+        // Sync base fields with full_time values if base fields are empty
+        if (empty($validated['duration']) && !empty($validated['duration_full_time'])) {
+            $validated['duration'] = $validated['duration_full_time'];
+        }
+        if (empty($validated['qualification']) && !empty($validated['qualification_full_time'])) {
+            $validated['qualification'] = $validated['qualification_full_time'];
+        }
+        if (empty($validated['budget_places']) && !empty($validated['budget_places_full_time'])) {
+            $validated['budget_places'] = $validated['budget_places_full_time'];
+        }
+        if (empty($validated['total_places']) && !empty($validated['total_places_full_time'])) {
+            $validated['total_places'] = $validated['total_places_full_time'];
         }
 
         $specialty->update($validated);

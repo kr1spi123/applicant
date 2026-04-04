@@ -168,26 +168,7 @@
                     </div>
                 </div>
 
-                {{-- Льготы --}}
-                @if($hasBenefits)
-                    <div class="app-card__benefits">
-                        <span class="benefits-label">Льготы:</span>
-                        @foreach($benefits as $b)
-                            <span class="benefit-tag">{{ $b }}</span>
-                        @endforeach
-                        @foreach($proofFiles as $i => $path)
-                            <a href="{{ Storage::url($path) }}" target="_blank" class="proof-link">
-                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                                    stroke-linecap="round">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                                    <polyline points="14 2 14 8 20 8" />
-                                </svg>
-                                Файл {{ $i + 1 }}
-                            </a>
-                        @endforeach
-                    </div>
-                @endif
-
+               
                 {{-- Панель действий --}}
                 <div class="app-card__actions">
                     <form action="{{ route('admin.applications.update-status', $application) }}" method="POST"

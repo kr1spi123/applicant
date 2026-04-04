@@ -5,18 +5,22 @@
 @push('styles')
     <link rel="stylesheet"
         href="{{ asset('css/app.css') . '?v=' . (file_exists(public_path('css/app.css')) ? filemtime(public_path('css/app.css')) : time()) }}">
+    <link rel="stylesheet"
+        href="{{ asset('css/specialty-meta-fix.css') . '?v=' . (file_exists(public_path('css/specialty-meta-fix.css')) ? filemtime(public_path('css/specialty-meta-fix.css')) : time()) }}">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 @endpush
 
 @section('content')
     <div class="specialty-details-page">
         <div class="container">
-            <!-- Header Section -->
             @php
                 $availableForms = $specialty->available_study_forms;
             @endphp
-            <header class="specialty-header" data-aos="fade-down" data-duration="{{ $specialty->duration }}"
+
+            <header class="specialty-header" data-aos="fade-down"
+                data-duration="{{ $specialty->duration }}"
                 data-available-forms='@json($availableForms)'>
+
                 <div class="specialty-header-line">
                     @if($specialty->code)
                         <span class="specialty-code-pill">{{ $specialty->code }}</span>
@@ -24,65 +28,75 @@
                     <h1 class="specialty-title">{{ $specialty->name }}</h1>
                 </div>
 
-                <div class="specialty-study-selector" style="max-width: 500px; margin: 0 auto 32px;">
+                <div class="specialty-study-selector" style="max-width:500px; margin:0 auto 24px;">
                     @php
-                        $allForms = ['очная', 'заочная', 'очно-заочная'];
-                        $firstAvailable = collect($allForms)->first(fn($f) => isset($availableForms[$f])) ?? (array_keys($availableForms)[0] ?? 'очная');
+                        $allForms       = ['очная', 'заочная', 'очно-заочная'];
+                        $firstAvailable = collect($allForms)->first(fn($f) => isset($availableForms[$f]))
+                                          ?? (array_keys($availableForms)[0] ?? 'очная');
                     @endphp
                     <div class="study-form-toggle">
                         @foreach($allForms as $form)
-                            @php
-                                $isAvailable = isset($availableForms[$form]);
-                            @endphp
-                            @if($isAvailable)
-                                <button type="button" class="study-form-option {{ $form === $firstAvailable ? 'active' : '' }}"
+                            @if(isset($availableForms[$form]))
+                                <button type="button"
+                                    class="study-form-option {{ $form === $firstAvailable ? 'active' : '' }}"
                                     data-value="{{ $form }}">
-                                    {{ mb_convert_case($form, MB_CASE_TITLE, "UTF-8") }}
+                                    {{ mb_convert_case($form, MB_CASE_TITLE, 'UTF-8') }}
                                 </button>
                             @endif
                         @endforeach
                     </div>
                 </div>
 
-                <div class="specialty-meta">
-                    <span data-label="Срок обучения" id="meta-duration">
+                {{--
+                    .specialty-meta сам является слайдером (overflow:hidden + transform transition).
+                    Каждая ячейка: лейбл через ::before(data-label) | иконка | .meta-val
+                --}}
+                <div class="specialty-meta" id="specialtyMeta">
+
+                    <span class="meta-cell" data-label="Срок обучения" id="meta-duration">
                         <i class="fas fa-clock"></i>
-                        {{ $availableForms[$firstAvailable]['duration'] ?? $specialty->duration }}
+                        <span class="meta-val">{{ $availableForms[$firstAvailable]['duration'] ?? $specialty->duration }}</span>
                     </span>
-                    <span data-label="Квалификация" id="meta-qualification">
+
+                    <span class="meta-cell" data-label="Квалификация" id="meta-qualification">
                         <i class="fas fa-user-graduate"></i>
-                        {{ $availableForms[$firstAvailable]['qualification'] ?? $specialty->qualification }}
+                        <span class="meta-val">{{ $availableForms[$firstAvailable]['qualification'] ?? $specialty->qualification }}</span>
                     </span>
-                    <span data-label="Бюджетных мест" id="meta-budget-places">
+
+                    <span class="meta-cell" data-label="Бюджетных мест" id="meta-budget-places">
                         <i class="fas fa-graduation-cap"></i>
-                        {{ $availableForms[$firstAvailable]['budget_places'] ?? $specialty->budget_places }}
+                        <span class="meta-val">{{ $availableForms[$firstAvailable]['budget_places'] ?? $specialty->budget_places }}</span>
                     </span>
-                    <span data-label="Платных мест" id="meta-paid-places">
+
+                    <span class="meta-cell" data-label="Платных мест" id="meta-paid-places">
                         <i class="fas fa-chair"></i>
-                        {{ $availableForms[$firstAvailable]['paid_places'] ?? max(0, ($specialty->total_places ?? 0) - $specialty->budget_places) }}
+                        <span class="meta-val">{{ $availableForms[$firstAvailable]['paid_places'] ?? max(0, ($specialty->total_places ?? 0) - $specialty->budget_places) }}</span>
                     </span>
-                    <span data-label="Стоимость" id="meta-cost">
+
+                    <span class="meta-cell" data-label="Стоимость" id="meta-cost">
                         <i class="fas fa-coins"></i>
-                        @if(($availableForms[$firstAvailable]['cost'] ?? 0) > 0)
-                            {{ number_format($availableForms[$firstAvailable]['cost'], 0, ',', ' ') }} ₽ / год
-                        @else
-                            Бюджет
-                        @endif
+                        <span class="meta-val">
+                            @if(($availableForms[$firstAvailable]['cost'] ?? 0) > 0)
+                                {{ number_format($availableForms[$firstAvailable]['cost'], 0, ',', ' ') }} ₽ / год
+                            @else
+                                Бюджет
+                            @endif
+                        </span>
                     </span>
-                    <span data-label="Всего за обучение" id="meta-total-cost">
+
+                    <span class="meta-cell" data-label="Всего за обучение" id="meta-total-cost">
                         <i class="fas fa-wallet"></i>
-                        —
+                        <span class="meta-val">—</span>
                     </span>
+
                 </div>
+
             </header>
 
             <!-- Main Content -->
             <div class="specialty-content">
-                <!-- Left Column: Media -->
                 <div class="specialty-photo" data-aos="fade-right">
-                    @php
-                        $photoPath = 'assets/img/specialties/' . $specialty->photo;
-                    @endphp
+                    @php $photoPath = 'assets/img/specialties/' . $specialty->photo; @endphp
                     @if($specialty->photo && file_exists(public_path($photoPath)))
                         <img src="{{ asset($photoPath) }}" alt="{{ $specialty->name }}">
                     @else
@@ -90,11 +104,10 @@
                     @endif
                 </div>
 
-                <!-- Right Column: Details -->
                 <div class="specialty-info">
                     @php
                         $qualification = $specialty->qualification ?: 'специалиста';
-                        $duration = $specialty->duration;
+                        $duration      = $specialty->duration;
                     @endphp
 
                     <section class="info-section short-info" data-aos="fade-up">
@@ -181,70 +194,93 @@
     @push('scripts')
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <script>
-            AOS.init({
-                duration: 800,
-                once: true,
-                offset: 100
-            });
+            AOS.init({ duration: 800, once: true, offset: 100 });
 
             document.addEventListener('DOMContentLoaded', function () {
-                const header = document.querySelector('.specialty-header');
+                const header  = document.querySelector('.specialty-header');
                 if (!header) return;
 
-                const toggles = header.querySelectorAll('.study-form-option');
-                const metaDuration = document.getElementById('meta-duration');
-                const metaCost = document.getElementById('meta-cost');
-                const metaTotalCost = document.getElementById('meta-total-cost');
+                const block   = document.getElementById('specialtyMeta');
+                const toggles = document.querySelectorAll('.study-form-option');
+                const durRaw  = header.getAttribute('data-duration') || '';
+                const avail   = JSON.parse(header.getAttribute('data-available-forms') || '{}');
+                const order   = ['очная', 'заочная', 'очно-заочная'];
 
-                const durationRaw = header.getAttribute('data-duration') || '';
-                const availableForms = JSON.parse(header.getAttribute('data-available-forms') || '{}');
+                let curIdx    = order.indexOf(
+                    header.querySelector('.study-form-option.active')?.getAttribute('data-value') ?? 'очная'
+                );
+                let animating = false;
 
-                function updateStats(form) {
-                    const info = availableForms[form] || {};
-                    const cost = info.cost || 0;
-                    const duration = info.duration || durationRaw;
+                /* меняем только текст внутри .meta-val, иконка остаётся */
+                function setVal(id, text) {
+                    const cell = document.getElementById(id);
+                    if (!cell) return;
+                    const v = cell.querySelector('.meta-val');
+                    if (v) v.textContent = text;
+                }
 
-                    if (metaDuration)
-                        metaDuration.innerHTML = `<i class="fas fa-clock"></i> ${duration}`;
+                function applyData(form) {
+                    const d    = avail[form] || {};
+                    const cost = d.cost || 0;
+                    const dur  = d.duration || durRaw;
 
-                    const metaQualification = document.getElementById('meta-qualification');
-                    if (metaQualification)
-                        metaQualification.innerHTML = `<i class="fas fa-user-graduate"></i> ${info.qualification || ''}`;
-
-                    const metaBudget = document.getElementById('meta-budget-places');
-                    if (metaBudget)
-                        metaBudget.innerHTML = `<i class="fas fa-graduation-cap"></i> ${info.budget_places != null ? info.budget_places : ''}`;
-
-                    const metaPaid = document.getElementById('meta-paid-places');
-                    if (metaPaid)
-                        metaPaid.innerHTML = `<i class="fas fa-chair"></i> ${info.paid_places != null ? info.paid_places : 'Уточняется'}`;
-
-                    if (metaCost)
-                        metaCost.innerHTML = `<i class="fas fa-coins"></i> ${cost > 0 ? cost.toLocaleString('ru-RU') + ' ₽ / год' : 'Бюджет'}`;
+                    setVal('meta-duration',      dur);
+                    setVal('meta-qualification', d.qualification || '');
+                    setVal('meta-budget-places', d.budget_places != null ? d.budget_places : '');
+                    setVal('meta-paid-places',   d.paid_places   != null ? d.paid_places   : 'Уточняется');
+                    setVal('meta-cost',          cost > 0 ? cost.toLocaleString('ru-RU') + ' ₽ / год' : 'Бюджет');
 
                     let years = 4;
-                    if (duration.includes('3 год')) years = 3.8;
-                    if (duration.includes('2 год')) years = 2.8;
-
-                    if (metaTotalCost)
-                        metaTotalCost.innerHTML = `<i class="fas fa-wallet"></i> ${cost > 0 ? (Math.round(cost * years)).toLocaleString('ru-RU') + ' ₽' : '—'}`;
-
+                    if (dur.includes('3 год')) years = 3.8;
+                    if (dur.includes('2 год')) years = 2.8;
+                    setVal('meta-total-cost', cost > 0 ? Math.round(cost * years).toLocaleString('ru-RU') + ' ₽' : '—');
                 }
 
-                // Initial update
-                const activeToggle = header.querySelector('.study-form-option.active');
-                if (activeToggle) {
-                    updateStats(activeToggle.getAttribute('data-value'));
+                function slide(newForm, forward) {
+                    if (animating) return;
+                    animating = true;
+
+                    /* 1. уехать */
+                    block.classList.add(forward ? 'meta-exit-left' : 'meta-exit-right');
+
+                    setTimeout(function () {
+                        /* 2. данные тихо обновляются */
+                        applyData(newForm);
+
+                        /* 3. стартовая позиция въезда — без transition */
+                        block.classList.remove('meta-exit-left', 'meta-exit-right');
+                        block.classList.add(forward ? 'meta-enter-from-right' : 'meta-enter-from-left');
+
+                        block.getBoundingClientRect(); /* reflow */
+
+                        /* 4. въехать */
+                        block.classList.remove('meta-enter-from-right', 'meta-enter-from-left');
+                        block.classList.add('meta-enter-done');
+
+                        setTimeout(function () {
+                            block.classList.remove('meta-enter-done');
+                            animating = false;
+                        }, 420);
+                    }, 300);
                 }
 
-                toggles.forEach(toggle => {
-                    toggle.addEventListener('click', function () {
-                        if (this.classList.contains('disabled')) return;
+                /* инит */
+                const active = header.querySelector('.study-form-option.active');
+                if (active) applyData(active.getAttribute('data-value'));
+
+                toggles.forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        if (this.classList.contains('disabled') || this.classList.contains('active')) return;
+
+                        const newForm = this.getAttribute('data-value');
+                        const newIdx  = order.indexOf(newForm);
+                        const fwd     = newIdx > curIdx;
+                        curIdx        = newIdx;
 
                         toggles.forEach(t => t.classList.remove('active'));
                         this.classList.add('active');
 
-                        updateStats(this.getAttribute('data-value'));
+                        slide(newForm, fwd);
                     });
                 });
             });

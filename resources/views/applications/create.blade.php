@@ -19,7 +19,6 @@
                 <form class="application-form" method="POST" action="{{ route('applications.store') }}"
                     enctype="multipart/form-data">
                     @csrf
-
                     @if ($errors->any())
                         <div class="alert alert-danger"
                             style="background-color: rgba(255, 90, 48, 0.1); color: #FF5A30; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
@@ -546,27 +545,6 @@
                                     </div>
                                 @endif
                             </div>
-                            <div class="specialties-filters">
-                                <div class="specialties-filter">
-                                    <span>Уровень образования:</span>
-                                    <div class="education-name-dropdown custom-select-dropdown" id="level-filter-dropdown" data-options='["🌟 Все уровни", "📘 Бакалавриат", "📚 Специалитет", "🎯 Магистратура"]' data-values='["all", "бакалавриат", "специалитет", "магистратура"]'>
-                                        <input type="text" id="level-filter-input" class="text-input" readonly value="🌟 Все уровни">
-                                        <input type="hidden" id="level-filter" value="all">
-                                        <button type="button" class="education-name-toggle" aria-label="Показать список"></button>
-                                        <div class="education-name-panel"></div>
-                                    </div>
-                                </div>
-                                <div class="places-legend">
-                                    <div class="legend-item">
-                                        <div class="legend-circle circle-budget">Б</div>
-                                        <div class="legend-tooltip">Синий кружок: Бюджетные места</div>
-                                    </div>
-                                    <div class="legend-item">
-                                        <div class="legend-circle circle-paid">П</div>
-                                        <div class="legend-tooltip">Зелёный кружок: Платные места</div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="specialties-content">
                                 <div class="specialties-list">
                                     @foreach($specialties as $specialty)
@@ -650,14 +628,16 @@
                                                     </div>
                                                 @endif
                                             </div>
-                                            <input type="hidden" name="study_form[{{ $specialty->id }}]" value="{{ $firstAvailable }}">
                                             @php
-                                                $allFormsApplied = count(array_diff($availableForms, $alreadyAppliedForms)) === 0;
-                                            @endphp
-                                            <input type="checkbox" name="specialty[]" value="{{ $specialty->id }}"
-                                                class="specialty-checkbox {{ $allFormsApplied ? 'already-applied-all' : '' }}"
-                                                {{ (is_array(old('specialty')) && in_array($specialty->id, old('specialty'))) ? 'checked' : '' }}
-                                                {{ $allFormsApplied ? 'disabled' : '' }}>
+                                                    $alreadyAppliedCount = count($alreadyAppliedForms);
+                                                    $isPartiallyApplied = $alreadyAppliedCount > 0 && $alreadyAppliedCount < count($availableForms);
+                                                    $allFormsApplied = count(array_diff($availableForms, $alreadyAppliedForms)) === 0;
+                                                @endphp
+                                                <input type="hidden" name="study_form[{{ $specialty->id }}]" value="{{ $firstAvailable }}">
+                                                <input type="checkbox" name="specialty[]" value="{{ $specialty->id }}"
+                                                    class="specialty-checkbox {{ $allFormsApplied ? 'already-applied-all' : '' }} {{ $isPartiallyApplied ? 'partially-applied' : '' }}"
+                                                    {{ (is_array(old('specialty')) && in_array($specialty->id, old('specialty'))) ? 'checked' : '' }}
+                                                    {{ $allFormsApplied ? 'disabled' : '' }}>
                                             <span class="custom-checkbox"></span>
                                         </label>
                                     @endforeach
@@ -1627,6 +1607,11 @@
                             if (error && error.data) {
                                 if (typeof error.data.message === 'string' && error.data.message) {
                                     message = error.data.message;
+                                    if (message === 'duplicate_json') {
+                                        message = 'Вы уже подали заявку на одну из выбранных специальностей с такой же формой обучения.';
+                                    } else if (message === 'limit_json') {
+                                        message = 'Вы не можете подать более 3 заявок в сумме. Пожалуйста, проверьте список выбранных специальностей.';
+                                    }
                                 } else if (typeof error.data.error === 'string' && error.data.error) {
                                     message = error.data.error;
                                 }

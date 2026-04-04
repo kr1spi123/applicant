@@ -42,10 +42,18 @@ class ApplicationController extends Controller
     public function create()
     {
         $user = Auth::user();
+        $existingApplications = $user->applications()
+            ->get()
+            ->groupBy('specialty_id')
+            ->map(function ($apps) {
+                return $apps->pluck('study_form')->toArray();
+            })
+            ->toArray();
+
         $existingCount = $user->applications()->count();
 
         $specialties = Specialty::all();
-        return view('applications.create', compact('specialties', 'existingCount'));
+        return view('applications.create', compact('specialties', 'existingCount', 'existingApplications'));
     }
 
     public function store(Request $request)
@@ -106,6 +114,16 @@ class ApplicationController extends Controller
             $applicationIds = [];
 
             DB::transaction(function () use ($request, $validated, $user, &$applicationIds) {
+                $existingCount = $user->applications()->count();
+                $newCount = count($validated['specialty']);
+
+                if ($existingCount + $newCount > 3) {
+                    if ($request->expectsJson()) {
+                        throw new \RuntimeException('limit_json');
+                    }
+                    throw new \RuntimeException('limit_form');
+                }
+
                 $user->update([
                     'name' => $validated['name'],
                     'surname' => $validated['surname'],
@@ -120,14 +138,17 @@ class ApplicationController extends Controller
                 ]);
 
                 foreach ($validated['specialty'] as $specialtyId) {
+                    $studyForm = $request->input("study_form.$specialtyId");
                     $exists = Application::where('user_id', $user->id)
                         ->where('specialty_id', $specialtyId)
+                        ->where('study_form', $studyForm)
                         ->exists();
 
                     if ($exists) {
                         Log::warning('Duplicate application attempt', [
                             'user_id' => $user->id,
                             'specialty_id' => $specialtyId,
+                            'study_form' => $studyForm,
                         ]);
 
                         if ($request->expectsJson()) {
@@ -160,6 +181,8 @@ class ApplicationController extends Controller
                         'phone' => $validated['phone'],
                         'email' => $validated['email'],
                         'birthdate' => $validated['birthdate'],
+                        'city' => $validated['city'] ?? null,
+                        'citizenship' => $validated['citizenship'],
                         'street' => $validated['street'],
                         'house' => $validated['house'],
                         'school' => $validated['school'],
@@ -168,8 +191,8 @@ class ApplicationController extends Controller
                         'ege_score' => $validated['ege_score'],
                         'certificate_score' => $validated['certificate_score'],
                         'has_achievements' => $request->has('has_achievements'),
-                        'benefits' => isset($validated['benefits']) ? json_encode($validated['benefits']) : null,
-                        'benefit_proof' => !empty($benefitProofPaths) ? json_encode($benefitProofPaths) : null,
+                        'benefits' => $validated['benefits'] ?? null,
+                        'benefit_proof' => !empty($benefitProofPaths) ? $benefitProofPaths : null,
                         'status' => 'Требует подтверждения',
                         'rating' => 0,
                     ];

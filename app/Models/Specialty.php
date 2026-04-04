@@ -35,6 +35,21 @@ class Specialty extends Model
         return $this->hasMany(Application::class);
     }
 
+    public function getBudgetPlacesAttribute($value)
+    {
+        return $value ?: ($this->budget_places_full_time ?: 0);
+    }
+
+    public function getQualificationAttribute($value)
+    {
+        return $value ?: ($this->qualification_full_time ?: null);
+    }
+
+    public function getDurationAttribute($value)
+    {
+        return $value ?: ($this->duration_full_time ?: null);
+    }
+
     public function getAvailableStudyFormsAttribute(): array
     {
         $forms = [];
@@ -61,10 +76,12 @@ class Specialty extends Model
             $budgetPlaces = $this->{"budget_places_{$s}"} ?? $this->budget_places;
             $totalPlaces  = $this->{"total_places_{$s}"}  ?? $this->total_places ?? $budgetPlaces;
             $paidPlaces   = max(0, (int)$totalPlaces - (int)$budgetPlaces);
+            $durationMonths = $this->{"duration_{$s}"} ?? $this->duration;
 
             $forms[$form] = [
                 'cost'          => (float)($cfg['cost'] ?? 0),
-                'duration'      => $this->{"duration_{$s}"}      ?? $this->duration,
+                'duration'      => $this->formatDuration($durationMonths),
+                'duration_months' => $durationMonths,
                 'qualification' => $this->{"qualification_{$s}"} ?? $this->qualification,
                 'budget_places' => (int)$budgetPlaces,
                 'total_places'  => (int)$totalPlaces,
@@ -75,7 +92,8 @@ class Specialty extends Model
         if (empty($forms)) {
             $forms['очная'] = [
                 'cost'          => 0,
-                'duration'      => $this->duration,
+                'duration'      => $this->formatDuration($this->duration),
+                'duration_months' => $this->duration,
                 'qualification' => $this->qualification,
                 'budget_places' => (int)$this->budget_places,
                 'total_places'  => (int)($this->total_places ?? $this->budget_places),
@@ -84,5 +102,33 @@ class Specialty extends Model
         }
 
         return $forms;
+    }
+
+    public function formatDuration($months): string
+    {
+        if (!$months) return '—';
+        
+        $years = floor($months / 12);
+        $remMonths = $months % 12;
+        
+        $result = [];
+        if ($years > 0) {
+            $yearWord = $this->pluralize($years, ['год', 'года', 'лет']);
+            $result[] = "$years $yearWord";
+        }
+        
+        if ($remMonths > 0) {
+            $monthWord = $this->pluralize($remMonths, ['месяц', 'месяца', 'месяцев']);
+            $result[] = "$remMonths $monthWord";
+        }
+        
+        return implode(' ', $result);
+    }
+
+    private function pluralize($n, $forms): string
+    {
+        return $n % 10 == 1 && $n % 100 != 11 
+            ? $forms[0] 
+            : ($n % 10 >= 2 && $n % 10 <= 4 && ($n % 100 < 10 || $n % 100 >= 20) ? $forms[1] : $forms[2]);
     }
 }

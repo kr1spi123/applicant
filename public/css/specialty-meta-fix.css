@@ -1,0 +1,123 @@
+/* =====================================================
+   specialty-meta-fix.css
+   Подключить ПОСЛЕ app.css — исправляет карточки мета
+   ===================================================== */
+
+/* ── обёртка: clip для анимации слайда ─────────────── */
+.specialty-meta {
+    overflow: hidden;                          /* clip sliding */
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1px !important;
+    background: #e5e7eb !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 16px !important;
+
+    /* анимация */
+    will-change: transform, opacity;
+    transition: transform .38s cubic-bezier(.4,0,.2,1),
+                opacity   .38s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── каждая ячейка — компактная, всё по центру ─────── */
+.specialty-meta span,
+.specialty-meta .meta-cell {
+    background: #ffffff !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 20px 16px !important;
+    min-height: 0 !important;          /* убираем раздутый min-height */
+    height: auto !important;
+    text-align: center !important;
+}
+
+/* ── псевдо-лейбл сверху ───────────────────────────── */
+.specialty-meta span::before,
+.specialty-meta .meta-cell::before {
+    content: attr(data-label) !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: .07em !important;
+    text-transform: uppercase !important;
+    color: #9ca3af !important;
+    line-height: 1 !important;
+}
+
+/* ── иконка ─────────────────────────────────────────── */
+.specialty-meta span i,
+.specialty-meta .meta-cell i {
+    font-size: 22px !important;
+    color: #FF5A30 !important;
+    line-height: 1 !important;
+}
+
+/* ── значение ───────────────────────────────────────── */
+.specialty-meta span .meta-val,
+.specialty-meta .meta-cell .meta-val,
+/* если JS пишет innerHTML напрямую — текстовый узел через font-size на родителе */
+.specialty-meta span,
+.specialty-meta .meta-cell {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #111318 !important;
+    line-height: 1.3 !important;
+}
+
+/* но лейбл и иконку не перекрашиваем — перебиваем выше специфичнее */
+
+/* ── анимационные классы ─────────────────────────────  */
+.meta-exit-left        { transform: translateX(-48px) !important; opacity: 0 !important; pointer-events: none; }
+.meta-exit-right       { transform: translateX( 48px) !important; opacity: 0 !important; pointer-events: none; }
+.meta-enter-from-right { transform: translateX( 48px) !important; opacity: 0 !important; transition: none !important; }
+.meta-enter-from-left  { transform: translateX(-48px) !important; opacity: 0 !important; transition: none !important; }
+.meta-enter-done       { transform: translateX(0)     !important; opacity: 1 !important; }
+
+/* ── тоггл ──────────────────────────────────────────── */
+.study-form-toggle {
+    display: inline-flex !important;
+    background: #f3f4f6 !important;
+    border-radius: 12px !important;
+    padding: 4px !important;
+    gap: 4px !important;
+    border: 1px solid #e5e7eb !important;
+}
+.study-form-option {
+    padding: 9px 22px !important;
+    border-radius: 9px !important;
+    border: none !important;
+    background: transparent !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #6b7280 !important;
+    cursor: pointer !important;
+    transition: background .18s, color .18s, box-shadow .18s !important;
+    white-space: nowrap !important;
+}
+.study-form-option:hover:not(.active) {
+    background: rgba(0,0,0,.05) !important;
+    color: #374151 !important;
+}
+.study-form-option.active {
+    background: #ffffff !important;
+    color: #FF5A30 !important;
+    box-shadow: 0 1px 5px rgba(0,0,0,.12) !important;
+}
+
+/* ── адаптив ─────────────────────────────────────────  */
+@media (max-width: 768px) {
+    .specialty-meta {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+@media (max-width: 480px) {
+    .specialty-meta {
+        grid-template-columns: 1fr !important;
+    }
+    .study-form-toggle {
+        width: 100%;
+        justify-content: center;
+    }
+}
