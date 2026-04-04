@@ -93,7 +93,7 @@
 
             </header>
 
-            <!-- Main Content -->
+
             <div class="specialty-content">
                 <div class="specialty-photo" data-aos="fade-right">
                     @php $photoPath = 'assets/img/specialties/' . $specialty->photo; @endphp
