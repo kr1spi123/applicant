@@ -21,8 +21,9 @@
             font-family: 'Ubuntu', sans-serif;
             margin: 0;
             padding: 0;
+            background: #F0F2F8;
         }
-
+        
         /* Header Styles */
         nav {
             display: flex;

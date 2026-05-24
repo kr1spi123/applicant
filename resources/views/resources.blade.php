@@ -7,105 +7,253 @@
 @endpush
 
 @section('content')
+<div class="page-wrapper">
+
+    {{-- HERO --}}
+    <section class="hero">
+        <div class="hero__inner">
+            <span class="hero__tag">Приёмная комиссия</span>
+            <h1 class="hero__title">Всё, что нужно<br>для поступления</h1>
+            <p class="hero__sub">Документы, заселение, контакты — в одном месте</p>
+        </div>
+    </section>
+
     <div class="container">
-        <h1>ДОКУМЕНТЫ ДЛЯ ПОСТУПЛЕНИЯ</h1>
-        <ul class="documents-list">
-            <li>Оригинал и копию документов, удостоверяющих его личность, гражданство;</li>
-            <li>Оригинал и копию документов об образовании и (или) квалификации;</li>
-            <li>6 фотографий (3*4, матовые);</li>
-            <li>Оригинал и копию СНИЛС (на основании Постановления Правительства РФ от 29.11.2021 года № 2085 п.19);</li>
-            <li>Копию ИНН;</li>
-            <li>Копию приписного свидетельства для юношей;</li>
-            <li>Медицинскую справку 086/у с обязательным заключением участкового врача/педиатра/терапевта о профессиональной пригодности по направлению подготовки;</li>
-            <li>Копию медицинского сертификата;</li>
-        </ul>
 
-        <h1>КАК ЗАСЕЛИТЬСЯ В ОБЩЕЖИТЕ СЛТ?</h1>
-        <p class="info-text">Отделение по связям с общественностью проводит прием абитуриентов и их родителей для заселения в общежитие.</p>
-
-        <div class="question-block">
-            <h3>1. Когда можно приехать на заселение?</h3>
-            <div class="schedule">
-                <p>29 августа - 1 курс <span class="time">(с 8:00 до 16:00)</span></p>
-                <p>30 августа - 2 курс <span class="time">(с 8:00 до 16:00)</span></p>
-                <p>31 августа - 3-4 курс <span class="time">(с 8:00 до 15:00)</span></p>
-                <p class="address"><span>Адрес:</span>  Менделеева, 2</p>
+        {{-- DOCUMENTS --}}
+        <section class="section" id="documents">
+            <div class="section__header">
+                <span class="section__icon">📄</span>
+                <h2 class="section__title">Документы для поступления</h2>
             </div>
-        </div>
+            <ul class="doc-list">
+                <li class="doc-item">
+                    <span class="doc-item__num">01</span>
+                    <p>Оригинал и копию документов, удостоверяющих личность, гражданство</p>
+                </li>
+                <li class="doc-item">
+                    <span class="doc-item__num">02</span>
+                    <p>Оригинал и копию документов об образовании и (или) квалификации</p>
+                </li>
+                <li class="doc-item">
+                    <span class="doc-item__num">03</span>
+                    <p>6 фотографий (3×4, матовые)</p>
+                </li>
+                <li class="doc-item">
+                    <span class="doc-item__num">04</span>
+                    <p>Оригинал и копию СНИЛС (Постановление Правительства РФ от 29.11.2021 № 2085 п.19)</p>
+                </li>
+                <li class="doc-item">
+                    <span class="doc-item__num">05</span>
+                    <p>Копию ИНН</p>
+                </li>
+                <li class="doc-item">
+                    <span class="doc-item__num">06</span>
+                    <p>Копию приписного свидетельства для юношей</p>
+                </li>
+                <li class="doc-item">
+                    <span class="doc-item__num">07</span>
+                    <p>Медицинскую справку 086/у с заключением участкового врача о профессиональной пригодности</p>
+                </li>
+                <li class="doc-item">
+                    <span class="doc-item__num">08</span>
+                    <p>Копию медицинского сертификата</p>
+                </li>
+            </ul>
+        </section>
 
-        <div class="question-block">
-            <h3>2. Может ли абитуриент приехать на заселение один?</h3>
-            <p>Да, если ему есть 18 лет (если абитуриент несовершеннолетний), то заселение в общежитие производится только в присутствии законного представителя (родителя или опекуна). Если родители не могут присутствовать при заселении, то необходимо оформить доверенность на совершеннолетнего представителя.</p>
-        </div>
-
-        <div class="question-block">
-            <h3>3. Какие справки необходимы для заселения?</h3>
-            <p>НЕ ПОЗДНЕЕ, чем за 10 дней до заселения необходимо сдать справки в здрав.пункт, расположенный в общежитии №1 по адресу Юбилейная проспект, 10. Вы можете разместить их на диске справки или принести лично. Без предоставления справок заселение в общежитие производиться не будет.</p>
-        </div>
-
-        <div class="question-block">
-            <h3>4. Какие документы нужно взять с собой на заселение?</h3>
-            <p>Необходимо иметь при себе паспорт (оригинал и 2 копии), медицинский полис (оригинал и 2 копии), приписное свидетельство (для юношей) (оригинал и 2 копии), фотографии 3х4 (4 шт.).</p>
-            <p class="warning">БУДЬТЕ ВНИМАТЕЛЬНЫ! Если вы не выполните что-то из этих пунктов, в заселении в общежитие вам будет отказано.</p>
-            <p class="warning">ВАЖНО! Если вы не можете приехать в указанные даты, необходимо заранее предупредить об этом администрацию, написав сообщение на почту или позвонив по телефону.</p>
-        </div>
-
-        <div class="commission-table">
-            <h1>СОСТАВ ПРИЕМНОЙ КОМИССИИ</h1>
-            <table>
-                <tr>
-                    <th>ФИО</th>
-                    <th>ДОЛЖНОСТЬ</th>
-                    <th>ПЕРИОД РАБОТЫ</th>
-                </tr>
-                <tr>
-                    <td>Герко Ирина Николаевна</td>
-                    <td>Председатель приемной комиссии</td>
-                    <td>с 17 июня по 7 июля 2024 г., с 3 августа по 31 августа 2024 г.</td>
-                </tr>
-                <tr>
-                    <td>Герко Ирина Николаевна</td>
-                    <td>Председатель приемной комиссии</td>
-                    <td>с 17 июня по 7 июля 2024 г., с 3 августа по 31 августа 2024 г.</td>
-                </tr>
-                <tr>
-                    <td>Герко Ирина Николаевна</td>
-                    <td>Председатель приемной комиссии</td>
-                    <td>с 17 июня по 7 июля 2024 г., с 3 августа по 31 августа 2024 г.</td>
-                </tr>
-                <tr>
-                    <td>Герко Ирина Николаевна</td>
-                    <td>Председатель приемной комиссии</td>
-                    <td>с 17 июня по 7 июля 2024 г., с 3 августа по 31 августа 2024 г.</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="schedule-contacts">
-            <div class="work-schedule">
-                <h1>ГРАФИК РАБОТЫ</h1>
-                <ul>
-                    <li><span>ПОНЕДЕЛЬНИК</span> <span>8:00 - 16:30</span></li>
-                    <li><span>ВТОРНИК</span> <span>8:00 - 16:30</span></li>
-                    <li><span>СРЕДА</span> <span>8:00 - 16:30</span></li>
-                    <li><span>ЧЕТВЕРГ</span> <span>8:00 - 16:30</span></li>
-                    <li><span>ПЯТНИЦА</span> <span>8:00 - 16:30</span></li>
-                    <li><span>СУББОТА</span> <span>8:00 - 14:30</span></li>
-                    <li><span>ВОСКРЕСЕНЬЕ</span> <span>Выходной</span></li>
-                </ul>
+        {{-- DORM --}}
+        <section class="section" id="dorm">
+            <div class="section__header">
+                <span class="section__icon">🏠</span>
+                <h2 class="section__title">Как заселиться в общежитие СЛТ?</h2>
             </div>
+            <p class="section__lead">Отделение по связям с общественностью проводит приём абитуриентов и их родителей для заселения в общежитие.</p>
 
-            <div class="contacts">
-                <h2>КОНТАКТЫ</h2>
-                <div class="contact-item">
-                    <img src="{{ asset('assets/img/icons8-телефон-50 1.png') }}" alt="Phone">
-                    <a href="tel:+79009209212">+7 900 920 92 12</a>
+            {{-- Q1 --}}
+            <div class="qa-card">
+                <div class="qa-card__q">
+                    <span class="qa-card__num">01</span>
+                    <h3>Когда можно приехать на заселение?</h3>
                 </div>
-                <div class="contact-item">
-                    <img src="{{ asset('assets/img/icons8-почта-50 1.png') }}" alt="Email">
-                    <a href="mailto:pk@slt.com">pk@slt.com</a>
+                <div class="qa-card__body">
+                    <div class="dorm-schedule">
+                        <div class="dorm-day">
+                            <div class="dorm-day__date">29 августа</div>
+                            <div class="dorm-day__course">1 курс</div>
+                            <div class="dorm-day__time">08:00 — 16:00</div>
+                        </div>
+                        <div class="dorm-day">
+                            <div class="dorm-day__date">30 августа</div>
+                            <div class="dorm-day__course">2 курс</div>
+                            <div class="dorm-day__time">08:00 — 16:00</div>
+                        </div>
+                        <div class="dorm-day">
+                            <div class="dorm-day__date">31 августа</div>
+                            <div class="dorm-day__course">3–4 курс</div>
+                            <div class="dorm-day__time">08:00 — 15:00</div>
+                        </div>
+                    </div>
+                    <div class="dorm-address">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Менделеева, 2
+                    </div>
                 </div>
             </div>
-        </div>
+
+            {{-- Q2 --}}
+            <div class="qa-card">
+                <div class="qa-card__q">
+                    <span class="qa-card__num">02</span>
+                    <h3>Может ли абитуриент приехать на заселение один?</h3>
+                </div>
+                <div class="qa-card__body">
+                    <p>Да, если ему есть 18 лет. Если абитуриент несовершеннолетний, заселение производится только в присутствии законного представителя (родителя или опекуна). Если родители не могут присутствовать, необходимо оформить доверенность на совершеннолетнего представителя.</p>
+                </div>
+            </div>
+
+            {{-- Q3 --}}
+            <div class="qa-card">
+                <div class="qa-card__q">
+                    <span class="qa-card__num">03</span>
+                    <h3>Какие справки необходимы для заселения?</h3>
+                </div>
+                <div class="qa-card__body">
+                    <p>Не позднее чем за <strong>10 дней</strong> до заселения необходимо сдать справки в здрав.пункт, расположенный в общежитии №1 по адресу <strong>Юбилейная проспект, 10</strong>. Вы можете разместить их на диске или принести лично. Без справок заселение не производится.</p>
+                </div>
+            </div>
+
+            {{-- Q4 --}}
+            <div class="qa-card">
+                <div class="qa-card__q">
+                    <span class="qa-card__num">04</span>
+                    <h3>Какие документы нужно взять с собой?</h3>
+                </div>
+                <div class="qa-card__body">
+                    <p>Паспорт (оригинал + 2 копии), медицинский полис (оригинал + 2 копии), приписное свидетельство для юношей (оригинал + 2 копии), фотографии 3×4 — 4 шт.</p>
+                    <div class="alert alert--warn">
+                        <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <p>Если вы не выполните что-то из этих пунктов, в заселении в общежитие вам будет отказано.</p>
+                    </div>
+                    <div class="alert alert--info">
+                        <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <p>Если вы не можете приехать в указанные даты, необходимо заранее предупредить администрацию по почте или телефону.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- COMMISSION TABLE --}}
+        <section class="section" id="commission">
+            <div class="section__header">
+                <span class="section__icon">👥</span>
+                <h2 class="section__title">Состав приёмной комиссии</h2>
+            </div>
+            <div class="table-wrap">
+                <table class="commission-table">
+                    <thead>
+                        <tr>
+                            <th>ФИО</th>
+                            <th>Должность</th>
+                            <th>Период работы</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-label="ФИО">Герко Ирина Николаевна</td>
+                            <td data-label="Должность">Председатель приемной комиссии</td>
+                            <td data-label="Период">с 17 июня по 7 июля 2024 г., с 3 августа по 31 августа 2024 г.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="ФИО">Герко Ирина Николаевна</td>
+                            <td data-label="Должность">Председатель приемной комиссии</td>
+                            <td data-label="Период">с 17 июня по 7 июля 2024 г., с 3 августа по 31 августа 2024 г.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="ФИО">Герко Ирина Николаевна</td>
+                            <td data-label="Должность">Председатель приемной комиссии</td>
+                            <td data-label="Период">с 17 июня по 7 июля 2024 г., с 3 августа по 31 августа 2024 г.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="ФИО">Герко Ирина Николаевна</td>
+                            <td data-label="Должность">Председатель приемной комиссии</td>
+                            <td data-label="Период">с 17 июня по 7 июля 2024 г., с 3 августа по 31 августа 2024 г.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        {{-- SCHEDULE + CONTACTS --}}
+        <section class="section" id="contacts">
+            <div class="bottom-grid">
+
+                <div class="schedule-card">
+                    <div class="section__header section__header--left">
+                        <span class="section__icon">🕐</span>
+                        <h2 class="section__title">График работы</h2>
+                    </div>
+                    <ul class="sched-list">
+                        <li class="sched-item">
+                            <span class="sched-item__day">Понедельник</span>
+                            <span class="sched-item__dots"></span>
+                            <span class="sched-item__time">08:00 — 16:30</span>
+                        </li>
+                        <li class="sched-item">
+                            <span class="sched-item__day">Вторник</span>
+                            <span class="sched-item__dots"></span>
+                            <span class="sched-item__time">08:00 — 16:30</span>
+                        </li>
+                        <li class="sched-item">
+                            <span class="sched-item__day">Среда</span>
+                            <span class="sched-item__dots"></span>
+                            <span class="sched-item__time">08:00 — 16:30</span>
+                        </li>
+                        <li class="sched-item">
+                            <span class="sched-item__day">Четверг</span>
+                            <span class="sched-item__dots"></span>
+                            <span class="sched-item__time">08:00 — 16:30</span>
+                        </li>
+                        <li class="sched-item">
+                            <span class="sched-item__day">Пятница</span>
+                            <span class="sched-item__dots"></span>
+                            <span class="sched-item__time">08:00 — 16:30</span>
+                        </li>
+                        <li class="sched-item">
+                            <span class="sched-item__day">Суббота</span>
+                            <span class="sched-item__dots"></span>
+                            <span class="sched-item__time">08:00 — 14:30</span>
+                        </li>
+                        <li class="sched-item sched-item--off">
+                            <span class="sched-item__day">Воскресенье</span>
+                            <span class="sched-item__dots"></span>
+                            <span class="sched-item__time">Выходной</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="contacts-card">
+                    <div class="section__header section__header--left">
+                        <span class="section__icon">📬</span>
+                        <h2 class="section__title">Контакты</h2>
+                    </div>
+                    <a href="tel:+79009209212" class="contact-link">
+                        <span class="contact-link__icon">
+                            <img src="{{ asset('assets/img/icons8-телефон-50 1.png') }}" alt="Phone">
+                        </span>
+                        <span class="contact-link__text">+7 900 920 92 12</span>
+                    </a>
+                    <a href="mailto:pk@slt.com" class="contact-link">
+                        <span class="contact-link__icon">
+                            <img src="{{ asset('assets/img/icons8-почта-50 1.png') }}" alt="Email">
+                        </span>
+                        <span class="contact-link__text">pk@slt.com</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
     </div>
+</div>
 @endsection
