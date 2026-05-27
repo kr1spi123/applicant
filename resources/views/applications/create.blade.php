@@ -42,7 +42,7 @@
                 @csrf
                 @if ($errors->any())
                 <div class="alert alert-danger"
-                    style="background-color: rgba(255, 90, 48, 0.1); color: #FF5A30; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
+                    style="background-color: rgba(45, 122, 79, 0.1); color: #2D7A4F; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
                     <ul style="margin: 0; padding-left: 20px;">
                         @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -499,15 +499,15 @@
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z"
-                                            stroke="#FF5A30" stroke-width="2" stroke-linecap="round"
+                                            stroke="#2D7A4F" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
-                                        <path d="M14 2V8H20" stroke="#FF5A30" stroke-width="2" stroke-linecap="round"
+                                        <path d="M14 2V8H20" stroke="#2D7A4F" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
-                                        <path d="M16 13H8" stroke="#FF5A30" stroke-width="2" stroke-linecap="round"
+                                        <path d="M16 13H8" stroke="#2D7A4F" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
-                                        <path d="M16 17H8" stroke="#FF5A30" stroke-width="2" stroke-linecap="round"
+                                        <path d="M16 17H8" stroke="#2D7A4F" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
-                                        <path d="M10 9H8" stroke="#FF5A30" stroke-width="2" stroke-linecap="round"
+                                        <path d="M10 9H8" stroke="#2D7A4F" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                     </svg>
                                     <span class="file-name"></span>
@@ -702,6 +702,7 @@
             <button type="button" class="modal-btn-secondary" onclick="closeSuccessModal()">Подать еще одну</button>
         </div>
     </div>
+
 </div>
 
 <script>
@@ -729,11 +730,8 @@
             }
         };
 
-        const EXISTING_COUNT = {
-            {
-                $existingCount ?? 0
-            }
-        };
+        const EXISTING_COUNT = {{ $existingCount ?? 0 }};
+
         const MAX_TOTAL = 3;
         const MAX_SELECTIONS = MAX_TOTAL - EXISTING_COUNT;
 
@@ -1398,7 +1396,7 @@
                 const row = document.createElement('div');
                 row.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:4px;';
                 row.innerHTML =
-                    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5A30" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
+                    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2D7A4F" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>' +
                     '<span style="font-size:13px;color:#424551;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + file.name + '</span>';
                 container.appendChild(row);
             });

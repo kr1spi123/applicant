@@ -1,8 +1,8 @@
 /* Global variables and typography */
 :root {
-    --primary: #FF5A30;
-    --primary-dark: #E04820;
-    --primary-light: #FF8A65;
+    --primary: #2D7A4F;
+    --primary-dark: #1F5C3A;
+    --primary-light: #3D9E68;
     --accent: #4F46E5;
     --bg-body: #F9FAFB;
     --bg-card: #FFFFFF;
@@ -252,7 +252,7 @@ body {
 
 .btn-more:hover {
     background: var(--primary-dark);
-    box-shadow: 0 4px 12px rgba(255, 90, 48, 0.3);
+    box-shadow: 0 4px 12px rgba(45, 122, 79, 0.3);
 }
 
 /* Breakpoints */

@@ -99,11 +99,11 @@ body {
 
 .navbar-nav a:hover {
     background: #F4F5F6;
-    color: #FF5A30;
+    color: #2D7A4F;
 }
 
 .navbar-nav li.active a {
-    background: #FF5A30;
+    background: #2D7A4F;
     color: #FFFFFF;
 }
 
@@ -123,7 +123,7 @@ body {
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #FF5A30, #ff8a65);
+    background: linear-gradient(135deg, #2D7A4F, #3D9E68);
     color: #fff;
     font-size: 14px;
     font-weight: 700;
@@ -132,7 +132,7 @@ body {
     justify-content: center;
     text-transform: uppercase;
     flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(255, 90, 48, 0.35);
+    box-shadow: 0 2px 8px rgba(45, 122, 79, 0.35);
 }
 
 .user-name {
@@ -163,9 +163,9 @@ body {
 
 .btn-home:hover {
     background: #fff;
-    color: #FF5A30;
-    border-color: #FF5A30;
-    box-shadow: 0 2px 8px rgba(255, 90, 48, 0.12);
+    color: #2D7A4F;
+    border-color: #2D7A4F;
+    box-shadow: 0 2px 8px rgba(45, 122, 79, 0.12);
 }
 
 .btn-logout {
@@ -298,11 +298,11 @@ tr:hover {
 }
 
 .btn-primary {
-    background: #FF5A30;
+    background: #2D7A4F;
 }
 
 .btn-primary:hover {
-    background: #E04820;
+    background: #1F5C3A;
 }
 
 .btn-danger {

@@ -1,5 +1,5 @@
 <nav>
-    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo.png') }}" alt="Logo"></a>
+    <a href="{{ route('home') }}"><img src="{{ asset('assets/img/logo2.png') }}" alt="Logo"></a>
     <ul>
         <li><a href="{{ route('specialties.index') }}">Специальности</a></li>
         <li><a href="{{ route('page.resources') }}">Ресурсы</a></li>
@@ -10,14 +10,14 @@
         @endauth
     </ul>
     <div class="call">
-        <img src="{{ asset('assets/img/iPhone.svg') }}" alt="Phone">
+        <img src="{{ asset('assets/img/iPhone2.svg') }}" alt="Phone">
         <div>
             <p style="font-size: 14px; font-weight: bold;">Позвоните нам</p>
             <p>8 (405) 555-0128</p>
         </div>
     </div>
     <div class="talk">
-        <img src="{{ asset('assets/img/Chat.svg') }}" alt="Chat">
+        <img src="{{ asset('assets/img/Chat2.svg') }}" alt="Chat">
         <div>
             <p style="font-size: 14px; font-weight: bold;">Напишите нам</p>
             <p>Applicant@gmail.com</p>

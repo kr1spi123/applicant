@@ -1,15 +1,15 @@
 @extends('layouts.main')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/index.css') }}">
+<link rel="stylesheet" href="{{ asset('css/index.css') . '?v=' . (file_exists(public_path('css/index.css')) ? filemtime(public_path('css/index.css')) : time()) }}">
 <style>
     .error-message {
-        color: #FF5A30;
+        color: #2D7A4F;
         font-size: 0.8em;
         margin-top: 5px;
         margin-bottom: 10px;
         padding: 8px 12px;
-        background-color: rgba(255, 90, 48, 0.1);
+        background-color: rgba(45, 122, 79, 0.1);
         border-radius: 4px;
         display: none;
         animation: fadeIn 0.3s ease-in-out;
@@ -20,7 +20,7 @@
     }
 
     .input-error {
-        border: 1px solid #FF5A30 !important;
+        border: 1px solid #2D7A4F !important;
     }
 
     #login-general-error {
@@ -63,7 +63,7 @@
     @guest
     <form class="register-form" method="post" action="{{ route('register') }}" id="register">
         @csrf
-        <label><span style="color: #FF5A30;">App</span><span>licant</span></label>
+        <label><span style="color: #2D7A4F;">App</span><span>licant</span></label>
 
         <!-- Сообщения об успехе/ошибке -->
         @if (session('success'))
@@ -109,7 +109,7 @@
 
         <button type="submit">ЗАРЕГИСТРИРОВАТЬСЯ</button>
         <p style="text-align: center; margin-top: 15px; font-size: 12px; color: #666;">
-            Нажимая вы соглашаетесь с <a href="#" style="color: #FF5A30;">условиями</a> нашей политики и конфиденциальности.
+            Нажимая вы соглашаетесь с <a href="#" style="color: #2D7A4F;">условиями</a> нашей политики и конфиденциальности.
         </p>
         <div class="form-switch">
             Уже есть аккаунт? <a href="#login" class="switch-to-login">Войти</a>
@@ -118,7 +118,7 @@
 
     <form class="login-form active" method="post" action="{{ route('login.post') }}" id="login">
         @csrf
-        <label><span style="color: #FF5A30;">App</span><span>licant</span></label>
+        <label><span style="color: #2D7A4F;">App</span><span>licant</span></label>
 
         @if (session('status'))
         <div class="success-message active">{{ session('status') }}</div>

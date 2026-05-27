@@ -267,34 +267,36 @@
                 </div>
                 <div class="sp-section__body">
                     <div class="sp-steps">
-
                         <div class="sp-step">
-                            <div class="sp-step__num">1</div>
-                            <div class="sp-step__line"></div>
+                            <div class="sp-step__left">
+                                <div class="sp-step__num">1</div>
+                                <div class="sp-step__line"></div>
+                            </div>
                             <div class="sp-step__content">
                                 <h3>Подача документов</h3>
                                 <p>Загрузите документы через личный кабинет или принесите лично в приёмную комиссию</p>
                             </div>
                         </div>
-
                         <div class="sp-step">
-                            <div class="sp-step__num">2</div>
-                            <div class="sp-step__line"></div>
+                            <div class="sp-step__left">
+                                <div class="sp-step__num">2</div>
+                                <div class="sp-step__line"></div>
+                            </div>
                             <div class="sp-step__content">
                                 <h3>Рассмотрение</h3>
                                 <p>Ваша заявка будет проверена приёмной комиссией в течение 3-х рабочих дней</p>
                             </div>
                         </div>
-
                         <div class="sp-step">
-                            <div class="sp-step__num">3</div>
-                            <div class="sp-step__line sp-step__line--hidden"></div>
+                            <div class="sp-step__left">
+                                <div class="sp-step__num">3</div>
+                                <div class="sp-step__line sp-step__line--hidden"></div>
+                            </div>
                             <div class="sp-step__content">
                                 <h3>Зачисление</h3>
                                 <p>Следите за рейтингом и подтвердите своё намерение учиться</p>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </section>
@@ -390,4 +392,39 @@
     });
 </script>
 @endpush
+<script type="module">
+    import {
+        animate,
+        stagger
+    } from 'https://esm.sh/animejs@4';
+
+    animate('.sp-step__num', {
+        scale: [0.4, 1],
+        opacity: [0, 1],
+        delay: stagger(200, {
+            start: 300
+        }),
+        duration: 700,
+        ease: 'outElastic(1, .6)',
+    });
+
+    animate('.sp-step__content', {
+        opacity: [0, 1],
+        translateX: [-10, 0],
+        delay: stagger(200, {
+            start: 400
+        }),
+        duration: 500,
+        ease: 'outCubic',
+    });
+
+    animate('.sp-step__line:not(.sp-step__line--hidden)', {
+        opacity: [0, 1],
+        delay: stagger(200, {
+            start: 600
+        }),
+        duration: 400,
+        ease: 'outCubic',
+    });
+</script>
 @endsection

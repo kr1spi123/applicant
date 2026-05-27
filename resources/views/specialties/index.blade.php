@@ -89,7 +89,7 @@
     .meta-total-cost {
         font-size: 13px !important;
         font-weight: 700 !important;
-        color: #FF5A30 !important;
+        color: #039A46 !important;
     }
 
     /* ── анимационные классы ────────────────────────────── */
@@ -154,7 +154,7 @@
 
     .study-form-option.active {
         background: #fff !important;
-        color: #FF5A30 !important;
+        color: #039A46 !important;
         box-shadow: 0 1px 4px rgba(0, 0, 0, .10) !important;
     }
 

@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'АИС Абитуриент')</title>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
-    
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+
     <!-- Styles -->
     @stack('styles')
-    
+
     <style>
         body {
             font-family: 'Ubuntu', sans-serif;
@@ -23,7 +24,7 @@
             padding: 0;
             background: #F0F2F8;
         }
-        
+
         /* Header Styles */
         nav {
             display: flex;
@@ -71,7 +72,7 @@
         }
 
         nav ul li a:hover {
-            color: #FF5A30;
+            color: #2D7A4F;
         }
 
         nav ul li a::after {
@@ -81,7 +82,7 @@
             bottom: -4px;
             width: 0;
             height: 2px;
-            background-color: #FF5A30;
+            background-color: #2D7A4F;
             transition: width 0.3s ease;
         }
 
@@ -89,28 +90,32 @@
             width: 100%;
         }
 
-        .call, .talk {
+        .call,
+        .talk {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .call img, .talk img {
+        .call img,
+        .talk img {
             width: 24px;
             height: 24px;
             margin: 0;
         }
 
-        .call div, .talk div {
+        .call div,
+        .talk div {
             display: flex;
             flex-direction: column;
         }
 
-        .call p, .talk p {
+        .call p,
+        .talk p {
             margin: 0;
             font-size: 14px;
         }
-        
+
         /* Footer Styles */
         footer {
             width: 100%;
@@ -172,7 +177,7 @@
             align-items: flex-start;
             gap: 10px;
         }
-        
+
         .contact-list li strong {
             color: #fff;
             opacity: 1;
@@ -197,7 +202,7 @@
         }
 
         .footer-links a:hover {
-            color: #FF5A30;
+            color: #2D7A4F;
         }
 
         .subscribe-form {
@@ -217,13 +222,13 @@
             color: #fff;
             outline: none;
         }
-        
+
         .subscribe-form input::placeholder {
             color: rgba(255, 255, 255, 0.4);
         }
 
         .subscribe-form button {
-            background: linear-gradient(55.95deg, #FF3F3A 0%, #F75E05 100%);
+            background: linear-gradient(55.95deg, #1F5C3A 0%, #2D7A4F 100%);
             border: none;
             padding: 0 20px;
             color: white;
@@ -231,17 +236,17 @@
             cursor: pointer;
             transition: opacity 0.3s;
         }
-        
+
         .subscribe-form button:hover {
             opacity: 0.9;
         }
-        
+
         .footer-bottom {
             background-color: #1a1c25;
             padding: 20px 0;
             margin-top: 20px;
         }
-        
+
         .footer-bottom-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -252,7 +257,7 @@
             font-size: 12px;
             color: rgba(255, 255, 255, 0.4);
         }
-        
+
         .go-top-btn {
             display: flex;
             align-items: center;
@@ -261,17 +266,17 @@
             cursor: pointer;
             transition: color 0.3s;
         }
-        
+
         .go-top-btn:hover {
-            color: #FF5A30;
+            color: #2D7A4F;
         }
-        
+
         @media (max-width: 768px) {
             .footer-content {
                 grid-template-columns: 1fr;
                 gap: 30px;
             }
-            
+
             .footer-bottom-content {
                 flex-direction: column;
                 gap: 10px;
@@ -280,6 +285,7 @@
         }
     </style>
 </head>
+
 <body>
     @include('layouts.partials.header')
 
@@ -297,13 +303,26 @@
                     Мы помогаем абитуриентам найти свой путь и поступить в учебное заведение мечты.
                 </p>
                 <div class="socials">
-                    <a href="#"><img src="{{ asset('assets/img/Whatsapp.png') }}" alt="WA"></a>
-                    <a href="#"><img src="{{ asset('assets/img/Messanger.png') }}" alt="TG"></a>
-                    <a href="#"><img src="{{ asset('assets/img/Facebook.png') }}" alt="FB"></a>
-                    <a href="#"><img src="{{ asset('assets/img/YouTube.png') }}" alt="YT"></a>
+                    <a href="https://vk.com/gpouslt" target="_blank" rel="noopener" title="ВКонтакте">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.785 16.241s.288-.032.436-.194c.136-.148.132-.427.132-.427s-.02-1.304.586-1.496c.598-.19 1.365 1.26 2.179 1.815.615.416 1.082.325 1.082.325l2.172-.03s1.135-.07.597-.963c-.044-.073-.314-.661-1.616-1.869-1.364-1.265-1.181-1.060.462-3.246.999-1.332 1.399-2.146 1.274-2.494-.12-.332-.855-.244-.855-.244l-2.443.015s-.181-.025-.315.056c-.132.079-.217.262-.217.262s-.387 1.03-.903 1.906c-1.088 1.85-1.524 1.948-1.702 1.834-.414-.267-.31-1.075-.31-1.649 0-1.793.272-2.54-.529-2.733-.266-.064-.461-.107-1.141-.114-.872-.009-1.609.003-2.025.207-.278.136-.492.44-.361.457.161.021.526.099.72.363.25.341.241 1.107.241 1.107s.144 2.11-.335 2.372c-.328.179-.778-.186-1.745-1.858-.496-.857-.871-1.805-.871-1.805s-.072-.176-.202-.271c-.157-.115-.376-.151-.376-.151l-2.322.015s-.348.01-.476.161c-.114.135-.009.414-.009.414s1.816 4.25 3.872 6.395c1.886 1.967 4.025 1.838 4.025 1.838h.97z" fill="rgba(255,255,255,0.6)" />
+                        </svg>
+                    </a>
+                    <a href="https://t.me/SLT_FAQ_bot" target="_blank" rel="noopener" title="Telegram бот">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21.944 3.239a1.5 1.5 0 0 0-1.53-.225L2.541 9.75a1.5 1.5 0 0 0 .09 2.812l4.177 1.392 1.932 5.797a.75.75 0 0 0 1.285.225l2.474-3.097 4.344 3.193a1.5 1.5 0 0 0 2.363-.938l2.25-13.5a1.5 1.5 0 0 0-.512-1.195zM10.5 17.127l-1.35-4.05 6.525-5.452-5.175 9.502zm1.275-1.402.45-3.6 2.025 1.485-2.475 2.115zm4.725 2.025-4.725-3.47 7.2-13.23-2.475 16.7z" fill="rgba(255,255,255,0.6)" />
+                        </svg>
+                    </a>
+                    <a href="https://slt-online.ru" target="_blank" rel="noopener" title="Официальный сайт">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                    </a>
                 </div>
             </div>
-            
+
             <div class="footer-col">
                 <h3>Контакты</h3>
                 <ul class="contact-list">
@@ -328,7 +347,6 @@
                     <li><a href="{{ route('specialties.index') }}">Специальности</a></li>
                     <li><a href="{{ route('page.resources') }}">Ресурсы</a></li>
                     <li><a href="{{ route('applications.index') }}">Личный кабинет</a></li>
-                    <li><a href="#">Помощь</a></li>
                 </ul>
             </div>
 
@@ -340,7 +358,7 @@
                 </div>
                 <div class="go-top-btn" id="goTop">
                     <span>Наверх</span>
-                    <div style="background: #FF5A30; width: 32px; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                    <div style="background: #2D7A4F; width: 32px; height: 32px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="12" y1="19" x2="12" y2="5"></line>
                             <polyline points="5 12 12 5 19 12"></polyline>
@@ -349,7 +367,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="footer-bottom">
             <div class="footer-bottom-content">
                 <div>© {{ date('Y') }} АИС Абитуриент. Все права защищены.</div>
@@ -375,7 +393,8 @@
             }
         });
     </script>
-    
+
     @stack('scripts')
 </body>
+
 </html>

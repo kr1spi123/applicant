@@ -30,7 +30,7 @@
     transform: translateY(-50%);
     width: 3px;
     height: 24px;
-    background: #ff5a30;
+    background: #2D7A4F;
     border-radius: 2px;
 }
 .admin-subheader {
@@ -78,7 +78,7 @@
     font-size: 16px;
 }
 .today-count {
-    color: #ff5a30;
+    color: #2D7A4F;
     font-weight: 500;
     margin-left: 8px;
 }

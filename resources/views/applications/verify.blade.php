@@ -5,9 +5,9 @@
     @import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@500&display=swap');
 
     :root {
-        --a: #FF5A30;
-        --a-bg: rgba(255, 90, 48, .08);
-        --a-ring: rgba(255, 90, 48, .18);
+        --a: #2D7A4F;
+        --a-bg: rgba(45, 122, 79, .08);
+        --a-ring: rgba(45, 122, 79, .18);
         --ink: #0F1014;
         --ink-2: #3B3D4A;
         --ink-3: #72747F;
@@ -100,7 +100,7 @@
         position: absolute;
         inset: 0 0 auto;
         height: 3px;
-        background: linear-gradient(90deg, #FF5A30 0%, #FF8255 40%, #FFCAB8 100%);
+        background: linear-gradient(90deg, #2D7A4F 0%, #FF8255 40%, #FFCAB8 100%);
     }
 
     .vp-hero-top {

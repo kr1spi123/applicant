@@ -19,7 +19,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #FF5A30, #FF8A65);
+    background: linear-gradient(90deg, #2D7A4F, #3D9E68);
 }
 
 /* Контейнер с сообщением об авторизации */
@@ -91,26 +91,26 @@
 }
 
 .auth-button.register {
-    background: #FF5A30;
+    background: #2D7A4F;
     color: #FFFFFF;
-    box-shadow: 0 4px 12px rgba(255, 90, 48, 0.2);
+    box-shadow: 0 4px 12px rgba(45, 122, 79, 0.2);
 }
 
 .auth-button.register:hover {
-    background: #E6492B;
+    background: #1F5C3A;
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(255, 90, 48, 0.3);
+    box-shadow: 0 8px 16px rgba(45, 122, 79, 0.3);
 }
 
 .auth-button.login {
     background: #FFFFFF;
-    color: #FF5A30;
-    border: 2px solid #FF5A30;
+    color: #2D7A4F;
+    border: 2px solid #2D7A4F;
 }
 
 .auth-button.login:hover {
-    background: #FF5A30;
+    background: #2D7A4F;
     color: #FFFFFF;
     transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(255, 90, 48, 0.2);
-} 
+    box-shadow: 0 8px 16px rgba(45, 122, 79, 0.2);
+}

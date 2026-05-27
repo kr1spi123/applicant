@@ -2,9 +2,9 @@
    TOKENS
    ============================================= */
 :root {
-    --lk-accent: #FF5A30;
-    --lk-accent-dark: #D94520;
-    --lk-accent-soft: #FFF2EE;
+    --lk-accent: #2D7A4F;
+    --lk-accent-dark: #1F5C3A;
+    --lk-accent-soft: #EDF7F1;
     --lk-text: #1E212C;
     --lk-muted: #6B7280;
     --lk-border: #E8EAEF;
@@ -145,7 +145,7 @@ body {
 .lk-card:hover {
     box-shadow: var(--lk-shadow-md);
     transform: translateY(-2px);
-    border-color: rgba(255, 90, 48, .15);
+    border-color: rgba(45, 122, 79, .15);
 }
 
 .lk-card__head {
@@ -177,7 +177,7 @@ body {
     width: 48px;
     height: 48px;
     border-radius: 14px;
-    background: linear-gradient(135deg, var(--lk-accent) 0%, #ff7a57 100%);
+    background: linear-gradient(135deg, var(--lk-accent) 0%, #3D9E68 100%);
     color: #fff;
     font-size: 17px;
     font-weight: 800;
@@ -185,7 +185,7 @@ body {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(255, 90, 48, .3);
+    box-shadow: 0 4px 12px rgba(45, 122, 79, .3);
     letter-spacing: -.02em;
 }
 
@@ -644,14 +644,14 @@ body {
     padding: 12px 28px;
     border-radius: 12px;
     text-decoration: none;
-    box-shadow: 0 4px 14px rgba(255, 90, 48, .3);
+    box-shadow: 0 4px 14px rgba(45, 122, 79, .3);
     transition: all var(--lk-transition);
 }
 
 .lk-empty__btn:hover {
     background: var(--lk-accent-dark);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 90, 48, .35);
+    box-shadow: 0 8px 20px rgba(45, 122, 79, .35);
 }
 
 /* =============================================

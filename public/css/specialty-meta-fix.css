@@ -50,7 +50,7 @@
 .specialty-meta span i,
 .specialty-meta .meta-cell i {
     font-size: 22px !important;
-    color: #FF5A30 !important;
+    color: #2D7A4F !important;
     line-height: 1 !important;
 }
 
@@ -102,7 +102,7 @@
 }
 .study-form-option.active {
     background: #ffffff !important;
-    color: #FF5A30 !important;
+    color: #2D7A4F !important;
     box-shadow: 0 1px 5px rgba(0,0,0,.12) !important;
 }
 

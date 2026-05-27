@@ -2,9 +2,7 @@
 
 @section('title', 'Ресурсы')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('css/resources.css') }}">
-@endpush
+<link rel="stylesheet" href="{{ asset('css/resources.css') . '?v=' . (file_exists(public_path('css/resources.css')) ? filemtime(public_path('css/resources.css')) : time()) }}">
 
 @section('content')
 <div class="page-wrapper">
