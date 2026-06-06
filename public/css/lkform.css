@@ -2592,7 +2592,7 @@ select.text-input option:checked,
 }
 
 .benefit-item-orphan .benefit-check {
-    border-color: #F97316;
+    border-color: linear-gradient(135deg, #2D7A4F, #3D9E68);
 }
 
 .benefit-item-disabled .benefit-check {

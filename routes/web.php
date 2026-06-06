@@ -45,6 +45,7 @@ Route::get('/applications/{id}/verify', [ApplicationController::class, 'verify']
 Route::get('/applications/{application}/certificate', [ApplicationController::class, 'downloadCertificate'])->name('applications.certificate');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/applications/enrollment', [ApplicationController::class, 'enrollment'])->name('applications.enrollment');
     Route::resource('applications', ApplicationController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -39,6 +39,20 @@ class ApplicationController extends Controller
         return view('applications.index', compact('applications', 'user', 'stats', 'latestApplication'));
     }
 
+    public function enrollment()
+    {
+        $user = Auth::user();
+        $specialties = Specialty::with(['applications' => function ($q) {
+            $q->with('user')
+                ->orderByDesc('rating')
+                ->orderByDesc('created_at');
+        }])
+            ->orderBy('name')
+            ->get();
+
+        return view('applications.enrollment', compact('specialties', 'user'));
+    }
+
     public function create()
     {
         $user = Auth::user();
