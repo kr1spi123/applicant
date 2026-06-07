@@ -13,14 +13,10 @@ class RankingService
     {
         $rating = 0;
 
-        // 1. EGE Score (max 300, usually)
         $rating += $application->ege_score;
 
-        // 2. Certificate Score (GPA 3.0 - 5.0)
-        // Convert GPA to a comparable scale (e.g., * 20 => max 100)
         $rating += $application->certificate_score * 20;
 
-        // 3. Achievements (Bonus points)
         if ($application->has_achievements) {
             $rating += 10;
         }
@@ -28,8 +24,6 @@ class RankingService
         $application->rating = $rating;
         $application->save();
 
-        // Optional: Recalculate status based on ranking
-        // This would require checking available budget places vs current position
     }
 
     /**

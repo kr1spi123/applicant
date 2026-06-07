@@ -303,7 +303,7 @@
 
     .finput:focus {
         outline: none;
-        border-color: #FF5A30;
+        border-color: #2D7A4F;
         box-shadow: 0 0 0 3px rgba(255, 90, 48, .1);
     }
 
@@ -331,7 +331,7 @@
     }
 
     .fcount strong {
-        color: #FF5A30;
+        color: #2D7A4F;
     }
 
     /* Custom select */
@@ -359,7 +359,7 @@
     }
 
     .csel.open {
-        border-color: #FF5A30;
+        border-color: #2D7A4F;
         box-shadow: 0 0 0 3px rgba(255, 90, 48, .1);
     }
 
@@ -416,7 +416,7 @@
 
     .csel__opt--active {
         background: #FFF0EC;
-        color: #FF5A30;
+        color: #2D7A4F;
         font-weight: 700;
     }
 
@@ -533,7 +533,7 @@
     }
 
     .spec-meta-chip strong {
-        color: #FF5A30;
+        color: #2D7A4F;
     }
 
     /* Body */

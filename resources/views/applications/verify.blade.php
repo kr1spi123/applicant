@@ -100,7 +100,7 @@
         position: absolute;
         inset: 0 0 auto;
         height: 3px;
-        background: linear-gradient(90deg, #2D7A4F 0%, #FF8255 40%, #FFCAB8 100%);
+        background: linear-gradient(90deg, #2D7A4F 0%, #2D7A4F 40%, #1F5C3A 100%);
     }
 
     .vp-hero-top {

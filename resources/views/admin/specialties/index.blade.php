@@ -45,8 +45,8 @@
                 специальност{{ $specialties->count() === 1 ? 'ь' : ($specialties->count() < 5 ? 'и' : 'ей') }}</p>
         </div>
         <button onclick="toggleAddPanel()" id="addToggleBtn"
-            style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#FF5A30;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(255,90,48,.3);"
-            onmouseover="this.style.background='#E04820'" onmouseout="this.style.background='#FF5A30'">
+            style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:#2D7A4F;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(255,90,48,.3);"
+            onmouseover="this.style.background='#2D7A4F'" onmouseout="this.style.background='#1F5C3A'">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
                 stroke-linecap="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
@@ -229,7 +229,7 @@
                                         {{-- Per-form blocks --}}
                                         <div style="grid-column:span 3;margin-top:4px;">
                                             <div
-                                                style="font-size:11px;font-weight:700;color:#FF5A30;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;padding-top:12px;border-top:1px solid #E5E8ED;">
+                                                style="font-size:11px;font-weight:700;color:#2D7A4F;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;padding-top:12px;border-top:1px solid #E5E8ED;">
                                                 Данные по формам обучения
                                             </div>
                                             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;"
@@ -476,7 +476,7 @@
                                     </div>
                                     <div style="display:flex;gap:12px;margin-top:20px;">
                                         <button type="submit"
-                                            style="padding:10px 24px;background:#FF5A30;border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;">Сохранить
+                                            style="padding:10px 24px;background:#2D7A4F;border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;">Сохранить
                                             изменения</button>
                                         <button type="button" onclick="toggleEditPanel({{ $specialty->id }})"
                                             style="padding:10px 20px;background:#F4F5F6;border:1px solid #E5E8ED;border-radius:8px;color:#555;font-size:14px;font-weight:600;cursor:pointer;">Отмена</button>
@@ -553,7 +553,7 @@
                 {{-- Per-form blocks for add --}}
                 <div style="grid-column:span 3;margin-top:4px;">
                     <div
-                        style="font-size:11px;font-weight:700;color:#FF5A30;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;padding-top:12px;border-top:1px solid #E5E8ED;">
+                        style="font-size:11px;font-weight:700;color:#2D7A4F;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;padding-top:12px;border-top:1px solid #E5E8ED;">
                         Данные по формам обучения
                     </div>
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;" id="add-form-cols">
@@ -650,7 +650,7 @@
             </div>
             <div style="display:flex;gap:12px;margin-top:24px;">
                 <button type="submit"
-                    style="padding:10px 24px;background:#FF5A30;border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(255,90,48,.25);">Сохранить</button>
+                    style="padding:10px 24px;background:#2D7A4F;border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(255,90,48,.25);">Сохранить</button>
                 <button type="button" onclick="toggleAddPanel()"
                     style="padding:10px 20px;background:#F4F5F6;border:1px solid #E5E8ED;border-radius:8px;color:#555;font-size:14px;font-weight:600;cursor:pointer;">Отмена</button>
             </div>
@@ -676,7 +676,7 @@
             textarea:focus,
             select:focus {
                 outline: none;
-                border-color: #FF5A30 !important;
+                border-color: #2D7A4F !important;
                 box-shadow: 0 0 0 3px rgba(255, 90, 48, .1);
             }
 
@@ -740,7 +740,7 @@
                 const btn = document.getElementById('addToggleBtn');
                 const open = panel.style.display === 'none' || panel.style.display === '';
                 panel.style.display = open ? 'block' : 'none';
-                btn.style.background = open ? '#E04820' : '#FF5A30';
+                btn.style.background = open ? '#2D7A4F' : '#1F5C3A';
                 if (open) {
                     panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     // Sync add form cols

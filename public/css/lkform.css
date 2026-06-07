@@ -145,37 +145,23 @@ main {
 .input-grid {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 25px;
 }
 
 .personal-data .input-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 25px;
 }
 
 @media (min-width: 992px) {
-    .personal-grid .input-wrapper:nth-child(4)::after {
-        content: "";
-        position: absolute;
-        bottom: -22px;
-        /* Центр между строками */
-        left: -9px;
-        /* Центр между колонками */
-        transform: translateX(-50%);
-        width: 80px;
-        /* Увеличено с 67px */
-        height: 3px;
-        background-color: #1F5C3A;
-        border-radius: 2px;
-        pointer-events: none;
-    }
+
 }
 
 .education .input-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 25px;
 }
 
 .input-column {
@@ -1281,11 +1267,13 @@ main {
 .error-message {
     position: absolute;
     left: 5px;
-    bottom: 7px;
-    font-size: 12px;
+    top: calc(100% + 2px);
+    font-size: 11px;
     color: #FF4242;
     opacity: 0;
     transition: opacity 0.3s ease;
+    white-space: nowrap;
+    pointer-events: none;
 }
 
 .error-message.visible {
@@ -1294,53 +1282,32 @@ main {
 
 /* Стили для обычных текстовых полей */
 .input-wrapper:has(input[type="text"]) .error-message {
-    bottom: -12px;
+    top: calc(100% + 2px);
     left: 5px;
 }
 
 /* Стили для поля даты */
-.input-wrapper:has(input[type="date"]) {
-    margin-bottom: 25px;
-}
-
 .input-wrapper:has(input[type="date"]) .error-message {
-    bottom: -15px;
+    top: calc(100% + 2px);
     left: 5px;
-    font-size: 12px;
 }
 
 /* Стили для поля телефона */
-.input-wrapper:has(input[type="tel"]) {
-    margin-bottom: 25px;
-}
-
 .input-wrapper:has(input[type="tel"]) .error-message {
-    bottom: -15px;
-    left: 10px;
-    font-size: 12px;
+    top: calc(100% + 2px);
+    left: 5px;
 }
 
 /* Стили для поля email */
-
 .input-wrapper:has(input[type="email"]) .error-message {
-    bottom: -10px;
+    top: calc(100% + 2px);
     left: 5px;
 }
 
 /* Стили для полей блока образования */
-.education .input-wrapper {
-    margin-bottom: 25px;
-}
-
-.education .input-wrapper:last-child {
-    margin-bottom: 24px;
-}
-
-/* Делаем селектор более специфичным, чтобы перекрыть общие стили */
 .form-block.education .input-wrapper .error-message {
-    bottom: -25px;
+    top: calc(100% + 2px);
     left: 5px;
-    font-size: 12px;
 }
 
 .education .input-wrapper input.text-input {

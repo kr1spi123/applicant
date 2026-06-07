@@ -17,7 +17,7 @@
         <!-- Horizontal Navbar -->
         <header class="admin-navbar">
             <div class="navbar-brand">
-                <img src="{{ asset('assets/img/logo.png') }}" alt="Logo">
+                <img src="{{ asset('assets/img/logo2.png') }}" alt="Logo">
                 <h2>Админ-панель</h2>
             </div>
             <button class="navbar-toggle" aria-label="Меню" aria-expanded="false">

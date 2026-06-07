@@ -144,7 +144,7 @@
         }
 
         .footer-logo {
-            margin-bottom: 24px;
+            margin-bottom: 14px;
             display: block;
         }
 
@@ -297,7 +297,7 @@
         <div class="footer-content">
             <div class="footer-col">
                 <a href="{{ route('home') }}" class="footer-logo">
-                    <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" style="max-height: 40px; filter: brightness(0) invert(1);" />
+                    <img src="{{ asset('assets/img/logo2.png') }}" alt="Logo" style="max-height: 40px; filter: brightness(0) invert(1);" />
                 </a>
                 <p style="color: rgba(255,255,255,0.6); font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
                     Мы помогаем абитуриентам найти свой путь и поступить в учебное заведение мечты.

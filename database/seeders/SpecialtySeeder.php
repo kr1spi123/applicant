@@ -16,7 +16,7 @@ class SpecialtySeeder extends Seeder
             [
                 'name' => 'Информационные системы и программирование',
                 'code' => '09.02.07',
-                'duration' => '3 года 10 месяцев',
+                'duration' => 46,
                 'budget_places' => 25,
                 'total_places' => 30,
                 'description' => 'Разработка программного обеспечения, веб-приложений и баз данных. Студенты изучают языки PHP, Python, JavaScript, а также проектирование архитектуры систем.',
@@ -30,7 +30,7 @@ class SpecialtySeeder extends Seeder
             [
                 'name' => 'Сетевое и системное администрирование',
                 'code' => '09.02.06',
-                'duration' => '3 года 10 месяцев',
+                'duration' => 46,
                 'budget_places' => 20,
                 'total_places' => 25,
                 'description' => 'Настройка и администрирование компьютерных сетей и серверов. Обучение работе с оборудованием Cisco, MikroTik и серверными ОС Linux/Windows.',
@@ -44,7 +44,7 @@ class SpecialtySeeder extends Seeder
             [
                 'name' => 'Дизайн (по отраслям)',
                 'code' => '54.02.01',
-                'duration' => '3 года 10 месяцев',
+                'duration' => 46,
                 'budget_places' => 15,
                 'total_places' => 20,
                 'description' => 'Графический дизайн, веб-дизайн и создание визуального контента. Студенты осваивают Adobe Photoshop, Illustrator и Figma.',
@@ -58,7 +58,7 @@ class SpecialtySeeder extends Seeder
             [
                 'name' => 'Экономика и бухгалтерский учет',
                 'code' => '38.02.01',
-                'duration' => '2 года 10 месяцев',
+                'duration' => 34,
                 'budget_places' => 30,
                 'total_places' => 35,
                 'description' => 'Бухгалтерский учет, налогообложение и анализ хозяйственной деятельности. Практика в программе 1С:Бухгалтерия.',
@@ -72,7 +72,7 @@ class SpecialtySeeder extends Seeder
             [
                 'name' => 'Обеспечение информационной безопасности',
                 'code' => '10.02.05',
-                'duration' => '3 года 10 месяцев',
+                'duration' => 46,
                 'budget_places' => 15,
                 'total_places' => 20,
                 'description' => 'Защита данных, предотвращение кибератак и аудит безопасности. Изучение криптографии и методов защиты сетей.',
@@ -86,7 +86,7 @@ class SpecialtySeeder extends Seeder
             [
                 'name' => 'Право и организация социального обеспечения',
                 'code' => '40.02.01',
-                'duration' => '2 года 10 месяцев',
+                'duration' => 34,
                 'budget_places' => 20,
                 'total_places' => 40,
                 'description' => 'Подготовка специалистов для работы в пенсионных фондах, органах соцзащиты и юридических отделах.',
@@ -100,7 +100,7 @@ class SpecialtySeeder extends Seeder
             [
                 'name' => 'Туризм и гостеприимство',
                 'code' => '43.02.16',
-                'duration' => '2 года 10 месяцев',
+                'duration' => 34,
                 'budget_places' => 25,
                 'total_places' => 30,
                 'description' => 'Организация туристических поездок, работа в отелях и сервисная деятельность. Изучение иностранных языков и маркетинга.',
@@ -114,7 +114,7 @@ class SpecialtySeeder extends Seeder
             [
                 'name' => 'Коммерция (по отраслям)',
                 'code' => '38.02.04',
-                'duration' => '2 года 10 месяцев',
+                'duration' => 34,
                 'budget_places' => 0,
                 'total_places' => 25,
                 'description' => 'Управление продажами, логистика и розничная торговля. Подготовка менеджеров по продажам и закупкам.',
@@ -128,10 +128,10 @@ class SpecialtySeeder extends Seeder
             [
                 'name' => 'Реклама',
                 'code' => '42.02.01',
-                'duration' => '3 года 10 месяцев',
+                'duration' => 46,
                 'budget_places' => 10,
                 'total_places' => 20,
-                'description' => 'Создание рекламных кампаний, копирайтинг и SMM. Обучение инструментам продвижения в цифровой среде.',
+                'description' => 'Создание рекламных кампаний, копирайтиринг и SMM. Обучение инструментам продвижения в цифровой среде.',
                 'qualification' => 'Специалист по рекламе',
                 'study_forms' => 'очная',
                 'cost_full_time' => 64000.00,
@@ -142,7 +142,7 @@ class SpecialtySeeder extends Seeder
             [
                 'name' => 'Банковское дело',
                 'code' => '38.02.07',
-                'duration' => '2 года 10 месяцев',
+                'duration' => 34,
                 'budget_places' => 15,
                 'total_places' => 25,
                 'description' => 'Проведение банковских операций, кредитование и обслуживание клиентов. Работа в банковских терминалах и ПО.',

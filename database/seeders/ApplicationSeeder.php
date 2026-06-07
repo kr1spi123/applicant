@@ -22,8 +22,8 @@ class ApplicationSeeder extends Seeder
         }
 
         foreach ($users as $user) {
-            // Создаем 1-2 случайные заявки для каждого пользователя
-            $numApps = rand(1, 2);
+            // Создаем 2-3 случайные заявки для каждого пользователя
+            $numApps = rand(2, 3);
             $selectedSpecialties = $specialties->random($numApps);
 
             foreach ($selectedSpecialties as $specialty) {
@@ -40,7 +40,6 @@ class ApplicationSeeder extends Seeder
                     'birthdate' => $user->birthdate ?? '2005-01-01',
                     'street' => $user->street ?? 'Центральная',
                     'house' => $user->house ?? '10',
-                    'postal_code' => '123456',
                     'school' => $user->school ?? 'СОШ №1',
                     'graduation_year' => $user->graduation_year ?? 2023,
                     'certificate_file' => 'seed_certificate.pdf',

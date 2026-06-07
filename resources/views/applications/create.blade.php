@@ -947,12 +947,14 @@
         });
 
         function validateInput(input) {
-            const wrapper = input.parentElement;
+            const wrapper = input.closest('.input-wrapper');
+            if (!wrapper) return;
             const errorMessage = wrapper.querySelector('.error-message');
             let isValid = true;
 
             // Очищаем предыдущие состояния
             input.classList.remove('valid', 'invalid');
+            wrapper.classList.remove('valid', 'invalid');
             if (errorMessage) errorMessage.classList.remove('visible');
 
             // Проверяем заполненность
@@ -964,7 +966,7 @@
             if (input.value) {
                 switch (input.type) {
                     case 'text':
-                        if (input.pattern && !new RegExp(input.pattern).test(input.value)) {
+                        if (input.pattern && !new RegExp('^' + input.pattern + '$').test(input.value)) {
                             isValid = false;
                         }
                         break;
@@ -997,6 +999,7 @@
             // Применяем соответствующие классы и показываем/скрываем сообщение об ошибке
             if (input.value) {
                 input.classList.add(isValid ? 'valid' : 'invalid');
+                wrapper.classList.add(isValid ? 'valid' : 'invalid');
                 if (!isValid && errorMessage) {
                     errorMessage.classList.add('visible');
                 }

@@ -145,7 +145,7 @@
             }
 
             .kpi__val--orange {
-                color: #FF5A30;
+                color: #2D7A4F;
             }
 
             .kpi__val--green {
@@ -254,7 +254,7 @@
 
             .spec-bar__fill {
                 height: 100%;
-                background: linear-gradient(90deg, #FF5A30, #FFAA80);
+                background: linear-gradient(90deg, #2D7A4F, #2b8d40ff);
                 border-radius: 999px;
                 transition: width .5s cubic-bezier(.4, 0, .2, 1);
             }
@@ -273,7 +273,7 @@
             }
 
             .num-total--orange {
-                color: #FF5A30;
+                color: #2D7A4F;
             }
 
             .num-share {
