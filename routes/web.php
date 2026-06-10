@@ -46,6 +46,7 @@ Route::get('/applications/{application}/certificate', [ApplicationController::cl
 
 Route::middleware('auth')->group(function () {
     Route::get('/applications/enrollment', [ApplicationController::class, 'enrollment'])->name('applications.enrollment');
+    Route::post('/applications/recalculate-ratings', [ApplicationController::class, 'recalculateRatings'])->name('applications.recalculate-ratings');
     Route::resource('applications', ApplicationController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -67,4 +68,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/statistics', [AdminController::class, 'statistics'])->name('statistics.index');
     // Enrollment boards
     Route::get('/enrollment', [AdminController::class, 'enrollmentBoards'])->name('enrollment.index');
+    Route::post('/recalculate-ratings', [AdminController::class, 'recalculateRatings'])->name('recalculate-ratings');
 });

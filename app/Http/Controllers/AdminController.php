@@ -253,6 +253,16 @@ public function applications()
         return view('admin.statistics.index', compact('stats'));
     }
 
+    public function recalculateRatings()
+    {
+        $rankingService = app(RankingService::class);
+        $applications = Application::all();
+        foreach ($applications as $application) {
+            $rankingService->calculateRating($application);
+        }
+        return redirect()->back()->with('success', 'Рейтинги для всех заявок пересчитаны!');
+    }
+
     // Enrollment boards: per-specialty ranked tables
     public function enrollmentBoards()
     {

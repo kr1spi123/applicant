@@ -39,6 +39,17 @@ class ApplicationController extends Controller
         return view('applications.index', compact('applications', 'user', 'stats', 'latestApplication'));
     }
 
+    public function recalculateRatings()
+    {
+        $user = Auth::user();
+        $rankingService = app(\App\Services\RankingService::class);
+        $applications = $user->applications;
+        foreach ($applications as $application) {
+            $rankingService->calculateRating($application);
+        }
+        return redirect()->back()->with('success', 'Рейтинги ваших заявок обновлены!');
+    }
+
     public function enrollment()
     {
         $user = Auth::user();

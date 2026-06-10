@@ -11,6 +11,10 @@
             <p class="er-sub">Таблицы заявлений, отсортированные по рейтингу. Верхние — бюджет.</p>
         </div>
         <div class="er-header-btns">
+            <form action="{{ route('admin.recalculate-ratings') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="er-btn er-btn--primary">🔄 Пересчитать все рейтинги</button>
+            </form>
             <button class="er-btn er-btn--ghost" onclick="toggleAll(true)">↓ Развернуть все</button>
             <button class="er-btn er-btn--ghost" onclick="toggleAll(false)">↑ Свернуть все</button>
         </div>
@@ -134,6 +138,7 @@
                         <tr>
                             <th class="th-pos">Место</th>
                             <th>ФИО</th>
+                            <th class="th-num">Рейтинг</th>
                             <th class="th-num">Аттестат</th>
                             <th class="th-num">ЕГЭ</th>
                             <th class="th-type">Тип</th>
@@ -178,6 +183,7 @@
                                     @endif
                                 </td>
                                 <td class="td-name">{{ $app->user->name }} {{ $app->user->surname ?? '' }}</td>
+                                <td class="td-num" style="color: #2D7A4F; font-weight: 800;">{{ $app->rating }}</td>
                                 <td class="td-num">{{ $app->certificate_score }}</td>
                                 <td class="td-num">{{ $app->ege_score ?? '—' }}</td>
                                 <td><span class="sbadge sbadge--{{ $typeBadge }}">{{ $type }}</span></td>
@@ -252,6 +258,16 @@
 
     .er-btn--ghost:hover {
         background: #E5E8ED;
+    }
+
+    .er-btn--primary {
+        background: #2D7A4F;
+        color: #fff;
+        border: 1px solid #2D7A4F;
+    }
+
+    .er-btn--primary:hover {
+        background: #1e683e;
     }
 
     /* Filters */

@@ -52,6 +52,10 @@
                 <p class="er-sub">Таблицы всех поданных заявлений, отсортированные по баллу. Выделены ваши заявки.</p>
             </div>
             <div class="er-header-btns">
+                <form action="{{ route('applications.recalculate-ratings') }}" method="POST" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="er-btn er-btn--primary">🔄 Обновить рейтинги</button>
+                </form>
                 <button class="er-btn er-btn--ghost" onclick="toggleAll(true)">↓ Развернуть все</button>
                 <button class="er-btn er-btn--ghost" onclick="toggleAll(false)">↑ Свернуть все</button>
             </div>
@@ -151,6 +155,7 @@
                             <tr>
                                 <th class="th-pos">Место</th>
                                 <th>ФИО</th>
+                                <th class="th-num">Рейтинг</th>
                                 <th class="th-num">Аттестат</th>
                                 <th class="th-num">ЕГЭ</th>
                                 <th class="th-type">Тип</th>
@@ -199,6 +204,7 @@
                                         {{ $app->user->name }} {{ $app->user->surname ?? '' }}
                                         @if($isMe) <span class="me-badge">Это вы</span> @endif
                                     </td>
+                                    <td class="td-num" style="color: #2D7A4F; font-weight: 800;">{{ $app->rating }}</td>
                                     <td class="td-num">{{ $app->certificate_score }}</td>
                                     <td class="td-num">{{ $app->ege_score ?? '—' }}</td>
                                     <td><span class="sbadge sbadge--{{ $typeBadge }}">{{ $type }}</span></td>
@@ -269,6 +275,16 @@
         background: var(--lk-accent-soft);
         color: var(--lk-accent);
         border-color: var(--lk-accent);
+    }
+
+    .er-btn--primary {
+        background: var(--lk-accent);
+        color: #fff;
+        border: 1px solid var(--lk-accent);
+    }
+
+    .er-btn--primary:hover {
+        background: #1e683e;
     }
 
     /* Filters */

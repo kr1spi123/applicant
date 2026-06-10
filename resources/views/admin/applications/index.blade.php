@@ -12,6 +12,12 @@
             <p class="page-sub">Показано: <strong id="visibleCount">{{ $applications->count() }}</strong> из
                 {{ $applications->count() }}</p>
         </div>
+        <form action="{{ route('admin.recalculate-ratings') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn-reset" style="background: #2D7A4F; color: #fff; border-color: #2D7A4F;">
+                🔄 Пересчитать все рейтинги
+            </button>
+        </form>
     </div>
 
     {{-- ФИЛЬТРЫ --}}
@@ -154,7 +160,10 @@
                             <span
                                 class="score-chip__val {{ $application->ege_score ? '' : 'score-chip__val--empty' }}">{{ $application->ege_score ?: '—' }}</span>
                         </div>
-
+                        <div class="score-chip score-chip--rating">
+                            <span class="score-chip__label">Рейтинг</span>
+                            <span class="score-chip__val">{{ $application->rating ?? '—' }}</span>
+                        </div>
                     </div>
 
                     <div class="app-card__right">

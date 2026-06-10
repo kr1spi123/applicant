@@ -296,6 +296,10 @@
                             </span>
                         </div>
                         <div class="lk-score-item">
+                            <span class="lk-meta-label">Рейтинг</span>
+                            <span class="lk-score-val" style="color: #2D7A4F; font-weight: 800;">{{ $application->rating ?? '—' }}</span>
+                        </div>
+                        <div class="lk-score-item">
                             <span class="lk-meta-label">Место в рейтинге</span>
                             <span class="lk-score-val lk-score-val--rank">
                                 <span class="lk-rank-num">{{ $position }}</span>
@@ -303,6 +307,13 @@
                             </span>
                         </div>
                     </div>
+
+                    @if($application->verification_notes)
+                    <div class="lk-card__body" style="background: #FFF7ED; border-top: 1px solid #FED7AA; padding: 12px 20px;">
+                        <span class="lk-meta-label" style="color: #C2410C;">Комментарий приемной комиссии</span>
+                        <p style="margin: 4px 0 0 0; color: #333;">{{ $application->verification_notes }}</p>
+                    </div>
+                    @endif
 
                 </div>
                 @endforeach

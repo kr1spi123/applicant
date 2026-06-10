@@ -15,8 +15,6 @@ class Application extends Model
         'phone',
         'email',
         'birthdate',
-        'city',
-        'citizenship',
         'street',
         'house',
         'school',
