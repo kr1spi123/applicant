@@ -43,6 +43,26 @@
 </nav>
 
 <div class="container">
+    <div class="inst-banner">
+        <div class="inst-banner__left">
+            <div class="inst-banner__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#2D7A4F" stroke-width="1.8" width="26" height="26">
+                    <path d="M3 9.5L12 4l9 5.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
+                    <path d="M9 21V12h6v9" />
+                </svg>
+            </div>
+            <div>
+                <div class="inst-banner__label">Официальная система приёма документов</div>
+                <div class="inst-banner__title">Сыктывкарский Лесной Институт</div>
+            </div>
+        </div>
+        <a href="https://sli.komi.com" target="_blank" class="inst-banner__link">
+            Сайт института
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" width="14" height="14">
+                <path d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
+        </a>
+    </div>
     <div class="form-layout">
         <div class="form-main">
             <form class="application-form" method="POST" action="{{ route('applications.store') }}"
@@ -87,7 +107,7 @@
                             <div class="input-grid personal-grid">
                                 <div class="input-wrapper">
                                     <input type="text" name="name" placeholder="Введите имя" class="text-input" required
-                                        pattern="[А-Яа-яЁё\s-]{2,50}" value="{{ old('name', auth()->user()->name) }}">
+                                        minlength="2" maxlength="50" value="{{ old('name', auth()->user()->name) }}">
                                     <svg class="validation-icon success" viewBox="0 0 20 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path d="M16.6667 5L7.50004 14.1667L3.33337 10" stroke="currentColor"
@@ -103,11 +123,11 @@
                                         <path d="M10 13.3333H10.0083" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" />
                                     </svg>
-                                    <div class="error-message">Введите корректное имя (только русские буквы)</div>
+                                    <div class="error-message">Введите корректное имя</div>
                                 </div>
                                 <div class="input-wrapper">
                                     <input type="text" name="surname" placeholder="Введите фамилию" class="text-input"
-                                        required pattern="[А-Яа-яЁё\s-]{2,50}"
+                                        required minlength="2" maxlength="50"
                                         value="{{ old('surname', auth()->user()->surname) }}">
                                     <svg class="validation-icon success" viewBox="0 0 20 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -124,7 +144,7 @@
                                         <path d="M10 13.3333H10.0083" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" />
                                     </svg>
-                                    <div class="error-message">Введите корректную фамилию (только русские буквы)</div>
+                                    <div class="error-message">Введите корректную фамилию</div>
                                 </div>
                                 <div class="input-wrapper">
                                     <input type="date" name="birthdate" placeholder="Дата рождения" class="text-input"
@@ -259,7 +279,7 @@
                                 </div>
                                 <div class="input-wrapper">
                                     <input type="text" name="street" placeholder="Улица" class="text-input" required
-                                        pattern="[А-Яа-яЁё\s-\.]{2,100}"
+                                        minlength="2" maxlength="100"
                                         value="{{ old('street', auth()->user()->street) }}">
                                     <svg class="validation-icon success" viewBox="0 0 20 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -280,7 +300,7 @@
                                 </div>
                                 <div class="input-wrapper">
                                     <input type="text" name="house" placeholder="Дом" class="text-input" required
-                                        pattern="[0-9А-Яа-яЁё\s-\./]{1,10}"
+                                        minlength="1" maxlength="10"
                                         value="{{ old('house', auth()->user()->house) }}">
                                     <svg class="validation-icon success" viewBox="0 0 20 20" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -332,7 +352,7 @@
                                                 <input type="text" name="education[0][name]"
                                                     placeholder="Учебное заведение"
                                                     class="text-input education-name-input" autocomplete="off"
-                                                    pattern="[А-Яа-яЁё0-9\s\.-]{2,100}"
+                                                    pattern="[А-Яа-яЁё0-9\s\.\-\№]{2,100}"
                                                     value="{{ old('education.0.name', old('school', auth()->user()->school)) }}">
                                                 <button type="button" class="education-name-toggle"
                                                     aria-label="Показать список"></button>
@@ -738,7 +758,11 @@
             }
         };
 
-        const EXISTING_COUNT = {{ $existingCount ?? 0 }};
+        const EXISTING_COUNT = {
+            {
+                $existingCount ?? 0
+            }
+        };
 
         const MAX_TOTAL = 3;
         const MAX_SELECTIONS = MAX_TOTAL - EXISTING_COUNT;

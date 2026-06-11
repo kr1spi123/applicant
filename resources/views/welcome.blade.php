@@ -64,6 +64,10 @@
     <form class="register-form" method="post" action="{{ route('register') }}" id="register">
         @csrf
         <label><span style="color: #2D7A4F;">App</span><span>licant</span></label>
+        <p style="text-align: center; margin-top: -10px; margin-bottom: 20px; font-size: 14px; color: #666;">
+            Система подачи заявок для абитуриентов<br>
+            <a href="https://sli.komi.com" target="_blank" style="color: #2D7A4F; text-decoration: underline;">Сыктывкарского лесного института</a>
+        </p>
 
         <!-- Сообщения об успехе/ошибке -->
         @if (session('success'))
@@ -119,6 +123,10 @@
     <form class="login-form active" method="post" action="{{ route('login.post') }}" id="login">
         @csrf
         <label><span style="color: #2D7A4F;">App</span><span>licant</span></label>
+        <p style="text-align: center; margin-top: -10px; margin-bottom: 20px; font-size: 14px; color: #666;">
+            Система подачи заявок для абитуриентов<br>
+            <a href="https://sli.komi.com" target="_blank" style="color: #2D7A4F; text-decoration: underline;">Сыктывкарского лесного института</a>
+        </p>
 
         @if (session('status'))
         <div class="success-message active">{{ session('status') }}</div>
