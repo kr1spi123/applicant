@@ -250,7 +250,7 @@
                     <div class="lk-meta-strip">
                         <div class="lk-meta-item">
                             <span class="lk-meta-label">Срок обучения</span>
-                            <span class="lk-meta-value">{{ $specialty?->duration ?? '—' }}</span>
+                            <span class="lk-meta-value">{{ $specialty?->formatDuration($specialty->duration) ?? '—' }}</span>
                         </div>
                         <div class="lk-meta-item">
                             <span class="lk-meta-label">Стоимость / год</span>

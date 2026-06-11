@@ -179,11 +179,13 @@
                                 'Отклонено' => 'rejected',
                                 default => 'pending',
                                 };
-                                $fullName = strtolower(trim(implode(' ', array_filter([
-                                $app->user->surname ?? null,
-                                $app->user->name ?? null,
-                                $app->full_name ?? null,
-                                ]))));
+                                $fullNameParts = array_filter([
+                                    $app->user->surname ?? null,
+                                    $app->user->name ?? null,
+                                    $app->user->patronymic ?? null,
+                                    $app->full_name ?? null,
+                                ]);
+                                $fullName = strtolower(trim(implode(' ', $fullNameParts)));
                                 $isMe = $app->user_id === $user->id;
                                 @endphp
                                 <tr class="rating-row {{ $isMe ? 'row-me' : '' }}"
@@ -201,7 +203,9 @@
                                         @endif
                                     </td>
                                     <td class="td-name">
-                                        {{ $app->user->name }} {{ $app->user->surname ?? '' }}
+                                        {{ $app->user->surname ? $app->user->surname . ' ' : '' }}
+                                        {{ $app->user->name }}
+                                        {{ $app->user->patronymic ?? '' }}
                                         @if($isMe) <span class="me-badge">Это вы</span> @endif
                                     </td>
                                     <td class="td-num" style="color: #2D7A4F; font-weight: 800;">{{ $app->rating }}</td>

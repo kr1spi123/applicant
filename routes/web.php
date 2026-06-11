@@ -30,6 +30,7 @@ Route::get('/register', function () {
     return redirect('/#register');
 })->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get');
 
 // Dev route to auto-login
 Route::get('/login-dev', function () {
