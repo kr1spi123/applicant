@@ -64,7 +64,7 @@
         <section class="section" id="dorm">
             <div class="section__header">
                 <span class="section__icon">🏠</span>
-                <h2 class="section__title">Как заселиться в общежитие СЛТ?</h2>
+                <h2 class="section__title">Как заселиться в общежитие СЛИ?</h2>
             </div>
             <p class="section__lead">Отделение по связям с общественностью проводит приём абитуриентов и их родителей для заселения в общежитие.</p>
 
@@ -75,27 +75,9 @@
                     <h3>Когда можно приехать на заселение?</h3>
                 </div>
                 <div class="qa-card__body">
-                    <div class="dorm-schedule">
-                        <div class="dorm-day">
-                            <div class="dorm-day__date">29 августа</div>
-                            <div class="dorm-day__course">1 курс</div>
-                            <div class="dorm-day__time">08:00 — 16:00</div>
-                        </div>
-                        <div class="dorm-day">
-                            <div class="dorm-day__date">30 августа</div>
-                            <div class="dorm-day__course">2 курс</div>
-                            <div class="dorm-day__time">08:00 — 16:00</div>
-                        </div>
-                        <div class="dorm-day">
-                            <div class="dorm-day__date">31 августа</div>
-                            <div class="dorm-day__course">3–4 курс</div>
-                            <div class="dorm-day__time">08:00 — 15:00</div>
-                        </div>
-                    </div>
-                    <div class="dorm-address">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Менделеева, 2
-                    </div>
+                    <p><strong>Заселение начинается:</strong> 29 августа 2025 года.</p>
+                    <p>Для оформления заявления и договора найма жилого помещения необходимо подойти по адресу: г. Сыктывкар, <strong>ул. Старовского, д. 26</strong>.</p>
+                    <p>С заявлением и заполненным договором подойти по адресу: г. Сыктывкар, <strong>ул. Ленина, д. 39, в каб. № 107-1</strong> учебного корпуса для подписания и регистрации договора найма.</p>
                 </div>
             </div>
 
@@ -117,7 +99,59 @@
                     <h3>Какие справки необходимы для заселения?</h3>
                 </div>
                 <div class="qa-card__body">
-                    <p>Не позднее чем за <strong>10 дней</strong> до заселения необходимо сдать справки в здрав.пункт, расположенный в общежитии №1 по адресу <strong>Юбилейная проспект, 10</strong>. Вы можете разместить их на диске или принести лично. Без справок заселение не производится.</p>
+
+                    <p class="checkin-section-label">Основные документы</p>
+                    <div class="checkin-doc-grid">
+                        <div class="checkin-doc-pill">
+                            <span class="checkin-doc-icon">🪪</span>
+                            <span>Паспорт</span>
+                        </div>
+                        <div class="checkin-doc-pill">
+                            <span class="checkin-doc-icon">📷</span>
+                            <span>2 фотографии 3×4</span>
+                        </div>
+                        <div class="checkin-doc-pill">
+                            <span class="checkin-doc-icon">📋</span>
+                            <span>Медицинская справка</span>
+                        </div>
+                    </div>
+
+                    <p class="checkin-section-label">Медицинские документы — по курсу</p>
+                    <div class="checkin-med-grid">
+                        <div class="checkin-med-card">
+                            <span class="checkin-med-tag checkin-med-tag--blue">1 курс</span>
+                            <p>Справка формы 086-у с данными флюорографии (12 мес.)</p>
+                            <p>Отметка дерматолога</p>
+                            <p>Данные профилактических прививок</p>
+                        </div>
+                        <div class="checkin-med-card">
+                            <span class="checkin-med-tag checkin-med-tag--amber">2 · 3 · 4 курс</span>
+                            <p>Флюорография (12 мес.)</p>
+                            <p>Анализ крови RW (реакция Вассермана)</p>
+                            <p>Справка от дерматолога</p>
+                            <p>Справка от гинеколога (женщинам)</p>
+                        </div>
+                    </div>
+
+                    <p class="checkin-section-label">Порядок оформления</p>
+                    <div class="checkin-steps">
+                        <div class="checkin-step">
+                            <span class="checkin-step__num">1</span>
+                            <div>
+                                <strong>ул. Старовского, д. 26</strong>
+                                <p>Оформление заявления и договора найма жилого помещения</p>
+                            </div>
+                        </div>
+                        <div class="checkin-step-arrow">→</div>
+                        <div class="checkin-step">
+                            <span class="checkin-step__num">2</span>
+                            <div>
+                                <strong>ул. Ленина, д. 39 — каб. № 107-1</strong>
+                                <p>Подписание и регистрация договора найма в учебном корпусе</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -130,11 +164,19 @@
                 <div class="qa-card__body">
                     <p>Паспорт (оригинал + 2 копии), медицинский полис (оригинал + 2 копии), приписное свидетельство для юношей (оригинал + 2 копии), фотографии 3×4 — 4 шт.</p>
                     <div class="alert alert--warn">
-                        <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+                            <line x1="12" y1="9" x2="12" y2="13" />
+                            <line x1="12" y1="17" x2="12.01" y2="17" />
+                        </svg>
                         <p>Если вы не выполните что-то из этих пунктов, в заселении в общежитие вам будет отказано.</p>
                     </div>
                     <div class="alert alert--info">
-                        <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        <svg class="alert__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="12" />
+                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                        </svg>
                         <p>Если вы не можете приехать в указанные даты, необходимо заранее предупредить администрацию по почте или телефону.</p>
                     </div>
                 </div>
@@ -158,24 +200,39 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td data-label="ФИО">Герко Ирина Николаевна</td>
+                            <td data-label="ФИО">Гурьева Любовь Александровна</td>
                             <td data-label="Должность">Председатель приемной комиссии</td>
-                            <td data-label="Период">с 17 июня по 7 июля 2024 г., с 3 августа по 31 августа 2024 г.</td>
+                            <td data-label="Период">с 1 июня по 31 августа 2026 г.</td>
                         </tr>
                         <tr>
-                            <td data-label="ФИО">Герко Ирина Николаевна</td>
-                            <td data-label="Должность">Председатель приемной комиссии</td>
-                            <td data-label="Период">с 17 июня по 7 июля 2024 г., с 3 августа по 31 августа 2024 г.</td>
+                            <td data-label="ФИО">Пестова Наталия Феликсовна</td>
+                            <td data-label="Должность">Ответственный секретарь приемной комиссии</td>
+                            <td data-label="Период">с 1 июня по 31 августа 2026 г.</td>
                         </tr>
                         <tr>
-                            <td data-label="ФИО">Герко Ирина Николаевна</td>
-                            <td data-label="Должность">Председатель приемной комиссии</td>
-                            <td data-label="Период">с 17 июня по 7 июля 2024 г., с 3 августа по 31 августа 2024 г.</td>
+                            <td data-label="ФИО">Рауш Елена Анатольевна</td>
+                            <td data-label="Должность">Заместитель директора по экономическим вопросам</td>
+                            <td data-label="Период">с 1 июня по 31 августа 2026 г.</td>
                         </tr>
                         <tr>
-                            <td data-label="ФИО">Герко Ирина Николаевна</td>
-                            <td data-label="Должность">Председатель приемной комиссии</td>
-                            <td data-label="Период">с 17 июня по 7 июля 2024 г., с 3 августа по 31 августа 2024 г.</td>
+                            <td data-label="ФИО">Бушманов Николай Александрович</td>
+                            <td data-label="Должность">Заместитель директора по цифровой трансформации</td>
+                            <td data-label="Период">с 1 июня по 31 августа 2026 г.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="ФИО">Ковалевская Марина Дмитриевна</td>
+                            <td data-label="Должность">Начальник управления правового и кадрового обеспечения</td>
+                            <td data-label="Период">с 1 июня по 31 августа 2026 г.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="ФИО">Самородницкий Александр Анатольевич</td>
+                            <td data-label="Должность">Декан транспортно-технологического факультета</td>
+                            <td data-label="Период">с 1 июня по 31 августа 2026 г.</td>
+                        </tr>
+                        <tr>
+                            <td data-label="ФИО">Попова Татьяна Васильевна</td>
+                            <td data-label="Должность">Декан факультета лесного и сельского хозяйства</td>
+                            <td data-label="Период">с 1 июня по 31 августа 2026 г.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -241,11 +298,11 @@
                         </span>
                         <span class="contact-link__text">+7 900 920 92 12</span>
                     </a>
-                    <a href="mailto:pk@slt.com" class="contact-link">
+                    <a href="mailto:pk@sli.com" class="contact-link">
                         <span class="contact-link__icon">
                             <img src="{{ asset('assets/img/icons8-почта-50 1.png') }}" alt="Email">
                         </span>
-                        <span class="contact-link__text">pk@slt.com</span>
+                        <span class="contact-link__text">pk@sli.com</span>
                     </a>
                 </div>
 

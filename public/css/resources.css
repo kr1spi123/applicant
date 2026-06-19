@@ -327,6 +327,118 @@ body { font-family: 'Inter', 'Segoe UI', sans-serif; color: var(--text); backgro
     color: var(--text) !important;
 }
 
+/* Q3 checkin block */
+.checkin-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: #888;
+  margin: 0 0 10px;
+}
+
+.checkin-doc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.checkin-doc-pill {
+  background: #f7f7f5;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 13px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.checkin-doc-icon { font-size: 18px; }
+
+.checkin-med-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.checkin-med-card {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #fff;
+}
+
+.checkin-med-card p {
+  font-size: 13px;
+  color: #444;
+  margin: 0 0 5px;
+  line-height: 1.5;
+  padding-left: 10px;
+  border-left: 2px solid #e5e5e5;
+}
+
+.checkin-med-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 6px;
+  padding: 3px 10px;
+  margin-bottom: 12px;
+}
+
+.checkin-med-tag--blue { background: #e8f1fd; color: #1a5bbf; }
+.checkin-med-tag--amber { background: #fef3e2; color: #a05a00; }
+
+.checkin-steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.checkin-step {
+  flex: 1;
+  display: flex;
+  gap: 12px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #fff;
+}
+
+.checkin-step__num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #2D7A4F;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.checkin-step strong { font-size: 13px; display: block; margin-bottom: 4px; }
+.checkin-step p { font-size: 12px; color: #666; margin: 0; line-height: 1.5; }
+
+.checkin-step-arrow {
+  font-size: 20px;
+  color: #ccc;
+  padding-top: 14px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .checkin-med-grid { grid-template-columns: 1fr; }
+  .checkin-steps { flex-direction: column; }
+  .checkin-step-arrow { display: none; }
+}
+
 /* =============================================
    TABLE
    ============================================= */

@@ -195,12 +195,8 @@
                                     data-status="{{ $app->status }}"
                                     data-ege="{{ $app->ege_score ?? 0 }}"
                                     data-cert="{{ $app->certificate_score }}">
-                                    <td class="td-pos">
-                                        @if($position === 1) <span class="medal">🥇</span>
-                                        @elseif($position === 2) <span class="medal">🥈</span>
-                                        @elseif($position === 3) <span class="medal">🥉</span>
-                                        @else <span class="pos-num">{{ $position }}</span>
-                                        @endif
+                                    <td class="td-pos @if($position === 1) top-position-1 @elseif($position === 2) top-position-2 @elseif($position === 3) top-position-3 @endif">
+                                        <span class="pos-num">{{ $position }}</span>
                                     </td>
                                     <td class="td-name">
                                         {{ $app->user->surname ? $app->user->surname . ' ' : '' }}
